@@ -6,3 +6,4 @@
 *.cred
 .env
 node_modules/
+.vscode/
