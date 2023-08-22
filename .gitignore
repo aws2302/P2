@@ -1,0 +1,8 @@
+*.svn
+*~
+*.swp
+*.bak
+*.pem
+*.cred
+.env
+node_modules/
