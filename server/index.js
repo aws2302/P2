@@ -1,5 +1,7 @@
+require('dotenv').config()
 const express = require('express');
 const app = express();
+const hostname = 'localhost';
 const port = 8080;
 
 const cors = require('cors');
@@ -11,6 +13,6 @@ app.get('/', (req, res) => {
 });
 
 
-app.listen(port, () => {
-    console.log(`Server läuft auf Port ${port}`);
+app.listen(port, hostname, () => {
+    console.log(`Server listening on ${hostname}:${port}`);
 });
