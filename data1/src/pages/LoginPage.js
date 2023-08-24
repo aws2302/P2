@@ -2,7 +2,8 @@ import React, { useRef, useState } from "react";
 import Input from "../layout/Input";
 import Button from "../layout/Button";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 
 const LoginPage = () => {
@@ -20,7 +21,7 @@ const LoginPage = () => {
             emailRef.current.value,
             passwordRef.current.value
         ).then(() => {
-            navigate("/dashboard");
+            navigate("/");
         }).catch((error) => {
             setLoginError(error.message);
         });
