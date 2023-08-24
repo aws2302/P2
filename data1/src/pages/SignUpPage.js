@@ -29,7 +29,7 @@ const SignUpPage = () => {
       };
       await addDoc(usersCollection, userData);
 
-      navigate("/");
+      navigate("/main");
     } catch (error) {
       setSignUpError(error.message);
     }

@@ -21,7 +21,7 @@ const LoginPage = () => {
             emailRef.current.value,
             passwordRef.current.value
         ).then(() => {
-            navigate("/");
+            navigate("/main");
         }).catch((error) => {
             setLoginError(error.message);
         });
