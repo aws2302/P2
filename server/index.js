@@ -19,17 +19,34 @@ const app = express();
 const hostname = process.env.hostname;
 const port = parseInt(process.env.port);
 
+const api = require('api/api.js');
 const cors = require("cors");
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("NOT IMPLEMENTED: /");
+// ? Die Routen sind erstmal hier, können evtl. noch verschoben werden
+app.get('/', (req, res) => {
+  // TODO: Benötigt?
+  res.send('NOT IMPLEMENTED: /');
 });
 
-app.get("/:id", (req, res) => {
+/**
+ * Erstellt einen neuen Kurz-Link
+ */
+app.put('/', (req, res) => {
+  // TODO: prüfen, ob valide URL
+  // TODO: Kurzlink erstellen
+  // TODO: In DB eintragen
+  res.send('NOT IMPLEMENTED: PUT /');
+})
+
+app.get('/:id', (req, res) => {
+  // TODO: Long-Url aus DB abrufen
+  // TODO: Statistiken aktualisieren
+  // TODO: Daten zurückliefern
   res.send(`NOT IMPLEMENTED! ID: ${req.params.id}`);
 });
+
 
 app.listen(port, hostname, () => {
   log.info(`Server listening on ${hostname}:${port}`);
