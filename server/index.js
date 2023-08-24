@@ -24,7 +24,11 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Hallo von Express!");
+  res.send("NOT IMPLEMENTED: /");
+});
+
+app.get("/:id", (req, res) => {
+  res.send(`NOT IMPLEMENTED! ID: ${req.params.id}`);
 });
 
 app.listen(port, hostname, () => {
