@@ -19,10 +19,11 @@ const app = express();
 const hostname = process.env.hostname;
 const port = parseInt(process.env.port);
 
-const api = require('api/api.js');
+const api = require('./api/api.js');
 const cors = require("cors");
 app.use(cors());
 app.use(express.json());
+app.use(api);
 
 // ? Die Routen sind erstmal hier, können evtl. noch verschoben werden
 app.get('/', (req, res) => {
