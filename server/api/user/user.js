@@ -1,4 +1,4 @@
-/**
+/*
  * Routen/Endpunkte zur User-Verwaltung
  */
 
