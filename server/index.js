@@ -54,13 +54,14 @@ app.get('/', (req, res) => {
  */
 app.put('/', (req, res) => {
   const longUrl = req.body.longUrl;
+  const user = req.body.user;
   if (!isUrlHttp(longUrl)) {
     log.warn(`Keine gültige URL übergeben: ${longUrl}`);
     res.status(400)
       .json({error: 'Ungültige URL übergeben'});
     
   } else {
-    const shortUrl = getShortUrl(longUrl);
+    const shortUrl = getShortUrl(longUrl, user);
     res.status(201)
       .json({
       longUrl: longUrl,

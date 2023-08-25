@@ -5,7 +5,8 @@
  * @returns {string} Kurz-URL
  * @author Markus Rennings <markus@rennings.net>
  */
-function getShortUrl(url) {
+function getShortUrl(url, user) {
+  // ? DB-Operationen von hier aus? Wenn nein, wird user gebraucht?
   let shortUrl = '';
   // TODO: Url umwandeln
   // TODO: Prüfen, ob shortURL schon existiert:
