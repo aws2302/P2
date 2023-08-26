@@ -1,5 +1,4 @@
 /**
- * @function
  * Erstellt einen Kurzlink zur übergebenen URL
  * @param {string} url - Die zu kürzende URL
  * @returns {string} Kurz-URL
@@ -20,7 +19,7 @@ function getLongUrl(shortUrl) {
   let id = ''; // ID des DB-Eintrags
   // TODO: Statistiken bedienen
   const longUrl = ''; // TODO: ersetzen durch Datenbankabruf
-  return LongUrl;
+  return longUrl;
 }
 
 module.exports = { getShortUrl,
