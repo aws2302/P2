@@ -20,7 +20,7 @@ paths:
                 user: 
                   type: string
       responses:
-        '200':
+        '201':
           description: Short-Url erstellt
           content: 
             application/json:
