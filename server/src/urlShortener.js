@@ -13,7 +13,7 @@ function getShortUrl(url, user) {
     // TODO: Wenn für andere URL? Neue ShortUrl generieren und erneut prüfen
     // TODO: Wenn nein, ShortUrl in DB eintragen und ShortUrl zurückgeben
     return shortUrl;
-};
+}
 
 function getLongUrl(shortUrl) {
   let id = ''; // ID des DB-Eintrags

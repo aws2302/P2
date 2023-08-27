@@ -1,4 +1,4 @@
-const { createConsola } = require("consola");
+const { createConsola } = require('consola');
 /**
  * Logging über log.info(), log.warn(), log.error()
  * Hierdurch kann das Logging später z.B. auf Winston umgestellt werden, so dass

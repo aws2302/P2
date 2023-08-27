@@ -3,13 +3,13 @@
  * @author Markus Rennings <markus@rennings.net>
  */
 
-const router = require("express").Router();
-const isUrlHttp = require("is-url-http");
-const { getShortUrl, getLongUrl } = require("./../src/urlShortener.js");
+const router = require('express').Router();
+const isUrlHttp = require('is-url-http');
+const { getShortUrl, getLongUrl } = require('./../src/urlShortener.js');
 const log = require('../src/log');
 
-router.get("/", (req, res) => {
-  res.status(405).send("INVALID");
+router.get('/', (req, res) => {
+  res.status(405).send('INVALID');
 });
 
 /**
@@ -18,12 +18,12 @@ router.get("/", (req, res) => {
  * @returns {json} {longUrl, shortUrl,}
  * @author Markus Rennings <markus@rennings.net>
  */
-router.put("/", (req, res) => {
+router.put('/', (req, res) => {
   const longUrl = req.body.longUrl;
   const user = req.body.user;
   if (!isUrlHttp(longUrl)) {
     log.warn(`Keine gültige URL übergeben: ${longUrl}`);
-    res.status(400).json({ error: "Ungültige URL übergeben" });
+    res.status(400).json({ error: 'Ungültige URL übergeben' });
   } else {
     const shortUrl = getShortUrl(longUrl, user);
     res.status(201).json({
@@ -39,7 +39,7 @@ router.put("/", (req, res) => {
  * @returns {json} {shortUrl, longUrl, }
  * @author Markus Rennings <markus@rennings.net>
  */
-router.get("/:id", (req, res) => {
+router.get('/:id', (req, res) => {
   const shortUrl = req.params.id;
   const longUrl = getLongUrl(shortUrl);
   res.json({
