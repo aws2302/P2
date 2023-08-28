@@ -7,16 +7,13 @@ const router = require('express').Router();
 const { getShortUrl, getLongUrl } = require('./../src/urlShortener.js');
 const log = require('../src/log');
 
+const httpUrl = require('url-http');
 /**
  * Überprüfung, ob die Long-Url valide ist
  * @param {string} url - Die zu prüfende URL
  * @returns {bool} 
  */
-const isValidUrl = (url) => {
-  const httpUrl = require('url-http');
-  return !!httpUrl(url);
-
-};
+const isValidUrl = (url) => !!httpUrl(url);
 
 router.get('/', (req, res) => {
   res.status(405).send('INVALID');
@@ -51,7 +48,7 @@ router.put('/', (req, res) => {
  */
 router.get('/:id', (req, res) => {
   const shortUrl = req.params.id;
-  const longUrl = getLongUrl(shortUrl);
+  const longUrl = getLongUrl(shortUrl, req.useragent);
   res.json({
     shortUrl: shortUrl,
     longUrl: longUrl

@@ -18,11 +18,13 @@ const app = express();
 const hostname = process.env.hostname;
 const port = parseInt(process.env.port);
 const cors = require('cors');
+const ua = require('express-useragent');
 const root = require('./api/root');
 const api = require('./api/api.js');
 
 app.use(cors());
 app.use(express.json());
+app.use(ua.express());
 
 app.use('/', root);
 app.use('/api', api);
