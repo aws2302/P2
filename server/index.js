@@ -3,10 +3,12 @@
  * @author Markus Rennings <markus@rennings.net>
  */
 
+'use strict';
+
 const log = require('./src/log');
 
-const dotenv_result = require('dotenv').config();
-if (dotenv_result.error) {
+const dotenvResult = require('dotenv').config();
+if (dotenvResult.error) {
   log.fatal('Fehler beim Laden der .env-Datei; Beende …');
   process.exit(1);
 }

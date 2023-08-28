@@ -9,8 +9,8 @@ const log = createConsola({
   formatOptions: {
     columns: 80,
     colors: true,
-    date: true,
-  },
+    date: true
+  }
 });
 
 module.exports = log;

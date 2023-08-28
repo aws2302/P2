@@ -4,9 +4,19 @@
  */
 
 const router = require('express').Router();
-const isUrlHttp = require('is-url-http');
 const { getShortUrl, getLongUrl } = require('./../src/urlShortener.js');
 const log = require('../src/log');
+
+/**
+ * Überprüfung, ob die Long-Url valide ist
+ * @param {string} url - Die zu prüfende URL
+ * @returns {bool} 
+ */
+const isValidUrl = (url) => {
+  const httpUrl = require('url-http');
+  return !!httpUrl(url);
+
+};
 
 router.get('/', (req, res) => {
   res.status(405).send('INVALID');
@@ -21,14 +31,14 @@ router.get('/', (req, res) => {
 router.put('/', (req, res) => {
   const longUrl = req.body.longUrl;
   const user = req.body.user;
-  if (!isUrlHttp(longUrl)) {
+  if (!isValidUrl(longUrl)) {
     log.warn(`Keine gültige URL übergeben: ${longUrl}`);
     res.status(400).json({ error: 'Ungültige URL übergeben' });
   } else {
     const shortUrl = getShortUrl(longUrl, user);
     res.status(201).json({
       longUrl: longUrl,
-      shortUrl: shortUrl,
+      shortUrl: shortUrl
     });
   }
 });
@@ -44,7 +54,7 @@ router.get('/:id', (req, res) => {
   const longUrl = getLongUrl(shortUrl);
   res.json({
     shortUrl: shortUrl,
-    longUrl: longUrl,
+    longUrl: longUrl
   });
 });
 
