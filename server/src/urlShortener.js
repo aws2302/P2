@@ -1,4 +1,5 @@
 const base58 = require('./base58');
+const addStats = require('./maintainStats');
 
 /**
  * Erstellt einen Kurzlink zur übergebenen URL
@@ -13,16 +14,25 @@ function getShortUrl(url, user) {
     .slice(1,-2);
   const shortUrl = base58(parseInt(getRnd() + date));
   // TODO: Prüfen, ob shortURL schon existiert:
-    // TODO: Wenn für gleiche URL? ShortUrl zurückgeben
-    // TODO: Wenn für andere URL? Neue ShortUrl generieren und erneut prüfen
+    // TODO: Wenn für gleiche URL und gleicher User? ShortUrl zurückgeben, created neu setzen?
+    // TODO: Wenn für andere URL/anderer User? Neue ShortUrl generieren und erneut prüfen
     // TODO: Wenn nein, ShortUrl in DB eintragen und ShortUrl zurückgeben
     return shortUrl;
 }
 
-function getLongUrl(shortUrl) {
-  let id = ''; // ID des DB-Eintrags
+/**
+ * 
+ * @param {string} shortUrl - Die zu suchende Kurz-Url
+ * @param {objekt} ua - DAs express.useragent-Objekt (für die Statistiken)
+ * @returns {string} Long-Url
+ */
+function getLongUrl(shortUrl, ua) {
+  let id = ''; // ID des DB-Eintrags, wenn nicht ID=Short-Url
+  // TODO: Datenbankabruf für die Short-Url
+  const longUrl=''; // FIXME: Ersetzen durch DB-Rückgabe
+  const stats = {};  // FIXME: Ersetzen durch Stats-Objekt der Datenbank
   // TODO: Statistiken bedienen
-  const longUrl = ''; // TODO: ersetzen durch Datenbankabruf
+  addStats(ua, stats);
   return longUrl;
 }
 
