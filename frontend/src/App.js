@@ -4,11 +4,10 @@ import { TextField, Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import PersonIcon from "@mui/icons-material/Person";
 import ToggleOnOutlinedIcon from "@mui/icons-material/ToggleOnOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import { yellow } from "@mui/material/colors";
 import BasicModal from "./modal"
 
-/* Color Presets */
+/* Color Presets Button */
 const primary = yellow[700];
 const accent_hover = yellow[800];
 
@@ -21,18 +20,14 @@ export default function App() {
             <PersonIcon className="P-Icon" />
           </Button>
         </div>
+        {/* To-Do
+        Dark Mode implementieren */}
         <div className="div-MS-Icon">
           <Button className="ModeSwitch" aria-label="ModeSwitchIcon">
             <ToggleOnOutlinedIcon className="MS-Icon" />
           </Button>
         </div>
-        {/* TO-DO 
-        Modal anzeigen lassen */}
-        <div className="div-H-Icon">
-          <Button className="HelpIcon" aria-label="HelpIcon" onClick={BasicModal}>
-            <HelpOutlineOutlinedIcon className="H-Icon" />
-          </Button>
-        </div>
+        <BasicModal />
       </header>
       <div className="body-url">
         <body className="App-Body">
