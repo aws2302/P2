@@ -1,3 +1,4 @@
+'use strict';
 const log = require('./log');
 
 /**
@@ -15,7 +16,7 @@ function addStats(ua, stats) {
       stats[key] ? stats[key]++ : stats[key] = 1;
     }
   }
-  log.warn(stats); // FIXME: Daten wieder in DB schreiben
+  log.warn('//FIXME: Daten in DB schreiben');
 }
 
 module.exports = addStats;

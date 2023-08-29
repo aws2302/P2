@@ -1,3 +1,4 @@
+'use strict';
 const { createConsola } = require('consola');
 /**
  * Logging über log.info(), log.warn(), log.error()

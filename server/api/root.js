@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Routen des Root-Verzeichnisses (host/)
  * @author Markus Rennings <markus@rennings.net>
