@@ -35,7 +35,7 @@ urlcolor = blue,          % color of external links
 \subject{Projekt 2, Gruppe 3}
 \title{Shorty – URL-Shortener}
 \subtitle{}
-\author{Andreas Brühl\thanks{Datenbank (Struktur und Anbindung)} \and Deniz Durmaz\thanks{Design, Frontend, Doku} \and Sebastian Hufeld\thanks{Design, Datenbank} \and Jason Krimmel\thanks{Design, Frontend} \and Markus Rennings\thanks{API-Design, Backend, Infrastruktur, OpenAPI, Doku, \XeLaTeX}}
+\author{Andreas Brühl\thanks{Datenbank (Struktur und Anbindung)} \and Deniz Durmaz\thanks{Design, Frontend, Doku} \and Sebastian Hufeld\thanks{Design, Backend} \and Jason Krimmel\thanks{Design, Frontend} \and Markus Rennings\thanks{API-Design, Backend, Infrastruktur, OpenAPI, Doku, \XeLaTeX}}
 \date{23.\,August–5.\,September~2023}
 \publishers{Betreut durch: Martin Dubb}
 
@@ -78,6 +78,9 @@ Unsere Lösung wandelt lange URLs in kurze und eindeutige URLs um. Bei URLs kann
 \section{Datenbank}
 \subsection{Datenbank-Struktur}
 \section{Statistik und Analyse}
+Für die Statistik nutzen wir die Express.js-Middleware {\ttfamily express-useragent}\footnote{\href{https://www.npmjs.com/package/express-useragent}{https://www.npmjs.com/package/express-useragent}}, welches die User-Agent-Kennung zusammenfasst, so dass man nicht für jede Browser-Version einzeln checken muss. Diese Daten werden in der Datenbank kumuliert und bei Anfrage entsprechend über den API-Endpunkt an den Client gesendet.
+%FIXME: Endpunkt? Stats komplett oder aufgeteilt an den Client
+
 \section{API}
 \section{URL-Validierung}
 Zur Validierung der URL nutzen wir das Paket {\ttfamily url-http}\footnote{\href{https://www.npmjs.com/package/url-http}{https://www.npmjs.com/package/url-http}} mit einer kleinen Wrapper-Funktion, wobei die URL inklusive Schema ({\ttfamily http://} bzw. {\ttfamily https://}) erwartet wird.
