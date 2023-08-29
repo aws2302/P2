@@ -85,7 +85,7 @@ Grundsätzlich sind weitläufige Kenntnisse aus der Webentwicklung erforderlich,
 
     \item[Sicherheit] Sichere Speicherung von gestellten Anfragen, Benutzern und Passwörtern.
 
-    \item[Statistik und Daten] Speicherung, Abruf und Visualisierung der vorhanden bzw. angefragten Daten (URL, Klicks) für die Erstellung der Statistik.
+    \item[Statistik und Daten] Speicherung, Abruf und Visualisierung der vorhanden bzw.\ angefragten Daten (URL, Klicks) für die Erstellung der Statistik.
 \end{description}
 
 \section{Benutzeroberfläche}
@@ -101,7 +101,7 @@ Zur Validierung der URL nutzen wir das Paket {\ttfamily url-http}\footnote{\href
 \section{URL-Kürzung}
 Die eigentliche URL-Kürzung entsteht durch einen Datenbank-Eintrag, der die generierte Kurz-Url (ID) mit der langen URL verknüpft und zusätzlich die statistischen Daten zu jedem Kurzlink speichert.
 \subsection{Algorithmus}
-Wir haben uns für die Verwendung eines 58-stelligen Alphabets (Base-58) für die Generierung der ID entschieden. Hierzu werden von einem Base62-Alphabet ({\ttfamily[0-9A-Za-z]}) die Zeichen »0« (Null), »I« (Großbuchstabe i), »O« (Großbuchstabe o) und »l« (Kleinbuchstabe L) entfernt, da diese – je nach Schriftart – verwechselt werden können. Hierdurch wird zwar die Anzahl der möglichen IDs eingeschränkt, aber $58^7 =  2\,207\,984\,167\,552$ Möglichkeiten sollten diese immer noch ausreichen.
+Wir haben uns für die Verwendung eines 58-stelligen Alphabets (Base-58) für die Generierung der ID entschieden. Hierzu werden von einem Base62-Alphabet ({\ttfamily[0–9A–Za–z]}) die Zeichen »0« (Null), »I« (Großbuchstabe i), »O« (Großbuchstabe o) und »l« (Kleinbuchstabe L) entfernt, da diese – je nach Schriftart – verwechselt werden können. Hierdurch wird zwar die Anzahl der möglichen IDs eingeschränkt, aber $58^7 =  2\,207\,984\,167\,552$ Möglichkeiten sollten diese immer noch ausreichen.
 
 Die eigentliche Kurz-URL ist dann ein siebenstelliger base58-kodierter String aus einer Kombination aus Teilen des Unix-Zeitstempels (Abb.~\ref{fig:261shorturl} Zeilen 1–3) und einer zweistelligen Zufallszahl (Zeile 4). Zum einfacheren Verbinden beider Zahlen werden diese zunächst als String generiert und erst bei Übergabe an {\ttfamily base58()} als Integer gewandelt (ebenfalls Zeile 4 in Abb.~\ref{fig:261shorturl}).
 \begin{figure}%

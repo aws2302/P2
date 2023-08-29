@@ -38,8 +38,8 @@ paths:
               schema:
                 type: object
                 properties:
-                    error:
-                      type: string
+                  error:
+                    type: string
 
 
 
