@@ -25,7 +25,7 @@ router.get('/', (req, res) => {
  * @returns {json} {longUrl, shortUrl,}
  * @author Markus Rennings <markus@rennings.net>
  */
-router.put('/', (req, res) => {
+router.post('/', (req, res) => {
   const longUrl = req.body.longUrl;
   const user = req.body.user;
   if (!isValidUrl(longUrl)) {
