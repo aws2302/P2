@@ -1,5 +1,6 @@
+'use strict';
 /*
- * Hauptdatei des Backends, Einstiegspunkt
+ * @file Hauptdatei des Backends, Einstiegspunkt
  * @author Markus Rennings <markus@rennings.net>
  */
 

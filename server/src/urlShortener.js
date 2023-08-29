@@ -1,5 +1,7 @@
+'use strict';
 const base58 = require('./base58');
 const addStats = require('./maintainStats');
+const log = require('./log');
 
 /**
  * Erstellt einen Kurzlink zur übergebenen URL
@@ -13,24 +15,24 @@ function getShortUrl(url, user) {
     .toString()
     .slice(1,-2);
   const shortUrl = base58(parseInt(getRnd() + date));
-  // TODO: Prüfen, ob shortURL schon existiert:
-    // TODO: Wenn für gleiche URL und gleicher User? ShortUrl zurückgeben, created neu setzen?
-    // TODO: Wenn für andere URL/anderer User? Neue ShortUrl generieren und erneut prüfen
-    // TODO: Wenn nein, ShortUrl in DB eintragen und ShortUrl zurückgeben
-    return shortUrl;
+  log.warn('//FIXME: Prüfen ob Eintrag existiert und andere DB-Operationen');
+  // TODO: Wenn für gleiche URL und gleicher User? ShortUrl zurückgeben, created neu setzen?
+  // TODO: Wenn für andere URL/anderer User? Neue ShortUrl generieren und erneut prüfen
+  // TODO: Wenn nein, ShortUrl in DB eintragen und ShortUrl zurückgeben
+  return shortUrl;
 }
 
 /**
  * 
  * @param {string} shortUrl - Die zu suchende Kurz-Url
- * @param {objekt} ua - DAs express.useragent-Objekt (für die Statistiken)
+ * @param {object} ua - DAs express.useragent-Objekt (für die Statistiken)
  * @returns {string} Long-Url
  */
 function getLongUrl(shortUrl, ua) {
   let id = ''; // ID des DB-Eintrags, wenn nicht ID=Short-Url
   // TODO: Datenbankabruf für die Short-Url
-  const longUrl=''; // FIXME: Ersetzen durch DB-Rückgabe
-  const stats = {};  // FIXME: Ersetzen durch Stats-Objekt der Datenbank
+  const longUrl='// FIXME: Ersetzen durch DB-Rückgabe'; 
+  const stats = {FIXME: 'Ersetzen durch DB-Werte'};  // FIXME
   // TODO: Statistiken bedienen
   addStats(ua, stats);
   return longUrl;
