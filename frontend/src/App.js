@@ -1,10 +1,16 @@
 import "./App.css";
 import * as React from "react";
-import { TextField, Button,} from "@mui/material";
+import { TextField, Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import PersonIcon from "@mui/icons-material/Person";
 import ToggleOnOutlinedIcon from "@mui/icons-material/ToggleOnOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
+import { yellow } from "@mui/material/colors";
+import BasicModal from "./modal"
+
+/* Color Presets */
+const primary = yellow[700];
+const accent_hover = yellow[800];
 
 export default function App() {
   return (
@@ -14,17 +20,19 @@ export default function App() {
           <Button className="PersonIcon" aria-label="PersonIcon">
             <PersonIcon className="P-Icon" />
           </Button>
-          </div>
-          <div className="div-MS-Icon">
+        </div>
+        <div className="div-MS-Icon">
           <Button className="ModeSwitch" aria-label="ModeSwitchIcon">
             <ToggleOnOutlinedIcon className="MS-Icon" />
           </Button>
-          </div>
-          <div className="div-H-Icon">
-          <Button className="HelpIcon" aria-label="HelpIcon">
+        </div>
+        {/* TO-DO 
+        Modal anzeigen lassen */}
+        <div className="div-H-Icon">
+          <Button className="HelpIcon" aria-label="HelpIcon" onClick={BasicModal}>
             <HelpOutlineOutlinedIcon className="H-Icon" />
           </Button>
-          </div>
+        </div>
       </header>
       <div className="body-url">
         <body className="App-Body">
@@ -39,9 +47,15 @@ export default function App() {
               label="Enter the link here "
               variant="outlined"
             />
-          </div>
-          <div className="SendButton">
-            <Button variant="contained" endIcon={<SendIcon />}>
+            <Button
+              className="SendButton"
+              variant="contained"
+              endIcon={<SendIcon />}
+              sx={{
+                backgroundColor: primary,
+                "&:hover": { backgroundColor: accent_hover },
+              }}
+            >
               Send
             </Button>
           </div>
@@ -49,9 +63,10 @@ export default function App() {
       </div>
       <div className="footer-url">
         <footer>
-          <p>test</p>
+          <h1>To-Do</h1>
+          <p>Statisken(eingeloggt)</p>
         </footer>
       </div>
     </div>
-  );
-}
+      );
+    }
