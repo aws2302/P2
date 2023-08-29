@@ -1,12 +1,28 @@
 import "./App.css";
 import * as React from "react";
-import { TextField, Button,} from "@mui/material";
+import { TextField, Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import PersonIcon from "@mui/icons-material/Person";
 import ToggleOnOutlinedIcon from "@mui/icons-material/ToggleOnOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
+import { useState } from "react";
+import { fetchSomeData } from "./Api";
 
 export default function App() {
+  const [url, setUrl] = useState(''); // URL speichern
+  const [response, setResponse] = useState(null);
+
+  const handleSendClick = () => {
+    // führt den API-Aufruf aus
+    let result = fetchSomeData();
+      // .then(result => {
+      //   setResponse(result);
+      // })
+      // .catch(error => {
+      //   console.error(error.message);
+      // });
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -14,17 +30,17 @@ export default function App() {
           <Button className="PersonIcon" aria-label="PersonIcon">
             <PersonIcon className="P-Icon" />
           </Button>
-          </div>
-          <div className="div-MS-Icon">
+        </div>
+        <div className="div-MS-Icon">
           <Button className="ModeSwitch" aria-label="ModeSwitchIcon">
             <ToggleOnOutlinedIcon className="MS-Icon" />
           </Button>
-          </div>
-          <div className="div-H-Icon">
+        </div>
+        <div className="div-H-Icon">
           <Button className="HelpIcon" aria-label="HelpIcon">
             <HelpOutlineOutlinedIcon className="H-Icon" />
           </Button>
-          </div>
+        </div>
       </header>
       <div className="body-url">
         <body className="App-Body">
@@ -36,12 +52,12 @@ export default function App() {
           <div className="T-Field">
             <TextField
               id="outlined-basic"
-              label="Enter the link here "
+              label="Enter the link here"
               variant="outlined"
+              value={url} // Textfeld wird ausgelesen
+              onChange={e => setUrl(e.target.value)}
             />
-          </div>
-          <div className="SendButton">
-            <Button variant="contained" endIcon={<SendIcon />}>
+            <Button variant="contained" endIcon={<SendIcon />} onClick={handleSendClick}>
               Send
             </Button>
           </div>
