@@ -27,4 +27,3 @@ jobs:
           DEFAULT_BRANCH: main
           IGNORE_GENERATED_FILES: true
           IGNORE_GITIGNORED_FILES: true
-          
