@@ -37,7 +37,7 @@ urlcolor = blue,          % color of external links
 \subtitle{}
 \author{Andreas Brühl\thanks{Datenbank (Struktur und Anbindung)} \and Deniz Durmaz\thanks{Design, Frontend, Doku} \and Sebastian Hufeld\thanks{Design, Backend} \and Jason Krimmel\thanks{Design, Frontend} \and Markus Rennings\thanks{API-Design, Backend, Infrastruktur, OpenAPI, Doku, \XeLaTeX}}
 \date{23.\,August–5.\,September~2023}
-\publishers{Betreut durch: Martin Dubb}
+\publishers{Betreut durch: Martin Dubb, Fabio Keller}
 
 
 \begin{document}
@@ -49,7 +49,7 @@ urlcolor = blue,          % color of external links
 % ! 1. Einleitung
 \chapter{Einleitung}
 \section{Kontext der Arbeit}
-Das Projekt wird im Rahmen einer geförderten Weiterbildung erstellt. Der Träger der Weiterbildung ist die \href{https://techstarter.de/}{Techstarter GmbH}. Es gab mehrere Projekte zur Auswahl mit freier Gruppen- und Themenfindung. Das gewählte Projekt ist ein URL Shortener.
+Das Projekt wird im Rahmen einer geförderten Weiterbildung erstellt. Der Träger der Weiterbildung ist die Techstarter GmbH\footnote{\href{https://techstarter.de/}\href{https://techstarter.de/}}. Es gab mehrere Projekte zur Auswahl mit freier Gruppen- und Themenfindung. Das gewählte Projekt ist ein URL Shortener.
 
 \section{Motivation für diese Arbeit}
 In der Weiterbildung wurden verschiedene Methoden und Themenbereiche vermittelt. Diese sollen und werden in diesem Full-Stack-Projekt zusammengeführt und genutzt. So soll zum einen gezeigt werden, wie wir diese vielen Teilbereiche nutzen, um das Projekt umzusetzen.
@@ -74,10 +74,27 @@ Unsere Lösung wandelt lange URLs in kurze und eindeutige URLs um. Bei URLs kann
 
 % ! 2. Technische Grundlagen
 \chapter{Technische Grundlagen}
+Grundsätzlich sind weitläufige Kenntnisse aus der Webentwicklung erforderlich, um die Architektur und die Komponenten des Full-Stack-Projekt umzusetzen und zu verstehen.
+
+\begin{description}
+    \item[Frontend- und Backend-Technologien] Grundlegende Kenntnisse über die Technologien, die im Frontend und Backend verwendet werden, um die Benutzeroberfläche und die Serverseite zu entwickeln und gestalten.
+
+    \item[Datenbank] Verständnis von Datenbankkonzepten und -operationen, insbesondere der Speicherung und Abfrage von Daten.
+
+    \item[API] Schnittstellen-Bildung und Integration zur Sicherstellung einer fehlerfreien Kommunikation zwischen den einzelnen Elementen.
+
+    \item[Sicherheit] Sichere Speicherung von gestellten Anfragen, Benutzern und Passwörtern.
+
+    \item[Statistik und Daten] Speicherung, Abruf und Visualisierung der vorhanden bzw. angefragten Daten (URL, Klicks) für die Erstellung der Statistik.
+\end{description}
+
 \section{Benutzeroberfläche}
 \section{Datenbank}
 \subsection{Datenbank-Struktur}
 \section{Statistik und Analyse}
+Für die Statistik nutzen wir die Express.js-Middleware {\ttfamily express-useragent}\footnote{\href{https://www.npmjs.com/package/express-useragent}{https://www.npmjs.com/package/express-useragent}}, welches die User-Agent-Kennung zusammenfasst, so dass man nicht für jede Browser-Version einzeln checken muss. Diese Daten werden in der Datenbank kumuliert und bei Anfrage entsprechend über den API-Endpunkt an den Client gesendet.
+%FIXME: Endpunkt? Stats komplett oder aufgeteilt an den Client
+
 \section{API}
 \section{URL-Validierung}
 Zur Validierung der URL nutzen wir das Paket {\ttfamily url-http}\footnote{\href{https://www.npmjs.com/package/url-http}{https://www.npmjs.com/package/url-http}} mit einer kleinen Wrapper-Funktion, wobei die URL inklusive Schema ({\ttfamily http://} bzw. {\ttfamily https://}) erwartet wird.
@@ -104,7 +121,7 @@ Die eigentliche Kurz-URL ist dann ein siebenstelliger base58-kodierter String au
 % ! 3. Beschreibung der Lösung
 \chapter{Beschreibung der Lösung}
 \section{Software-Architektur der Lösung}
-\section{Übersicht ud Zusammenspiel der Komponenten}
+\section{Übersicht und Zusammenspiel der Komponenten}
 \section{Beschreibung der Komponenten}
 \subsection{Backend}
 \subsubsection{Aufgaben der Komponente}
