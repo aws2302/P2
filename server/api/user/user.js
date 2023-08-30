@@ -7,10 +7,12 @@ const auth = require("firebase/auth");
 const { getFirestore, collection, addDoc } = require("firebase/firestore");
 
 const express = require('express');
+const cookieParser = require('cookie-parser'); // Added for cookie handling
 const router = express.Router();
 
 // Middleware zum Parsen von JSON-Daten im Request-Body
 router.use(express.json());
+router.use(cookieParser()); // Use cookie parser middleware
 
 const readline = require('readline');
 
@@ -47,6 +49,7 @@ const registerAndLoginUser = async (res) => {
 
             // Authentifizierung erfolgreich
             console.log("message: login success");
+            res.cookie('loggedInUser', email, { httpOnly: true });
             res.redirect('/user/history'); // Weiterleitung zur /history-Route nach erfolgreichem Login
           } catch (loginError) {
             // Authentifizierung nicht erfolgreich
@@ -67,36 +70,52 @@ const registerAndLoginUser = async (res) => {
   }
 };
 
+
 // Middleware zur Authentifizierungsüberprüfung
 const authenticateUser = (req, res, next) => {
   const myauth = auth.getAuth();
   const user = myauth.currentUser;
 
-  if (user) {
-    // Benutzer ist eingeloggt, führen Sie die nächste Middleware oder Route aus
+  const loggedInUser = req.cookies.loggedInUser;
+
+  if (user && loggedInUser === user.email) {
+    console.log(`User ${user.email} is logged in`);
+    req.currentUser = user;
     next();
   } else {
-    // Benutzer ist nicht eingeloggt, leiten Sie ihn zur Anmeldeseite weiter
     if (req.originalUrl === '/history') {
-      // Nur wenn der Benutzer die /history-Route aufruft
-      res.redirect('/user/login'); // Weiterleitung zur /user/login-Route
+      res.redirect('/user/login');
     } else {
-      res.status(401).send('Authentication required'); // Nachricht "Authentication required" senden
+      res.status(401).send('Authentication required');
     }
   }
 };
 
 router.get('/history', authenticateUser, (req, res) => {
   // TODO: Alle Links des eingeloggten Users zurückgeben
-  res.send('History page'); // Hier können Sie die gewünschte Antwort für die History-Seite senden
+  res.send(`
+    <h1>History page</h1>
+    <p>Logged in as: ${req.currentUser.email}</p>
+    <form action="/user/logout" method="post">
+      <button type="submit">Logout</button>
+    </form>
+  `);
 });
 
-router.get('/history', (req, res) => {
-  res.send('Logged in'); // Hier wird "Logged in" im Browser angezeigt
+router.post('/logout', (req, res) => {
+  const myauth = auth.getAuth();
+  auth.signOut(myauth).then(() => {
+    console.log("User logged out");
+    res.clearCookie('loggedInUser'); // Clear the loggedInUser cookie
+    res.redirect('/user/login');
+  }).catch((error) => {
+    console.error("Logout error:", error);
+    res.status(500).send('Logout failed');
+  });
 });
 
 router.get('/register', async (req, res) => {
-  registerAndLoginUser(res); // Aufruf der Funktion für Registrierung und Anmeldung und Übergabe von res
+  registerAndLoginUser(res);
 });
 
 router.get('/login', async (req, res) => {
@@ -107,8 +126,8 @@ router.get('/login', async (req, res) => {
     output: process.stdout
   });
 
-  rl.question('Bitte geben Sie Ihre E-Mail-Adresse ein: ', async (email) => { //Ans Frontend: Hier bitte den Input realisieren!
-    rl.question('Bitte geben Sie Ihr Passwort ein: ', async (passwd) => { //Ans Frontend: Hier bitte den Input realisieren, plus Button zum Abschicken!
+  rl.question('Bitte geben Sie Ihre E-Mail-Adresse ein: ', async (email) => {
+    rl.question('Bitte geben Sie Ihr Passwort ein: ', async (passwd) => {
       const myauth = auth.getAuth();
 
       try {
@@ -117,11 +136,15 @@ router.get('/login', async (req, res) => {
 
         // Authentifizierung erfolgreich
         console.log("message: login success");
-        res.redirect('/user/history'); // Weiterleitung zur /history-Route nach erfolgreichem Login
+
+        // Set a browser-specific cookie upon successful login
+        res.cookie('loggedInUser', email, { httpOnly: true });
+
+        res.redirect('/user/history');
       } catch (error) {
         // Authentifizierung nicht erfolgreich
         console.log("message: login not successful; error", error.message);
-        res.status(401).send('Login failed'); // Nachricht "Login failed" senden
+        res.status(401).send('Login failed');
       } finally {
         rl.close();
       }
