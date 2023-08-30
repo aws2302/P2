@@ -14,15 +14,16 @@
 }
 
 /* Header Icons */
-.P-Icon,
+.Q-Icon,
 .MS-Icon,
 .H-Icon {
   color: rgb(0, 0, 0);
 }
 
-.div-P-Icon,
+.div-Q-Icon,
 .div-H-Icon {
   display: flex;
+  align-items: center;
 }
 
 .div-MS-Icon {
