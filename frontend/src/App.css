@@ -57,7 +57,14 @@ p {
   margin-top: 10vh;
   padding: 1vh;
 }
+/* .T-Field .MuiTextField-root {
+  margin-right: 10px; 
+} */
 
+/* Send-Button */
+.T-Field .MuiButton-root {
+  margin-left: 10px; 
+}
 .SendButton {
   /* background-color: rgb(182, 117, 117); */
   display: flex;

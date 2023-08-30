@@ -1,35 +1,34 @@
-const { createConsola } = require("consola");
-const log = createConsola({
-  fancy: true,
-  formatOptions: {
-    columns: 80,
-    colors: true,
-    date: true,
-  },
-});
+'use strict';
+/*
+ * @file Hauptdatei des Backends, Einstiegspunkt
+ * @author Markus Rennings <markus@rennings.net>
+ */
 
-const dotenv_result = require("dotenv").config();
-if (dotenv_result.error) {
-  log.error("Fehler beim Laden der .env-Datei; Beende …");
+'use strict';
+
+const log = require('./src/log');
+
+const dotenvResult = require('dotenv').config();
+if (dotenvResult.error) {
+  log.fatal('Fehler beim Laden der .env-Datei; Beende …');
   process.exit(1);
 }
 
-const express = require("express");
+const express = require('express');
 const app = express();
 const hostname = process.env.hostname;
 const port = parseInt(process.env.port);
+const cors = require('cors');
+const ua = require('express-useragent');
+const root = require('./api/root');
+const api = require('./api/api.js');
 
-const cors = require("cors");
 app.use(cors());
 app.use(express.json());
+app.use(ua.express());
 
-app.get("/", (req, res) => {
-  res.send("NOT IMPLEMENTED: /");
-});
-
-app.get("/:id", (req, res) => {
-  res.send(`NOT IMPLEMENTED! ID: ${req.params.id}`);
-});
+app.use('/', root);
+app.use('/api', api);
 
 app.listen(port, hostname, () => {
   log.info(`Server listening on ${hostname}:${port}`);
