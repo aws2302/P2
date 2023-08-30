@@ -36,7 +36,7 @@ export default function App() {
       <header className="App-header">
         <div className="div-H-Icon">
           <Button className="HomeIcon" aria-label="HomeIcon">
-            <HomeIcon className="H-Icon" />
+            <HomeIcon className="H-Icon" style={{ fontSize: '32px' }} />
           </Button>
         </div>
         <div className="div-MS-Icon">
@@ -63,12 +63,18 @@ export default function App() {
               onClick={handleSendClick}
               className="SendButton"
               variant="contained"
-              endIcon={<SendIcon />}
               sx={{
                 backgroundColor: primary,
                 "&:hover": { backgroundColor: accent_hover },
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
-            />
+            >
+              Kürzen <SendIcon sx={{ marginLeft: "4px" }} />
+            </Button>
+
+
           </div>
         </body>
       </div>
