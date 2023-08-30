@@ -1,0 +1,33 @@
+// Identifikator für Links
+// Übergabe an History
+// Übergabemethoden API an DB
+// Speichern der Daten in der DB
+// Funktion “getLongURL” (Übergabe von ShortURL und gibt LongURL zurück)
+const { initializeApp } = ("firebase/myapp");
+
+const { firestore_database } = require("firebase");
+const auth = require("firebase/auth");
+const { getFirestore, collection, addDoc } = require("firebase/firestore");
+
+const express = require('express');
+const router = express.Router();
+
+const myapp = initializeApp(firebaseConfig);
+const firestore_database = app.firestore();
+
+let longURL;
+let shortURL;
+
+const saveURL = () => {
+  const longURL = "https://www.google.de/search?q=Tier+des+Tages&sca_esv=561284976&source=hp&ei=0SbvZI7vJNmHxc8Pv625KA&iflsig=AD69kcEAAAAAZO804Z7Ks9XfqLkOBhBfyexFDBLsVbXa&ved=0ahUKEwjOm8_QooSBAxXZQ_EDHb9WDgUQ4dUDCAs&uact=5&oq=Tier+des+Tages&gs_lp=Egdnd3Mtd2l6Ig5UaWVyIGRlcyBUYWdlczILEAAYgAQYsQMYgwEyBRAAGIAEMgUQABiABDIGEAAYFhgeMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeMgYQABgWGB4yBhAAGBYYHjIGEAAYFhgeSLMXUNgIWNMWcAF4AJABAJgBggGgAZAJqgEEMTIuMrgBA8gBAPgBAagCCsICEBAAGAMYjwEY6gIYjAMY5QLCAhAQLhgDGI8BGOoCGIwDGOUCwgIREC4YgAQYsQMYgwEYxwEY0QPCAgsQABiKBRixAxiDAcICCxAuGIAEGLEDGIMBwgILEC4YgAQYxwEYrwHCAgsQLhiABBjHARjRA8ICBRAuGIAEwgIIEAAYgAQYsQPCAgYQABgDGAo&sclient=gws-wiz"
+  const shortURL = "www.short.li/nasjfur"
+  const URL = { longURL, shortURL };
+  const URLDatabase = collection(firestore_database, "URL");
+  addDoc(URLDatabase, URL);
+
+  return(console.log(longURL, shortURL));
+};
+
+
+
+// export default saveURL;
