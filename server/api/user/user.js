@@ -24,8 +24,8 @@ const registerAndLoginUser = async (res) => {
       output: process.stdout
     });
 
-    rl.question('Bitte geben Sie Ihre E-Mail-Adresse ein: ', async (email) => {
-      rl.question('Bitte geben Sie Ihr Passwort ein: ', async (passwd) => {
+    rl.question('Bitte geben Sie Ihre E-Mail-Adresse ein: ', async (email) => { //Ans Frontend: Hier bitte den Input realisieren!
+      rl.question('Bitte geben Sie Ihr Passwort ein: ', async (passwd) => {  //Ans Frontend: Hier bitte den Input realisieren, plus Button zum Abschicken!
         const myauth = auth.getAuth();
         const db = getFirestore();
 
@@ -107,8 +107,8 @@ router.get('/login', async (req, res) => {
     output: process.stdout
   });
 
-  rl.question('Bitte geben Sie Ihre E-Mail-Adresse ein: ', async (email) => {
-    rl.question('Bitte geben Sie Ihr Passwort ein: ', async (passwd) => {
+  rl.question('Bitte geben Sie Ihre E-Mail-Adresse ein: ', async (email) => { //Ans Frontend: Hier bitte den Input realisieren!
+    rl.question('Bitte geben Sie Ihr Passwort ein: ', async (passwd) => { //Ans Frontend: Hier bitte den Input realisieren, plus Button zum Abschicken!
       const myauth = auth.getAuth();
 
       try {
