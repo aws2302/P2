@@ -2,11 +2,21 @@ import "./App.css";
 import * as React from "react";
 import { TextField, Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
+import HomeIcon from '@mui/icons-material/Home';
+import { blue } from "@mui/material/colors";
+import BasicModal from "./modal";
+import ModeSwitch from "./Switch";
+
+/* Color Presets Button */
+const primary = blue[700];
+const accent_hover = blue[900];
+
 import PersonIcon from "@mui/icons-material/Person";
 import ToggleOnOutlinedIcon from "@mui/icons-material/ToggleOnOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import { useState } from "react";
 import { fetchSomeData } from "./Api";
+
 
 export default function App() {
   const [url, setUrl] = useState(''); // URL speichern
@@ -24,8 +34,18 @@ export default function App() {
   };
 
   return (
+    /* Head Section */
     <div className="App">
       <header className="App-header">
+        <div className="div-H-Icon">
+          <Button className="HomeIcon" aria-label="HomeIcon">
+            <HomeIcon className="H-Icon" />
+          </Button>
+        </div>
+        <div className="div-MS-Icon">
+          <ModeSwitch />
+        </div>
+        <BasicModal />
         <div className="div-P-Icon">
           <Button className="PersonIcon" aria-label="PersonIcon">
             <PersonIcon className="P-Icon" />
@@ -42,6 +62,7 @@ export default function App() {
           </Button>
         </div>
       </header>
+      {/* Body Section */}
       <div className="body-url">
         <body className="App-Body">
           <h1>Projekt - URL Shortener</h1>
@@ -57,15 +78,26 @@ export default function App() {
               value={url} // Textfeld wird ausgelesen
               onChange={e => setUrl(e.target.value)}
             />
+            <Button
+              className="SendButton"
+              variant="contained"
+              endIcon={<SendIcon />}
+              sx={{
+                backgroundColor: primary,
+                "&:hover": { backgroundColor: accent_hover },
+              }}
+            >
             <Button variant="contained" endIcon={<SendIcon />} onClick={handleSendClick}>
               Send
             </Button>
           </div>
         </body>
       </div>
+      {/* Bottom Section */}
       <div className="footer-url">
         <footer>
-          <p>test</p>
+          <h1>To-Do</h1>
+          <p>Statisken(eingeloggt)</p>
         </footer>
       </div>
     </div>
