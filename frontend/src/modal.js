@@ -1,5 +1,5 @@
 import * as React from "react";
-import "./App.css"
+import "./App.css";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -39,7 +39,7 @@ export default function BasicModal() {
             Text in a modal
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            Text einfügen bitte
           </Typography>
         </Box>
       </Modal>

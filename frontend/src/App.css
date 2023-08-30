@@ -7,7 +7,7 @@
 }
 
 .App-header {
-  background-color: rgb(143, 78, 17);
+  /* background-color: rgb(143, 78, 17); */
   min-height: 10vh;
   display: flex;
   color: white;
@@ -20,7 +20,8 @@
   color: rgb(0, 0, 0);
 }
 
-.div-P-Icon {
+.div-P-Icon,
+.div-H-Icon {
   display: flex;
 }
 
@@ -28,10 +29,7 @@
   display: flex;
   margin-left: auto;
   margin-right: 0;
-}
-
-.div-H-Icon {
-  display: flex;
+  align-items: center;
 }
 
 /* Body */
@@ -45,7 +43,7 @@ p {
 }
 
 .body-url {
-  background-color: rgb(123, 23, 108);
+  /* background-color: rgb(123, 23, 108); */
   display: flex;
   justify-content: center;
   text-align: center;
@@ -61,18 +59,16 @@ p {
 }
 
 .SendButton {
-  background-color: rgb(182, 117, 117);
+  /* background-color: rgb(182, 117, 117); */
   display: flex;
   justify-content: center;
-  /* align-items: center; */
   margin: auto;
   padding: 1vh;
 }
 
-
 /* Footer */
 .footer-url {
-  background-color: rgb(222, 193, 90);
+  /* background-color: rgb(222, 193, 90); */
   display: flex;
   justify-content: center;
   text-align: center;
