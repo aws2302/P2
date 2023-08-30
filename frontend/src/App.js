@@ -72,6 +72,7 @@ export default function App() {
           </div>
         </body>
       </div>
+      {/* Bottom Section */}
       <div className="footer-url">
         <footer>
           {/* Anzeige der kurzen URL */}
