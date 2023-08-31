@@ -8,26 +8,26 @@ import BasicModal from "./modal";
 import ModeSwitch from "./Switch";
 import { useState } from "react";
 import { fetchSomeData } from "./Api";
+import ShortURL from "./ShortURL";
 
 /* Color Presets Button */
 const primary = blue[700];
 const accent_hover = blue[900];
 
 
-
 export default function App() {
   const [url, setUrl] = useState(''); // URL speichern
   const [response, setResponse] = useState(null);
 
-  const handleSendClick = () => {
-    // führt den API-Aufruf aus
-    let result = fetchSomeData();
-      // .then(result => {
-      //   setResponse(result);
-      // })
-      // .catch(error => {
-      //   console.error(error.message);
-      // });
+  const handleSendClick = async () => {
+    try {
+      // führt den API-Aufruf aus
+      const result = await fetchSomeData();
+
+      setResponse(result.shortURL);
+    } catch (error) {
+      console.error(error.message);
+    }
   };
 
   return (
@@ -36,7 +36,7 @@ export default function App() {
       <header className="App-header">
         <div className="div-H-Icon">
           <Button className="HomeIcon" aria-label="HomeIcon">
-            <HomeIcon className="H-Icon" />
+            <HomeIcon className="H-Icon" style={{ fontSize: '36px' }} />
           </Button>
         </div>
         <div className="div-MS-Icon">
@@ -47,16 +47,16 @@ export default function App() {
       {/* Body Section */}
       <div className="body-url">
         <body className="App-Body">
-          <h1>Projekt - URL Shortener</h1>
+          <h1>Shorty - URL Shortener</h1>
           <h3>
-            XXX is the World's Shortest Link Shortener service to track, brand,
-            and share short URLs.
+            Shorty ist der URL Shortner der Gruppe 3 aus dem Techstarter Kurs AWS 23-02.
           </h3>
           <div className="T-Field">
             <TextField
               id="outlined-basic"
               label="Enter the link here"
               variant="outlined"
+              sx={{ width: '100%' }}
               value={url} // Textfeld wird ausgelesen
               onChange={e => setUrl(e.target.value)}
             />
@@ -64,20 +64,28 @@ export default function App() {
               onClick={handleSendClick}
               className="SendButton"
               variant="contained"
-              endIcon={<SendIcon />}
               sx={{
                 backgroundColor: primary,
                 "&:hover": { backgroundColor: accent_hover },
-              }} 
-              /> 
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              Kürzen <SendIcon sx={{ marginLeft: "4px" }} />
+            </Button>
+
+
           </div>
         </body>
       </div>
       {/* Bottom Section */}
       <div className="footer-url">
         <footer>
-          <h1>To-Do</h1>
-          <p>Statisken(eingeloggt)</p>
+          {/* Anzeige der kurzen URL */}
+          {response && (
+            <ShortURL shortenLink={response} />
+          )}
         </footer>
       </div>
     </div>
