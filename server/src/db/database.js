@@ -4,6 +4,9 @@ const { String, Object } = SchemaTypes;
 const { Model } = require('firefose');
 // Datenempfang von Markus
 // const { stats } = require('../stats');
+// Clickhandler muss aus dem Frontend kommen!
+// Funktion bei Click auf den Link, eins hoch zählen. (Front oder Backend?)
+// Aktualisierung der Clicks in der DB (Funktion schreiben)
 
 const readline = require('readline').createInterface({
   input: process.stdin,
@@ -72,9 +75,30 @@ const saveURL = (longURL) => {
       browser.Sonstige++;
   }
 
+  const os = {
+    Sonstige: 0,
+    Windows: 0,
+    Linux: 0,
+    MacOS: 0
+  };
+
+  switch (os) {
+    case 'Windows':
+      os.Windows++;
+      break;
+    case 'Linux':
+      os.Linux++;
+      break;
+    case 'MacOS':
+      os.MacOS++;
+      break;
+    default:
+      os.Sonstige++;
+  }
+
   const data = URL.create({
     Browser: browser,
-    // OS: os,
+    OS: os,
     Clicks: "0",
     shortURL,
     longURL,
@@ -98,10 +122,10 @@ const urlSchema = new Schema({
     type: String,
     required: true
   },
-  // OS: {
-  //   type: String,
-  //   required: true
-  // },
+  OS: {
+    type: Object,
+    required: true
+  },
   Browser: {
     type: Object,
     required: true
