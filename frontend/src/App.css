@@ -10,17 +10,17 @@
   /* background-color: rgb(143, 78, 17); */
   min-height: 10vh;
   display: flex;
-  color: white;
+  /* color: white; */
 }
 
 /* Header Icons */
-.Q-Icon,
+
 .MS-Icon,
 .H-Icon {
-  color: rgb(0, 0, 0);
+  /* color: rgb(0, 0, 0.54); */
 }
 
-.div-Q-Icon,
+.div-HS-Icon,
 .div-H-Icon {
   display: flex;
   align-items: center;
@@ -58,9 +58,6 @@ p {
   margin-top: 10vh;
   padding: 1vh;
 }
-/* .T-Field .MuiTextField-root {
-  margin-right: 10px; 
-} */
 
 /* Send-Button */
 .T-Field .MuiButton-root {
