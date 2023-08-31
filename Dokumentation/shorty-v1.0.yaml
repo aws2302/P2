@@ -1,6 +1,9 @@
 openapi: '3.0.2'
 info:
   title: Shorty API
+  description: |-
+    Im Rahmen der zweiten Projektphase der DevOps-Weiterbildung 'aws2302' 
+    erstellter URL-Shortening-Service.
   version: '1.0'
 servers:
   - url: https://localhost:8080/
@@ -65,6 +68,77 @@ paths:
                       type: string
                     shortUrl:
                       type: string
-
-
-
+  
+  /api/stats/{shortUrl}/:
+    post:
+      summary: Statistik für Kurz-URL abrufen
+      requestBody:
+        required: true
+        description: Passwort für die Kurz-URL
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+      parameters:
+        - name: shortUrl
+          in: path
+          required: true
+          description: Short-Url, für welche die Statistiken abgerufen werden soll
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Statistiken für die Kurz-URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  longUrl:
+                    type: string
+                  shortUrl:
+                    type: string
+                  clicks:
+                    type: number
+                  lastclick:
+                    type: number
+                  created:
+                    type: number
+                  expires:
+                    type: number
+                  os:
+                    type: object
+                    properties:
+                      windows:
+                        type: number
+                      linux:
+                        type: number
+                      macos:
+                        type: number
+                  browser:
+                    type: object
+                    properties:
+                      chrome:
+                        type: number
+                      edge:
+                        type: number
+                      firefox:
+                        type: number
+                      opera:
+                        type: number
+                      safari:
+                        type: number
+                      other:
+                        type: number
+        '401':
+          description: Anmeldung fehlgeschlagen, Kurz-Link und/oder Passwort stimmen nicht
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
