@@ -1,7 +1,9 @@
 'use strict';
 const base58 = require('./base58');
 const addStats = require('./maintainStats');
-const log = require('./log');
+const { getStats } = require('./db/database');
+
+// const log = require('./log');
 
 /**
  * Erstellt einen Kurzlink zur übergebenen URL
@@ -9,16 +11,12 @@ const log = require('./log');
  * @returns {string} Kurz-URL
  * @author Markus Rennings <markus@rennings.net>
  */
-function getShortUrl(url, user) {
+function getShortUrl() {
   // ? DB-Operationen von hier aus? Wenn nein, wird user gebraucht? User Durchreichen?
   let date = Date.now()
     .toString()
     .slice(1,-2);
   const shortUrl = base58(parseInt(getRnd() + date));
-  log.warn('//FIXME: Prüfen ob Eintrag existiert und andere DB-Operationen');
-  // TODO: Wenn für gleiche URL und gleicher User? ShortUrl zurückgeben, created neu setzen?
-  // TODO: Wenn für andere URL/anderer User? Neue ShortUrl generieren und erneut prüfen
-  // TODO: Wenn nein, ShortUrl in DB eintragen und ShortUrl zurückgeben
   return shortUrl;
 }
 
@@ -29,13 +27,9 @@ function getShortUrl(url, user) {
  * @returns {string} Long-Url
  */
 function getLongUrl(shortUrl, ua) {
-  let id = ''; // ID des DB-Eintrags, wenn nicht ID=Short-Url
-  // TODO: Datenbankabruf für die Short-Url
-  const longUrl='// FIXME: Ersetzen durch DB-Rückgabe'; 
-  const stats = {FIXME: 'Ersetzen durch DB-Werte'};  // FIXME
-  // TODO: Statistiken bedienen
+  let stats = getStats(shortUrl);
   addStats(ua, stats);
-  return longUrl;
+  return stats.longURL;
 }
 
 /**
@@ -45,6 +39,4 @@ function getLongUrl(shortUrl, ua) {
  */
 const getRnd = () => (Math.floor(Math.random() * (99))).toString();
 
-module.exports = { getShortUrl,
-  getLongUrl 
-};
+module.exports = { getShortUrl, getLongUrl };
