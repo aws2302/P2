@@ -68,7 +68,7 @@ paths:
                       type: string
                     shortUrl:
                       type: string
-
+  
   /api/stats/{shortUrl}/:
     post:
       summary: Statistik für Kurz-URL abrufen
