@@ -26,7 +26,7 @@ export default function BasicModal() {
     return (
         <div className="div-H-Icon">
             <Button className="HelpIcon" aria-label="HelpIcon" onClick={handleOpen}>
-                <HelpOutlineOutlinedIcon className="H-Icon" style={{ fontSize: '32px' }} />
+                <HelpOutlineOutlinedIcon className="H-Icon" style={{ fontSize: '36px' }} />
             </Button>
             <Modal
                 open={open}

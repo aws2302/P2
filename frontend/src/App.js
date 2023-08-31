@@ -36,7 +36,7 @@ export default function App() {
       <header className="App-header">
         <div className="div-H-Icon">
           <Button className="HomeIcon" aria-label="HomeIcon">
-            <HomeIcon className="H-Icon" style={{ fontSize: '32px' }} />
+            <HomeIcon className="H-Icon" style={{ fontSize: '36px' }} />
           </Button>
         </div>
         <div className="div-MS-Icon">
@@ -56,6 +56,7 @@ export default function App() {
               id="outlined-basic"
               label="Enter the link here"
               variant="outlined"
+              sx={{ width: '100%' }}
               value={url} // Textfeld wird ausgelesen
               onChange={e => setUrl(e.target.value)}
             />
