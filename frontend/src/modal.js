@@ -36,10 +36,12 @@ export default function BasicModal() {
             >
                 <Box sx={style}>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Text in a modal
+                        Was ist Shorty?
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Text einfügen bitte
+                        Shorty ist ein URl- Shortner. <br />
+                        Ewig lange URLs können mithilfe von Shorty in handliche kurze URLs umgewandelt werden!<br />
+                        Einfach die lange URL in Feld einfügen und auf "Kürzen" klicken. Sofort wird die gekürzte URL angezeigt.
                     </Typography>
                 </Box>
             </Modal>

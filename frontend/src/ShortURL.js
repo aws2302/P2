@@ -1,14 +1,31 @@
-import { useState } from "react"
+import React, { useState } from "react";
+import { Button, Snackbar } from "@mui/material";
 
-const ShortURL = () => {
-    const [shortenLink, setShortenLink] = useState("Platzhalter Short URL")
+const ShortURL = ({ shortenLink }) => {
+    const [shortURL, setShortURL] = useState(shortenLink);
+    const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
+
+    const handleCopyClick = () => {
+        navigator.clipboard.writeText(shortURL);
+        setIsSnackbarOpen(true);
+    };
+
+    const handleCloseSnackbar = () => {
+        setIsSnackbarOpen(false);
+    };
 
     return (
         <div className="result">
-            <p>{shortenLink}</p>
-            <button>Copy</button>
+            <p>{shortURL}</p>
+            <Button onClick={handleCopyClick}>Copy</Button>
+            <Snackbar
+                open={isSnackbarOpen}
+                autoHideDuration={2000}
+                onClose={handleCloseSnackbar}
+                message="Short URL copied to clipboard"
+            />
         </div>
-    )
-}
+    );
+};
 
-export default ShortURL
+export default ShortURL;
