@@ -24,9 +24,9 @@ export default function BasicModal() {
     const handleClose = () => setOpen(false);
 
     return (
-        <div className="div-H-Icon">
+        <div className="div-HP-Icon">
             <Button className="HelpIcon" aria-label="HelpIcon" onClick={handleOpen}>
-                <HelpOutlineOutlinedIcon className="H-Icon" style={{ fontSize: '36px' }} />
+                <HelpOutlineOutlinedIcon className="HP-Icon" style={{ fontSize: '36px' }} />
             </Button>
             <Modal
                 open={open}

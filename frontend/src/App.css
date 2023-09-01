@@ -16,12 +16,14 @@
 /* Header Icons */
 .Q-Icon,
 .MS-Icon,
+.HP-Icon
 .H-Icon {
-  color: rgb(0, 0, 0);
+  /* color: rgb(0, 0, 0); */
 }
 
 .div-Q-Icon,
-.div-H-Icon {
+.div-HS-Icon,
+.div-HP-Icon {
   display: flex;
   align-items: center;
 }
