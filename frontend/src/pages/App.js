@@ -1,17 +1,17 @@
-import "./App.css";
+import "../components/css/App.css";
 import * as React from "react";
 import { TextField, Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import HomeIcon from '@mui/icons-material/Home';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { blue } from "@mui/material/colors";
-import BasicModal from "./modal";
-import ModeSwitch from "./Switch";
+import BasicModal from "../components/modal";
+import ModeSwitch from "../components/Switch";
 import { useState } from "react";
-import { fetchSomeData } from "./Api";
-import ShortURL from "./ShortURL";
-import Password from "./Password";
-
+import { fetchSomeData } from "../Api";
+import ShortURL from "../components/ShortURL";
+import Password from "../components/Password";
+import { useNavigate } from "react-router-dom";
 
 /* Color Presets Button */
 const primary = blue[700];
@@ -35,6 +35,9 @@ export default function App() {
     }
   };
 
+  /* Page redirect */
+  const navigate = useNavigate();
+
   return (
     /* Head Section */
     <div className="App">
@@ -43,8 +46,10 @@ export default function App() {
           <Button className="HomeIcon" aria-label="HomeIcon">
             <HomeIcon className="H-Icon" style={{ fontSize: '36px' }} />
           </Button>
-          <Button className="StatsIcon" aria-label="StatsIcon">
-            <BarChartIcon className="S-Icon" />
+          <Button className="StatsIcon" aria-label="StatsIcon" onClick={() => {
+          navigate("/stats");
+        }}>
+            <BarChartIcon className="S-Icon" style={{ fontSize: '36px' }} />
           </Button>
         </div>
         <div className="div-MS-Icon">
