@@ -1,22 +1,97 @@
 'use strict';
-const log = require('./log');
+// const log = require('./log');
+const { writeStats } = require('./db/database');
 
 /**
- * 
+ *
  * @param {object} ua - Express.UserAgent-Object
  * @param {object} stats - Statistik-Object aus der DB
+ * @author Markus Rennings <markus@rennings.net>
  */
 function addStats(ua, stats) {
-  for (const key of Object.keys(ua)) {
-    if (key === 'isAuthoritative') {
+  for (const [key, value] of Object.entries(ua)) {
+    if (!key.startsWith('is') || !value) {
       continue;
     }
 
-    if (ua[key]) {
-      stats[key] ? stats[key]++ : stats[key] = 1;
+    switch (key) {
+      case 'isFacebook':
+      case 'isAlamoFire':
+      case 'isElectron':
+      case 'isIE':
+      case 'isKonqueror':
+      case 'isWebkit':
+      case 'isPhantomJS':
+      case 'isEpiphany':
+      case 'isWinJS':
+      case 'isCurl':
+      case 'isBlackberry':
+      case 'isKindleFire':
+      case 'isSilk':
+      case 'isSilkAccelerated':
+      case 'isBot':
+        stats['Browser']['Sonstige']++;
+        break;
+      case 'isOpera':
+        stats['Browser']['Opera']++;
+        break;
+      case 'isFirefox':
+      case 'isSeaMonkey':
+        stats['Browser']['Firefox']++;
+        break;
+      case 'isEdge':
+      case 'isIECompatibiltyMode':
+        stats['Browser']['Edge']++;
+        break;
+      case 'isSafari':
+        stats['Browser']['Safari']++;
+        break;
+      case 'isChrome':
+        stats['Browser']['Chrome']++;
+        break;
+      case 'isLinux' || 'isLinux64':
+        stats['OS']['Linux']++;
+        break;
+      case 'isMac':
+        stats['OS']['MacOs']++;
+        break;
+      case 'isWindows':
+        stats['OS']['Windows']++;
+        break;
+      // ? Für mögliche Erweiterung der Statistik
+      // case 'isMobile':
+      // case 'isMobileNative':
+      //   break;
+      // case 'isiPhone':
+      // case 'isiPhoneNative':
+      //   break;
+      // case 'isTablet':
+      // case 'isiPad':
+      //   // Tablet
+      //   break;
+      // case 'isDesktop':
+      //   break;
+      // case 'isSmartTV':
+      //   // SmartTV
+      //   break;
+      // case 'isChromeOS':
+      // ChromeOS
+      // break;
+      // case 'isAndroid':
+      // case 'isAndroidNative':
+      // case 'isAndroidTablet':
+      //   // Android
+      //   break;
+      // case 'isSamsung':
+      //   // Samsung
+      //   break;
+      // default:
+      //   log.warn('Unknown key', key);
     }
   }
-  log.warn('//FIXME: Daten in DB schreiben');
+  stats['lastClick'] = Date.now();
+  stats['clicks']++;
+  writeStats(stats.shortURL, stats);
 }
 
 module.exports = addStats;
