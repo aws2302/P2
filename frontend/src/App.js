@@ -3,6 +3,7 @@ import * as React from "react";
 import { TextField, Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import HomeIcon from '@mui/icons-material/Home';
+import BarChartIcon from '@mui/icons-material/BarChart';
 import { blue } from "@mui/material/colors";
 import BasicModal from "./modal";
 import ModeSwitch from "./Switch";
@@ -38,13 +39,16 @@ export default function App() {
     /* Head Section */
     <div className="App">
       <header className="App-header">
-        <div className="div-H-Icon">
+        <div className="div-HS-Icon">
           <Button className="HomeIcon" aria-label="HomeIcon">
             <HomeIcon className="H-Icon" style={{ fontSize: '36px' }} />
           </Button>
+          <Button className="StatsIcon" aria-label="StatsIcon">
+            <BarChartIcon className="S-Icon" />
+          </Button>
         </div>
         <div className="div-MS-Icon">
-          <ModeSwitch />
+          {/* <ModeSwitch /> */}
         </div>
         <BasicModal />
       </header>
