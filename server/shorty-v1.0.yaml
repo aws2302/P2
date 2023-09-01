@@ -1,0 +1,70 @@
+openapi: '3.0.2'
+info:
+  title: Shorty API
+  version: '1.0'
+servers:
+  - url: https://localhost:8080/
+paths:
+  /:
+    post:
+      summary: Shortens an URL
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                longUrl:
+                  type: string
+                user: 
+                  type: string
+      responses:
+        '201':
+          description: Short-Url erstellt
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  longUrl: 
+                    type: string
+                  shortUrl:
+                    type: string
+        '400':
+          description: Ungültige Url übergeben
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+
+
+  /{shortUrl}:
+    get:
+      summary: Gets the long URL for the short one
+      parameters:
+        - name: shortUrl
+          in: path
+          required: true
+          description: the short Url
+          schema:
+            type: string
+      responses:
+        '200':
+          description: SHort-Url gefunden, Long-Url wird zurückgegeben
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                    longUrl:
+                      type: string
+                    shortUrl:
+                      type: string
+
+
+

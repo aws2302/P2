@@ -1,0 +1,57 @@
+// (async () => {
+//   const { collection, addDoc } = require("./firebase"); // Pfad zu firebase.js anpassen
+
+//   const saveURL = async () => {
+//     try {
+//       const longURL = "https://www.google.de/search?q=Tier+des+Tages...";
+//       const shortURL = "www.short.li/nasjfur";
+//       const URL = { longURL, shortURL };
+//       const URLDatabase = collection("URL"); // Collection-Dokument angeben
+//       await addDoc(URLDatabase, URL);
+      
+//       console.log("URL erfolgreich gespeichert:", longURL, shortURL);
+//       return true; // Erfolgsstatus zurückgeben
+//     } catch (error) {
+//       console.error("Fehler beim Speichern der URL:", error);
+//       return false; // Misserfolgsstatus zurückgeben
+//     }
+//   };
+
+//   await saveURL();
+// })();
+
+//firestore_database, 
+
+
+const { collection, addDoc } = require("firebase/firestore");
+const { firestore_database } = require("./firebase");
+
+const saveURL = async () => {
+  try {
+    const res = await firestore_database.collection('URLs').add({
+      longURL: 'Tokyo',
+      shortURL: 'Japan'
+    });
+    
+    console.log('Added document with ID: ', res.id);
+    // const longURL = "100";
+    // const shortURL = "10";
+    // const URL = { longURL, shortURL };
+
+    // Pfad zur Sammlung angeben (z.B. "URLs")
+    const URLDatabase = firestore_database.collection("/URLs");
+    console.log(URLDatabase);
+
+    // await addDoc(URL, URLDatabase);
+    
+    console.log("URL erfolgreich gespeichert:", longURL, shortURL);
+    return true;
+  } catch (error) {
+    console.error("Fehler beim Speichern der URL:", error);
+    return false;
+  }
+};
+
+(async () => {
+  await saveURL();
+})();

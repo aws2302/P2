@@ -1,0 +1,37 @@
+{
+  "name": "url-shortener",
+  "version": "0.0.1",
+  "description": "URL-Shortener, Server-Komponente",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aws2302/P2.git"
+  },
+  "author": "Markus Rennings, Andreas Brühl, Deniz Durmaz, Sebastian Hufeld, Jason Krimmel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aws2302/P2/issues"
+  },
+  "homepage": "https://github.com/aws2302/P2#readme",
+  "dependencies": {
+    "consola": "^3.2.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-useragent": "^1.0.15",
+    "firebase": "^10.3.1",
+    "firebase-admin": "^11.10.1",
+    "firefose": "^1.1.5",
+    "generate-password": "^1.7.0",
+    "url-http": "^1.0.14"
+  },
+  "devDependencies": {
+    "documentation": "^14.0.2",
+    "eslint": "^8.48.0",
+    "nodemon": "^3.0.1"
+  }
+}

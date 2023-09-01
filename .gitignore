@@ -1,0 +1,17 @@
+*.svn
+*~
+*.swp
+*.bak
+*.pem
+*.cred
+.env
+*.aux
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+node_modules/
+.vscode/
+p2-url-shortener-firebase-adminsdk-lfau4-b3cddbd6af.json
+p2-url-shortener-firebase-adminsdk-lfau4-038ac2a67a.json

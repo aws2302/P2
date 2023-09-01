@@ -1,0 +1,67 @@
+// const { initializeApp } = require('firebase-admin/app');
+// const { getFirestore } = require('firebase-admin/firestore');
+
+// initializeApp();
+
+// const firestore_database = getFirestore();
+
+// const saveURL = async () => {
+// const URL_data = {
+//   longURL: 'Los Angeles',
+//   shortURL: 'CA',
+// };
+// console.log(URL_data);
+
+// // Add a new document in collection "cities" with ID 'LA'
+// const res1 = await firestore_database.collection('URLs').doc('URL1').set(URL_data);
+
+// const URL_Ref = firestore_database.collection('URLs').doc('URL2');
+
+// const res = await URL_Ref.set({
+//   capital: true
+// }, { merge: true });
+
+// await firestore_database.collection('URLs').doc('URL-id').set(URL_data);
+
+// };
+
+// saveURL();
+
+
+const serviceAccount = require('./p2-url-shortener-firebase-adminsdk-lfau4-b3cddbd6af.json');
+
+const {connect} = require('firefose');
+const {Schema, SchemaTypes, Query} = require('firefose');
+const {String, Number, Array} = SchemaTypes;
+const {Model} = require('firefose');
+
+const db = connect(
+  serviceAccount, 'https://p2-url-shortener-default-rtdb.europe-west1.firebasedatabase.app'
+);
+
+const generateShortURL = () => {
+  const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let shortURL = 'short.li/';
+  for (let i = 0; i < 5; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    shortURL += characters.charAt(randomIndex);
+  }
+  return shortURL;
+};
+const shortURL = generateShortURL();
+
+const urlSchema = new Schema({
+  shortURL: {
+    type: String,
+    required: true
+  },
+  longURL: {
+    type: String,
+    required: true
+  }
+}, {timestamp: true});
+
+const URL = new Model('URL', urlSchema);
+let data = URL.create({shortURL, longURL: "https://www.andi.hallo"});
+const query = new Query();
+URL.find(query).then((res) => console.warn(res));

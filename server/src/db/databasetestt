@@ -1,0 +1,87 @@
+/* eslint-disable no-unused-vars */
+const { connect, Schema, Model } = require('firefose');
+const log = require('../log');
+const { getShortUrl, getLongUrl } = require('../urlShortener');
+
+const serviceAccount = require('./p2-url-shortener-firebase-adminsdk-lfau4-b3cddbd6af.json');
+
+const db1 = connect(
+  serviceAccount,
+  'https://p2-url-shortener-default-rtdb.europe-west1.firebasedatabase.app'
+);
+
+const urlSchema = new Schema({
+  shortURL: {
+    type: String,
+    required: true
+  },
+  longURL: {
+    type: String,
+    required: true
+  }
+});
+
+function saveURL(longURL) {
+  // Erzeugen Sie eine kurze URL, z.B., indem Sie eine Funktion aufrufen
+  const shortURL = generateShortURL(); // Implementieren Sie diese Funktion entsprechend Ihrer Anforderungen
+
+  // Erstellen Sie ein neues URL-Objekt mit den Daten
+  const URL = new Model('Test', urlSchema);
+  URL.longURL = longURL;
+  URL.shortURL = shortURL;
+
+  // Annahme: Hier wird die URL in die Datenbank gespeichert
+  // Hier sollten Sie Ihre Datenbankoperationen einfügen, um "URL" in der Datenbank zu speichern
+  // Dies kann je nach verwendeter Datenbank unterschiedlich sein (z.B. Firestore, MongoDB, SQL usw.)
+
+  // Beispiel: Loggen Sie die gespeicherte URL
+  log.warn('Gespeicherte URL: ', URL);
+
+  // Geben Sie das erstellte URL-Objekt zurück
+  return URL;
+}
+
+function writeURL(obj) {
+  log.warn('writeURL: ', obj);
+  // Hier sollte Logik hinzugefügt werden, um "obj" in die Datenbank zu speichern
+  return true;
+}
+
+function getURL(short) {
+  // Hier sollte Logik hinzugefügt werden, um die lang URL basierend auf der kurzen URL abzurufen
+  return 'http://short.li/'; // Ändern Sie dies entsprechend Ihrer Implementierung
+}
+
+function writeStats(short, obj) {
+  log.warn('writeStats: ', obj);
+  // Hier sollte Logik hinzugefügt werden, um "obj" in die Datenbank zu speichern
+  // Änderung: "longURL" aus "obj" übergeben
+  return true;
+}
+
+function getStats(short) {
+  return {
+    clicks: 0,
+    lastClick: Date.now(),
+    OS: {
+      Linux: 0,
+      Windows: 0,
+      MacOs: 0,
+    },
+    Browser: {
+      Chrome: 0,
+      Edge: 0,
+      Firefox: 0,
+      Opera: 0,
+      Safari: 0,
+      Sonstige: 0,
+    },
+    createDate: new Date().toLocaleString(),
+    expireDate: new Date().toLocaleString(),
+    longURL: getLongUrl(short), // Änderung: Hier sollten Sie die Funktion aufrufen, um die tatsächliche URL zu erhalten
+    shortURL: getShortUrl(), // Änderung: Hier sollte "getShortUrl" aufgerufen werden
+    // Password: 'password',
+  };
+};
+
+module.exports = { saveURL, writeURL, getURL, writeStats, getStats };
