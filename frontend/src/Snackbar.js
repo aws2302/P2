@@ -1,12 +1,12 @@
 // inspiriert von https://fwuensche.medium.com/react-button-to-copy-to-clipboard-75ef5ecdc708
 import React, { useState } from 'react';
-import { Button, Snackbar } from '@mui/material';
+import { Snackbar, Button } from '@mui/material';
 
-const CopyToClipboardButtonWithSnackbar = () => {
+const CustomSnackbar = ({ message, snackbarText }) => { 
     const [open, setOpen] = useState(false);
 
     const handleClick = () => {
-        navigator.clipboard.writeText(window.location.toString());
+        navigator.clipboard.writeText(message);
         setOpen(true);
     };
 
@@ -16,15 +16,16 @@ const CopyToClipboardButtonWithSnackbar = () => {
 
     return (
         <>
-            <Button onClick={handleClick}>Copy to Clipboard</Button>
+            <Button onClick={handleClick}>Kopieren</Button>
             <Snackbar
                 open={open}
                 autoHideDuration={2000}
                 onClose={handleClose}
-                message="Copied to clipboard"
+                message={snackbarText}
             />
         </>
     );
 };
 
-export default CopyToClipboardButtonWithSnackbar;
+export default CustomSnackbar;
+
