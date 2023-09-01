@@ -35,12 +35,17 @@ export default function App() {
     }
   };
 
+  // Zürück zur Startseite
+  const handleHomeIconClick = () => {
+    window.location.href = '/'; 
+  };
+
   return (
     /* Head Section */
     <div className="App">
       <header className="App-header">
         <div className="div-HS-Icon">
-          <Button className="HomeIcon" aria-label="HomeIcon">
+          <Button className="HomeIcon" aria-label="HomeIcon" onClick={handleHomeIconClick}>
             <HomeIcon className="H-Icon" style={{ fontSize: '36px' }} />
           </Button>
           <Button className="StatsIcon" aria-label="StatsIcon">
@@ -92,7 +97,7 @@ export default function App() {
             <ShortURL shortenLink={response} /> // Ausgabe Short-URL
           )}
           {response && passwordValue && (
-            <div style={{ margin: '10px' }}></div> 
+            <div style={{ margin: '10px' }}></div>
           )}
           {passwordValue && (
             <Password value={passwordValue} /> // Ausgabe Password
