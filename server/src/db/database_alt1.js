@@ -2,8 +2,6 @@ const { connect } = require('firefose');
 const { Schema, SchemaTypes, Query } = require('firefose');
 const { String } = SchemaTypes;
 const { Model } = require('firefose');
-// Datenempfang von Markus
-// const { stats } = require('../stats');
 
 const readline = require('readline').createInterface({
   input: process.stdin,
@@ -28,53 +26,28 @@ const generateShortURL = () => {
 
 const askForURLData = () => {
   readline.question('Enter the long URL: ', longURL => {
-//     readline.question('Enter the OS: ', os => {
-//       readline.question('Enter the Browser: ', browser => {
-//         readline.question('Enter the number of Clicks: ', clicks => {
-          saveURL(longURL);
+    readline.question('Enter the OS: ', os => {
+      readline.question('Enter the Browser: ', browser => {
+        readline.question('Enter the number of Clicks: ', clicks => {
+          saveURL(longURL, os, browser, clicks);
           readline.close();
-//         });
-//       });
-//     });
+        });
+      });
+    });
   });
 };
 
-const saveURL = (longURL) => {
+const saveURL = (longURL, os, browser, clicks) => {
   const shortURL = generateShortURL();
-  const URL = new Model('Test', urlSchema);
-
-  let lastClick = new Date().toLocaleString();
-
-  // Frontend müsste dies bei sich einbauen, oder?
-  // if (parseInt(clicks) < 1) {
-  //   clicks = "0";
-  //   lastClick = "No clicks yet";
-  // }
-
-  const setBrowser = [{ Sonstige: 0, Opera: 0, Firefox: 0, Chrome: 0 }]
-switch (usedBrowser) {
-  case "Opera":
-    browser.Opera++
-    break
-  case "Firefox":
-    browser.Firefox++
-    break
-  case "Chrome":
-    browser.Chrome++
-    break
-  default:
-    browser.Sonstige++
-}
-
+  const URL = new Model('URLs', urlSchema);
   const data = URL.create({
-    Browser: setBrowser,
+    Browser: browser,
     OS: os,
-    Clicks: "0",
+    Clicks: clicks,
     shortURL,
     longURL,
-    lastClick
+    lastClick: new Date().toLocaleString()
   });
-
   const query = new Query();
   URL.find(query).then((res) => console.warn(res));
 };
