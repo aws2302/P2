@@ -14,10 +14,31 @@ const ShortURL = ({ shortenLink }) => {
         setIsSnackbarOpen(false);
     };
 
+    const shortURLContainer = {
+        width: "200px",
+        height: "40px",
+        overflow: "hidden",
+        whiteSpace: "nowrap",
+        textOverflow: "ellipsis",
+        backgroundColor: "#F0F0F0",
+        borderRadius: "5px", 
+        display: "flex", 
+        justifyContent: "center",
+        alignItems: "center", 
+    };
+    
+    const shortURLText = {
+        margin: 0,
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+    };
+
     return (
         <div className="result">
             <div style={{ display: "flex", alignItems: "center" }}>
-                <p>{shortURL}</p>
+                <div style={shortURLContainer}>
+                    <p style={shortURLText}>{shortURL}</p>
+                </div>
                 <Button
                     onClick={handleCopyClick}
                     variant="contained"

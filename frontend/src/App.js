@@ -78,14 +78,17 @@ export default function App() {
             >
               Kürzen <SendIcon sx={{ marginLeft: "4px" }} />
             </Button>
-                      </div>
+          </div>
         </body>
       </div>
       {/* Bottom Section */}
       <div className="footer-url">
-      <footer>
+        <footer>
           {response && (
-            <ShortURL shortenLink={response} />  // Ausgabe Short-URL
+            <ShortURL shortenLink={response} /> // Ausgabe Short-URL
+          )}
+          {response && passwordValue && (
+            <div style={{ margin: '10px' }}></div> 
           )}
           {passwordValue && (
             <Password value={passwordValue} /> // Ausgabe Password

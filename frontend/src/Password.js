@@ -14,10 +14,32 @@ const Password = ({ value }) => {
         setIsSnackbarOpen(false);
     };
 
+    // Design für die Ausgabe
+    const containerStyle = {
+        width: "200px",
+        height: "40px",
+        overflow: "hidden",
+        whiteSpace: "nowrap",
+        textOverflow: "ellipsis",
+        backgroundColor: "#F0F0F0",
+        borderRadius: "5px", 
+        display: "flex", 
+        justifyContent: "center",
+        alignItems: "center", 
+    };
+
+    const textStyle = {
+        margin: 0,
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+    };
+
     return (
         <div className="password">
             <div style={{ display: "flex", alignItems: "center" }}>
-                <p>{passwordValue}</p>
+                <div style={containerStyle}>
+                    <p style={textStyle}>{passwordValue}</p>
+                </div>
                 <Button
                     onClick={handleCopyClick}
                     variant="contained"
