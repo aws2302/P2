@@ -44,7 +44,7 @@ export default function App() {
             <HomeIcon className="H-Icon" style={{ fontSize: '36px' }} />
           </Button>
           <Button className="StatsIcon" aria-label="StatsIcon">
-            <BarChartIcon className="S-Icon" />
+            <BarChartIcon className="S-Icon" style={{ fontSize: '36px' }} />
           </Button>
         </div>
         <div className="div-MS-Icon">
