@@ -87,6 +87,16 @@ p {
   min-height: 40vh;
 }
 
+Ausgabe Short URL & Password
+.output {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 100px; 
+}
+
 /* Copy Button
 .copy-button {
   background-color: #1976D2;
