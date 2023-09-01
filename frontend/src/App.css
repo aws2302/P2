@@ -39,6 +39,10 @@ h1 {
   margin-top: 5vh;
 }
 
+h3 {
+  font-family: "Raleway", sans-serif;
+}
+
 p {
   font-family: "Raleway", sans-serif;
 }
@@ -82,3 +86,16 @@ p {
   text-align: center;
   min-height: 40vh;
 }
+
+/* Copy Button
+.copy-button {
+  background-color: #1976D2;
+  color: white;
+  padding: 6px 16px;
+  border-radius: 4px; 
+}
+
+.copy-button:hover {
+  background-color: #156CB3;
+} */
+

@@ -9,6 +9,7 @@ import ModeSwitch from "./Switch";
 import { useState } from "react";
 import { fetchSomeData } from "./Api";
 import ShortURL from "./ShortURL";
+import Password from "./Password";
 
 
 /* Color Presets Button */
@@ -19,6 +20,7 @@ const accent_hover = blue[900];
 export default function App() {
   const [url, setUrl] = useState(''); // URL speichern
   const [response, setResponse] = useState(null);
+  const [passwordValue, setPasswordValue] = useState('');
 
   const handleSendClick = async () => {
     try {
@@ -26,6 +28,7 @@ export default function App() {
       const result = await fetchSomeData();
 
       setResponse(result.shortURL);
+      setPasswordValue(result.password);
     } catch (error) {
       console.error(error.message);
     }
@@ -75,17 +78,17 @@ export default function App() {
             >
               Kürzen <SendIcon sx={{ marginLeft: "4px" }} />
             </Button>
-
-
-          </div>
+                      </div>
         </body>
       </div>
       {/* Bottom Section */}
       <div className="footer-url">
-        <footer>
-          {/* Anzeige der kurzen URL */}
+      <footer>
           {response && (
-            <ShortURL shortenLink={response} />
+            <ShortURL shortenLink={response} />  // Ausgabe Short-URL
+          )}
+          {passwordValue && (
+            <Password value={passwordValue} /> // Ausgabe Password
           )}
         </footer>
       </div>

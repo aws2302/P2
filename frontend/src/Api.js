@@ -8,14 +8,15 @@ export async function fetchSomeData() {
 //     }
 // }
 
-// Test Daten
+// Test Daten Short URL
 const simulatedData = {
     shortURL: 'http://short.url/abc123',
+    password: '1234567',
 };
 
 return new Promise((resolve) => {
     setTimeout(() => {
         resolve(simulatedData);
-    }, 1000); 
+    }, 1000);
 });
 }
