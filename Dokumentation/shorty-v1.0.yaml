@@ -50,26 +50,75 @@ paths:
     get:
       summary: Gets the long URL for the short one
       parameters:
-        - name: shortUrl
-          in: path
-          required: true
-          description: the short Url
-          schema:
-            type: string
+        # - name: shortUrl
+        #   in: path
+        #   required: true
+        #   description: the short Url
+        #   schema:
+        #     type: string
+        - $ref: '#/components/parameters/shortUrl'
       responses:
-        '200':
-          description: Short-Url gefunden, Long-Url wird zurückgegeben
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                    longUrl:
-                      type: string
-                    shortUrl:
-                      type: string
+        # '200':
+        #   description: Short-Url gefunden, Long-Url wird zurückgegeben
+        #   content:
+        #     application/json:
+        #       schema:
+        #         type: object
+        #         properties:
+        #             longUrl:
+        #               type: string
+        #             shortUrl:
+        #               type: string
+        '307':
+          # description: Short-Url gefunden, Nutzer wird zur Long-Url weitergeleitet
+          # content:
+          #   headers:
+          #     Location:
+          #       schema:
+          #         description: Redirecting to URL
+          #         format: url
+          #         type: string
+          $ref: '#/components/responses/307'
+
         # TODO: [PUS-35] Fehlermeldung dokumentieren (evtl.)
-  
+    post:
+      summary: Gets the long URL for the short one
+      parameters:
+        - $ref: "#/components/parameters/shortUrl"
+      responses:
+        307:
+          $ref: "#/components/responses/307"
+    delete:
+      summary: Gets the long URL for the short one
+      parameters:
+        - $ref: "#/components/parameters/shortUrl"
+      responses:
+        307:
+          $ref: "#/components/responses/307"
+    put:
+      summary: Gets the long URL for the short one
+      parameters:
+        - $ref: "#/components/parameters/shortUrl"
+      responses:
+        307:
+          $ref: "#/components/responses/307"
+    patch:
+      summary: Gets the long URL for the short one
+      parameters:
+        - $ref: "#/components/parameters/shortUrl"
+      responses:
+        307:
+          $ref: "#/components/responses/307"
+    head:
+      summary: Gets the long URL for the short one
+      parameters:
+        - $ref: "#/components/parameters/shortUrl"
+      responses:
+        307:
+          $ref: "#/components/responses/307"
+
+
+
   /api/stats/{shortUrl}/:
     post:
       summary: Statistik für Kurz-URL abrufen
@@ -143,3 +192,16 @@ paths:
                 properties:
                   error:
                     type: string
+
+components:
+  parameters:
+    shortUrl:
+      name: shortUrl
+      in: path
+      required: true
+      description: Die abzurufende Short-Url
+      schema:
+        type: string
+  responses:
+    "307":
+      description: Weiterleitung zur Long-Url
