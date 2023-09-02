@@ -1,4 +1,4 @@
-openapi: '3.0.2'
+openapi: '3.0.3'
 info:
   title: Shorty API
   description: |-
@@ -13,6 +13,7 @@ paths:
       summary: Shortens an URL
       requestBody:
         required: true
+        description: "Zu kürzende URL, inkl. Schema"
         content:
           application/json:
             schema:
@@ -20,8 +21,9 @@ paths:
               properties:
                 longUrl:
                   type: string
-                user: 
-                  type: string
+                  example: "http://www.google.de"
+                # user: 
+                #   type: string
       responses:
         '201':
           description: Short-Url erstellt
