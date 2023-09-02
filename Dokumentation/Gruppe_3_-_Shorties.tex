@@ -222,11 +222,14 @@ Ist dies nicht Kapitel 4.1?
 \chapter{Einrichtung und Betrieb der Software-Lösung}
 \section{Inbetriebnahme der Lösung}
 \section{Möglichkeiten zur späteren Anpassung und Weiterentwicklung}
-Es bestehen diverse Möglichkeiten, das Projekt weiterzuentwickeln. So können beispielsweise die Statistiken erweitert werden, so dass man auch nach mobilen (Smartphone, Tablet) oder stationären (Desktop/Laptop, Smart-TV) auswerten kann. 
-
-Auch können die \ac{API}-Endpunkte erweitert werden, so dass z.\,B. nur Werte zu einer bestimmten Statistik abgerufen werden können.
-
-Es kann auch dahingehend erweitert werden, dass sich Benutzer registrieren und anmelden können. Dann kann auch für den eingeloggten Nutzer ein Verlauf der generierten Kurz-\ac{URL}s angezeigt werden und die jeweiligen Statistiken mit einem einfachen Button aufrufbar gemacht werden.
+Es bestehen diverse Möglichkeiten, das Projekt weiterzuentwickeln:
+\begin{itemize}
+\item Die Statistiken können erweitert werden, so dass man auch nach mobilen (Smartphone, Tablet) oder stationären (Desktop/Laptop, Smart-TV) auswerten kann.
+\item Auch können die \ac{API}-Endpunkte erweitert werden, so dass z.\,B. nur Werte zu einer bestimmten Statistik abgerufen werden können.
+\item Es kann auch dahingehend erweitert werden, dass sich Benutzer registrieren und anmelden können. Dann kann auch für den eingeloggten Nutzer ein Verlauf der generierten Kurz-\ac{URL}s angezeigt werden und die jeweiligen Statistiken mit einem einfachen Button aufrufbar gemacht werden.
+\item Es kann ein DELETE-Endpunkt implementiert werden, damit ein Benutzer seinen generierten Link vorzeitig löschen kann.
+\item Die generierten Links sollten auch nach einer voreingestellten Zeit automatisch gelöscht werden. Diese Zeit kann bis zu einer Obergrenze von Nutzer festgelegt werden. Das Löschen selbst kann beispielsweise durch einen Endpunkt erfolgen, der von außen mitteln {\ttfamily cron} und {\ttfamily curl} angesprochen wird. Das Feld {\ttfamily expireDate} ist schon in jedem Datensatz enthalten und wird standardmäßig auf Erstellungszeit + 30 Tage gesetzt.
+\end{itemize}
 
 % ! 5. Retrospektive
 \chapter{Retrospektive}
