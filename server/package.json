@@ -27,7 +27,9 @@
     "firebase-admin": "^11.10.1",
     "firefose": "^1.1.5",
     "generate-password": "^1.7.0",
-    "url-http": "^1.0.14"
+    "swagger-ui-express": "^5.0.0",
+    "url-http": "^1.0.14",
+    "yaml": "^2.3.2"
   },
   "devDependencies": {
     "documentation": "^14.0.2",

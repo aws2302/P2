@@ -19,7 +19,6 @@ const log = require('../src/log');
 const isValidUrl = (url) => !!httpUrl(url);
 
 router.get('/', (req, res) => {
-  console.warn(req.useragent);
   res.status(405).send('INVALID');
 });
 

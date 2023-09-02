@@ -16,12 +16,14 @@
 /* Header Icons */
 .Q-Icon,
 .MS-Icon,
+.HP-Icon
 .H-Icon {
-  color: rgb(0, 0, 0);
+  /* color: rgb(0, 0, 0); */
 }
 
 .div-Q-Icon,
-.div-H-Icon {
+.div-HS-Icon,
+.div-HP-Icon {
   display: flex;
   align-items: center;
 }
@@ -85,6 +87,16 @@ p {
   justify-content: center;
   text-align: center;
   min-height: 40vh;
+}
+
+Ausgabe Short URL & Password
+.output {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 100px; 
 }
 
 /* Copy Button

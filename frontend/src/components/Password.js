@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Button, Snackbar } from "@mui/material";
 
-const ShortURL = ({ shortenLink }) => {
-    const [shortURL, setShortURL] = useState(shortenLink);
+const Password = ({ value }) => {
+    const [passwordValue, setPasswordValue] = useState(value);
     const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
 
     const handleCopyClick = () => {
-        navigator.clipboard.writeText(shortURL);
+        navigator.clipboard.writeText(passwordValue);
         setIsSnackbarOpen(true);
     };
 
@@ -14,10 +14,32 @@ const ShortURL = ({ shortenLink }) => {
         setIsSnackbarOpen(false);
     };
 
+    // Design für die Ausgabe
+    const containerStyle = {
+        width: "200px",
+        height: "40px",
+        overflow: "hidden",
+        whiteSpace: "nowrap",
+        textOverflow: "ellipsis",
+        backgroundColor: "#F0F0F0",
+        borderRadius: "5px", 
+        display: "flex", 
+        justifyContent: "center",
+        alignItems: "center", 
+    };
+
+    const textStyle = {
+        margin: 0,
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+    };
+
     return (
-        <div className="result">
+        <div className="password">
             <div style={{ display: "flex", alignItems: "center" }}>
-                <p>{shortURL}</p>
+                <div style={containerStyle}>
+                    <p style={textStyle}>{passwordValue}</p>
+                </div>
                 <Button
                     onClick={handleCopyClick}
                     variant="contained"
@@ -40,4 +62,4 @@ const ShortURL = ({ shortenLink }) => {
     );
 };
 
-export default ShortURL;
+export default Password;

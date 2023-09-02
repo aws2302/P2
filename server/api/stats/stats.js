@@ -5,16 +5,23 @@
  */
 
 const router = require('express').Router();
+const {getStats} = require('../../src/db/database');
+// const log = require('../../src/log');
 
-router.get('/:short', (req, res) => {
+router.post('/:short', (req, res) => {
   const short = req.params.short;
   const passwd = req.body.password;
-  const cred = {
-    shorturl: short,
-    password: passwd
-  };
-  console.warn('// TODO: Datenbankabruf: ', cred);
-  res.send('OK');
+
+  const dbres = getStats(short);
+
+  if (passwd !== dbres.Password) {
+    res.status(401).json({error: 'Authorisierung fehlgeschlagen'});
+  } else {
+    // Password muss nicht unnötig über's Netz gesendet werden, der User kennt es bereits
+    delete dbres.Password;
+    res.json(dbres);
+  }
+
 });
 
 module.exports = router;

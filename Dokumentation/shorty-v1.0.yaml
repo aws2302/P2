@@ -44,8 +44,6 @@ paths:
                   error:
                     type: string
 
-
-
   /{shortUrl}:
     get:
       summary: Gets the long URL for the short one
@@ -147,41 +145,41 @@ paths:
               schema:
                 type: object
                 properties:
-                  longUrl:
+                  longURL:
                     type: string
-                  shortUrl:
+                  shortURL:
                     type: string
                   clicks:
                     type: number
-                  lastclick:
+                  lastClick:
                     type: number
-                  created:
+                  createDate:
                     type: number
-                  expires:
+                  expireDate:
                     type: number
-                  os:
+                  OS:
                     type: object
                     properties:
-                      windows:
+                      Windows:
                         type: number
-                      linux:
+                      Linux:
                         type: number
-                      macos:
+                      MacOs:
                         type: number
-                  browser:
+                  Browser:
                     type: object
                     properties:
-                      chrome:
+                      Chrome:
                         type: number
-                      edge:
+                      Edge:
                         type: number
-                      firefox:
+                      Firefox:
                         type: number
-                      opera:
+                      Opera:
                         type: number
-                      safari:
+                      Safari:
                         type: number
-                      other:
+                      Sonstige:
                         type: number
         '401':
           description: Anmeldung fehlgeschlagen, Kurz-Link und/oder Passwort stimmen nicht

@@ -5,7 +5,7 @@ import "@fontsource/roboto"; // Loading Roboto font. MUI was designed with this 
 import { CssBaseline, Switch } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { styled } from "@mui/material/styles";
-import "./App.css";
+import "../components/css/App.css";
 
 // Define theme settings
 const light = {
