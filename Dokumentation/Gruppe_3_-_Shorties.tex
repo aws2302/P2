@@ -18,25 +18,53 @@
 \usepackage{microtype}%
 \usepackage[svgnames, x11names, xetex, rgb, RGB, HTML, hyperref]{xcolor}%
 \definecolor{shortyblue}{HTML}{1976D2}  % FIXME: Echte Farbwerte eintragen
-\usepackage{listings}
-\lstset{basicstyle=\ttfamily, numbers=left}
+
 \definecolor{background}{HTML}{EEEEEE}
 \definecolor{eclipseStrings}{RGB}{42,0.0,255}
 \definecolor{eclipseKeywords}{RGB}{127,0,85}
+\definecolor{mediumgray}{rgb}{0.3, 0.4, 0.4}
+\definecolor{mediumblue}{HTML}{079cff}
+\definecolor{forestgreen}{rgb}{0.13, 0.55, 0.13}
+\definecolor{darkviolet}{rgb}{0.58, 0.0, 0.83}
+\definecolor{royalblue}{rgb}{0.25, 0.41, 0.88}
+\definecolor{crimson}{rgb}{0.86, 0.8, 0.24}
 \colorlet{numb}{magenta!60!black}
+\usepackage{listings}
+\lstset{%
+    abovecaptionskip=\medskipamount,
+    aboveskip=\bigskipamount,
+    backgroundcolor=\color{background},
+    basicstyle=\normalfont\ttfamily,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    columns=fullflexible,
+    commentstyle=\color{eclipseStrings}, % style of comment
+    emphstyle=\color{crimson},
+    extendedchars=true,  % requires inputenc
+    fontadjust=true,
+    frame=lines,
+    identifierstyle=\color{black},
+    keepspaces=true,
+    keywordstyle=\bfseries\color{mediumblue},
+    keywordstyle={[2]\bfseries\color{darkviolet}},
+    keywordstyle={[3]\bfseries\color{royalblue}},
+    keywordstyle={[4]\bfseries\color{royalblue}},
+    numbers=left,
+    numbersep=8pt,
+    numberstyle=\scriptsize,
+    rulecolor=\color{black},
+    showlines=true,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=true,
+    stringstyle=\color{eclipseKeywords}, % style of strings
+    tabsize=4,
+    title=\lstname,
+    xleftmargin={18pt},
+}
 
 \lstdefinelanguage{json}{
-    basicstyle=\normalfont\ttfamily,
-    commentstyle=\color{eclipseStrings}, % style of comment
-    stringstyle=\color{eclipseKeywords}, % style of strings
-    numbers=left,
-    numberstyle=\scriptsize,
-    stepnumber=1,
-    numbersep=8pt,
-    showstringspaces=false,
-    breaklines=true,
-    frame=lines,
-    backgroundcolor=\color{background}, %only if you like
     string=[s]{"}{"},
     comment=[l]{:\ "},
     morecomment=[l]{:"},
@@ -51,7 +79,30 @@
         {7}{{{\color{numb}7}}}{1}
         {8}{{{\color{numb}8}}}{1}
         {9}{{{\color{numb}9}}}{1}
-}
+        }
+        
+\lstdefinelanguage{JavaScript}{
+    stringstyle=\color{forestgreen},
+    morekeywords=[1]{await, async, case, catch, class, const, default, do,
+        enum, export, extends, finally, from, implements, import, instanceof,
+        let, static, super, switch, throw, try},
+    morekeywords=[2]{break, continue, delete, else, for, function, if, in,
+        new, return, this, typeof, var, void, while, with},
+    morekeywords=[3]{false, null, true, boolean, number, undefined,
+        Array, Boolean, Date, Math, Number, String, Object},
+    morekeywords=[4]{eval, parseInt, parseFloat, escape, unescape},
+        sensitive,
+    morecomment=[s]{/*}{*/},
+    morecomment=[l]//,
+    morecomment=[s]{/**}{*/},
+    morestring=[b]',
+    morestring=[b]",
+    morestring=[b]`
+}[keywords, comments, strings]
+
+
+
+
 
 \usepackage[xetex, hyperindex, pdfpagelabels]{hyperref}
 \hypersetup{
@@ -69,7 +120,7 @@
     citecolor = green,        % color of links to bibliography
     filecolor = magenta,      % color of file links
     urlcolor = shortyblue,          % color of external links
-    breaklinks = true,
+    breaklinks = true
 }
 \usepackage{graphicx}
 \graphicspath{ {img/} }%
@@ -143,32 +194,55 @@ Für die Statistik nutzen wir die Express.js-Middleware \texttt{express-useragen
 \section{API}
 Die \ac{API} bietet verschiedene Endpunkte für den Zugriff. So wird zur Erstellung eines Kurz-Links der http-POST-Endpunkt »\texttt{/}« genutzt, zur Weiterleitung (Abfrage des Kurz-Links) wird der Endpunkt »\texttt{/\{shorturl\}}« verwendet. Und zur Abfrage der Statistiken dient der POST-Endpunkt »\texttt{/api/stats/\{shortUrl\}}«. 
 \section{URL-Validierung}
-Zur Validierung der URL nutzen wir das Paket \texttt{url-http}\footnote{\href{https://www.npmjs.com/package/url-http}{https://www.npmjs.com/package/url-http}} mit einer kleinen Wrapper-Funktion (siehe Abb.~\ref{fig:25wrapper}), wobei die \ac{URL} inklusive Schema (\texttt{http://} bzw. \texttt{https://}) erwartet wird.
-\begin{figure}[h]%
-    \begin{small}%
-        \begin{center}%
-            \includegraphics[width=0.8\textwidth]{2_5_wrapper.png}%
-        \end{center}%
-        \caption{Quelltextauschnitt der Wrapper-Funktion zur \ac{URL}-Validierung}%
-        \label{fig:25wrapper}%
-    \end{small}%
-\end{figure}%
+Zur Validierung der URL nutzen wir das Paket \texttt{url-http}\footnote{\href{https://www.npmjs.com/package/url-http}{https://www.npmjs.com/package/url-http}} mit einer kleinen Wrapper-Funktion (siehe Lst.~\ref{lst:wrapperUrlVal}), wobei die \ac{URL} inklusive Schema (\texttt{http://} bzw. \texttt{https://}) erwartet wird.
+
+\begin{lstlisting}[language=JavaScript,
+    caption={Wrapper-Funktion zur URL-Validierung},
+    label={lst:wrapperUrlVal},
+    float=h,
+    gobble=4
+]
+    const isValidUrl = (url) => !!httpUrl(url);
+\end{lstlisting}
+
+% \begin{figure}[h]%
+%     \begin{small}%
+%         \begin{center}%
+%             \includegraphics[width=0.8\textwidth]{2_5_wrapper.png}%
+%         \end{center}%
+%         \caption{Quelltextauschnitt der Wrapper-Funktion zur \ac{URL}-Validierung}%
+%         \label{fig:25wrapper}%
+%     \end{small}%
+% \end{figure}%
 
 \section{URL-Kürzung}
 Die eigentliche URL-Kürzung entsteht durch einen Datenbank-Eintrag, der die generierte Kurz-\ac{URL} (ID) mit der langen \ac{URL} verknüpft und zusätzlich die statistischen Daten zu jedem Kurzlink speichert.
 \subsection{Algorithmus}
-Wir haben uns für die Verwendung eines 58-stelligen Alphabets (Base-58) für die Generierung der ID entschieden. Hierzu werden von einem Base62-Alphabet (\texttt{[0–9A–Za–z]}) die Zeichen »0« (Null), »I« (Großbuchstabe i), »O« (Großbuchstabe o) und »l« (Kleinbuchstabe L) entfernt, da diese – je nach Schriftart – verwechselt werden können. Hierdurch wird zwar die Anzahl der möglichen IDs eingeschränkt, aber $58^7 =  2\,207\,984\,167\,552$ Möglichkeiten sollten diese immer noch ausreichen.
+Wir haben uns für die Verwendung eines 58-stelligen Alphabets (Base-58\label{sec:base58}, siehe Lst.~\ref{lst:base58}, Zeile~1) für die Generierung der ID entschieden. Hierzu werden von einem Base62-Alphabet (\texttt{[0–9A–Za–z]}) die Zeichen »0« (Null), »I« (Großbuchstabe i), »O« (Großbuchstabe o) und »l« (Kleinbuchstabe L) entfernt, da diese – je nach Schriftart – verwechselt werden können. Hierdurch wird zwar die Anzahl der möglichen IDs eingeschränkt, aber $58^7 =  2\,207\,984\,167\,552$ Möglichkeiten sollten diese immer noch ausreichen.
 
-Die eigentliche Kurz-\ac{URL} ist dann ein siebenstelliger base58-kodierter String aus einer Kombination aus Teilen des Unix-Zeitstempels (Abb.~\ref{fig:261shorturl} Zeilen 1–3) und einer zweistelligen Zufallszahl (Zeile 4). Zum einfacheren Verbinden beider Zahlen werden diese zunächst als String generiert und erst bei Übergabe an die Funktion \texttt{base58()} als Integer umgewandelt (ebenfalls Zeile 4 in Abb.~\ref{fig:261shorturl}).
-\begin{figure}[h]%
-    \begin{small}%
-        \begin{center}%
-            \includegraphics[width=0.8\textwidth]{2_6_1_shortUrl.png}%
-        \end{center}%
-        \caption{Quelltextauschnitt zur Generierung der Kurz-Url}%
-        \label{fig:261shorturl}%
-    \end{small}%
-\end{figure}%
+Die eigentliche Kurz-\ac{URL} ist dann ein siebenstelliger base58-kodierter String aus einer Kombination aus Teilen des Unix-Zeitstempels (Lst.~\ref{lst:shorturl} Zeilen 1–3) und einer zweistelligen Zufallszahl (Zeile 4). Zum einfacheren Verbinden beider Zahlen werden diese zunächst als String generiert und erst bei Übergabe an die Funktion \texttt{base58()} als Integer umgewandelt (ebenfalls Zeile 4 in Lst.~\ref{lst:shorturl}).
+
+\begin{lstlisting}[language=JavaScript,
+    caption={Aufbau der Basis vor der base58-Konvertierung},
+    label={lst:shorturl},
+    float=h,
+    gobble=4
+]
+    let date = Date.now()
+        .toString()
+        .slice(1,-2);
+    const shortUrl = base58(parseInt(getRnd() + date));
+\end{lstlisting}
+
+% \begin{figure}[h]%
+%     \begin{small}%
+%         \begin{center}%
+%             \includegraphics[width=0.8\textwidth]{2_6_1_shortUrl.png}%
+%         \end{center}%
+%         \caption{Quelltextauschnitt zur Generierung der Kurz-Url}%
+%         \label{fig:261shorturl}%
+%     \end{small}%
+% \end{figure}%
 
 
 \section{Passwort für Link-Bearbeitung und Statistik}
@@ -181,6 +255,39 @@ Das Passwort für die generierte Kurz-\ac{URL} lassen wir uns als zufällige, zw
 \section{Übersicht und Zusammenspiel der Komponenten}
 \section{Beschreibung der Komponenten}
 \subsection{Backend}
+Wie bereits in Kapitel \ref{sec:base58} beschrieben, haben wir uns für eine \texttt{base58}-Kodierung der Kurz-\ac{URL}s entschieden. Hierzu wurde das entsprechene Alphabet definiert (siehe Lst.~\ref{lst:base58}, Zeile 1). Nach einem Check, ob es eine Ganzzahl $< 0$ ist (Zeilen 4–8), wird innerhalb der \texttt{while}-Schleife (ab Zeile 11, Lst.~\ref{lst:base58}) dann nach dem Restwertverfahren die Eingabezahl konvertiert.
+
+Zwar wäre diese Umrechnung auch wieder umkehrbar (bijektiv), aber da es eine generierte Zahl ist, die keine Verbindung mit der zu kürzenden \ac{URL} hat, verzichten wir darauf und nehmen zur Identifikation die \texttt{base58}-kodierte Zahl als Schlüssel.
+
+Aufgrund der in Lst.~\ref{lst:shorturl} gezeigten Generierung der Ausgangszahl, kann es unter seltenen Umständen dazu kommen, dass bei mehreren gleichzeitigen Zugriffen auch die gleiche Zufallszahl generiert wird. Dazu müsste allerdings in der gleichen Zehntelsekunde auch noch die gleiche Zufallszahl durch \texttt{getRnd()} erzeugt werden. Auch wenn dies nicht komplett ausgeschlossen werden kann, haben wir uns dazu entschieden, dies zu vernachlässigen. Diesen Fall kann man – in einer späteren Erweiterung (siehe auch Kapitel~\ref{sec:ErweiterungKollision}) – auch durch eine Datenbankabfrage und evtl. Neugenerierung der Zufalls-ID umgehen.
+
+\begin{lstlisting}[
+    language=JavaScript,
+    caption={base58-Konvertierung},
+    label={lst:base58},
+    float=h,
+    gobble=4
+]
+    const CHARS58 = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+
+    function encode(num) {
+        if (isNaN(num) || num % 1 !== 0 || num < 0) {
+            // Keine Zahl, oder Float, oder < 0
+            return false;
+        } else if (num === 0) {
+            return '0';
+        } else {
+            let id = '';
+            while (num > 0) {
+            id = CHARS58[(num % 58)] + id;
+            num = Math.floor(num / 58);
+            }
+            return id;
+        }
+    }
+\end{lstlisting}
+
+
 \subsubsection{Schnittstellen der Komponente}
 Es gibt drei Schnittstellen der \ac{API}:
 \begin{description}
@@ -194,8 +301,11 @@ Wir leiten mit dem HTTP-Status-Code »307« weiter, so dass sichergestellt ist, 
 \subsubsection{Datenstrukturen}
 Die Daten werden in einer Document-Database (Google Firebase Firestorm\footnote{\href{https://firebase.google.com/}{https://firebase.google.com/}}) gespeichert, und können im \ac{JSON}-Format abgerufen und geschrieben werden.
 
-Wir haben uns für eine recht einfache Struktur entschieden:
-\begin{lstlisting}[language=json]
+Wir haben uns für eine recht einfache Struktur entschieden, siehe Lst.~\ref{lst:struktur}.
+\begin{lstlisting}[language=json,
+    float=h,
+    caption={Aufbau der Datenstruktur für jede Kurz-Url},
+    label={lst:struktur}]
 {
     "clicks": 0,
     "lastClick": timestamp,
@@ -275,6 +385,7 @@ Es bestehen diverse Möglichkeiten, das Projekt weiterzuentwickeln:
     \item Es kann auch dahingehend erweitert werden, dass sich Benutzer registrieren und anmelden können. Dann kann auch für den eingeloggten Nutzer ein Verlauf der generierten Kurz-\ac{URL}s angezeigt werden und die jeweiligen Statistiken mit einem einfachen Button aufrufbar gemacht werden.
     \item Es kann ein DELETE-Endpunkt implementiert werden, damit ein Benutzer seinen generierten Link vorzeitig löschen kann.
     \item Die generierten Links sollten auch nach einer voreingestellten Zeit automatisch gelöscht werden. Diese Zeit kann bis zu einer Obergrenze von Nutzer festgelegt werden. Das Löschen selbst kann beispielsweise durch einen Endpunkt erfolgen, der von außen mitteln {\ttfamily cron} und {\ttfamily curl} angesprochen wird. Das Feld {\ttfamily expireDate} ist schon in jedem Datensatz enthalten und wird standardmäßig auf Erstellungszeit $+$ 30 Tage gesetzt.
+    \item \label{sec:ErweiterungKollision}Es kann (sollte?) eine Sicherheitsabfrage eingebaut werden, die das Erzeugen – und damit das Überschreiben – identischer Kurz-IDs unterbindet
 \end{itemize}
     
 % ! 5. Retrospektive
@@ -296,5 +407,6 @@ Es bestehen diverse Möglichkeiten, das Projekt weiterzuentwickeln:
 \end{acronym}
 
 %\listoftables
-\listoffigures
+%\listoffigures
+\lstlistoflistings
 \end{document}

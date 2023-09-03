@@ -11,5 +11,6 @@
 *.lot
 *.out
 *.toc
+*.lol
 node_modules/
 .vscode/

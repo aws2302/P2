@@ -24,6 +24,8 @@ paths:
                   example: "http://www.google.de"
                 # user: 
                 #   type: string
+              required:
+              - longUrl
       responses:
         '201':
           description: Short-Url erstellt
