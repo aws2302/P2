@@ -30,7 +30,7 @@ function getStats(short) {
     },
     createDate: 1693485952988,
     expireDate: 1696079966598,
-    longURL: 'http://www.google.de/',
+    longURL: 'http://localhost:8081/',
     shortURL: '1234567',
     Password: 'password'
   };
