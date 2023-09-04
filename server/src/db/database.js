@@ -2,7 +2,7 @@ const sqlite3 = require('sqlite3').verbose();
 const { getLongUrl, getShortUrl } = require('../urlShortener');
 
 // Verbindung zur SQLite-Datenbank herstellen
-const db = new sqlite3.Database('./url.db');
+const db = new sqlite3.Database('../../src/db/url.db');
 
 // Tabellenschema erstellen (nur einmal ausführen)
 
@@ -33,8 +33,22 @@ db.serialize(() => {
 const writeStats = (shortURL, stats) => {
   return new Promise((resolve, reject) => {
     db.run(
-      'UPDATE url SET browser_chrome = ?, browser_firefox = ?, browser_edge = ?, browser_safari = ?, browser_opera = ?, browser_sonstige = ?, os_win = ?, os_mac = ?, os_linux = ?, lastClick = ?, clicks = ? WHERE shortURL = ?',
-      [stats.Browser.Chrome, stats.Browser.Firefox, stats.Browser.Edge, stats.Browser.Safari, stats.Browser.Opera, stats.Browser.Sonstige, stats.OS.Windows, stats.OS.MacOs, stats.OS.Linux, stats.lastClick, stats.clicks, shortURL],
+      'UPDATE url SET browser_chrome = ?, browser_firefox = ?, browser_edge = ?, browser_safari = ?, browser_opera = ?, browser_sonstige = ?, os_win = ?, os_mac = ?, os_linux = ?, lastClick = ?, clicks = ?, timestamp = ? WHERE shortURL = ?',
+      [
+        stats.Browser.Chrome,
+        stats.Browser.Firefox,
+        stats.Browser.Edge,
+        stats.Browser.Safari,
+        stats.Browser.Opera,
+        stats.Browser.Sonstige,
+        stats.OS.Windows,
+        stats.OS.MacOs,
+        stats.OS.Linux,
+        stats.lastClick,
+        stats.clicks,
+        new Date().toLocaleString(), // Konvertiere das Datum in ein menschenlesbares Format
+        shortURL,
+      ],
       (err) => {
         if (err) {
           reject(err);
@@ -45,6 +59,7 @@ const writeStats = (shortURL, stats) => {
     );
   });
 };
+
 
 // const writeStats = (stats.shortURL, stats) => {
 //   return new Promise((resolve, reject) => {

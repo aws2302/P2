@@ -1,7 +1,46 @@
-
-
 'use strict';
-const {writeStats} = require('./db/database');
+const fs = require('fs');
+const path = require('path');
+const { writeStats } = require('./db/database');
+const sqlite3 = require('sqlite3').verbose(); // Importieren des SQLite-Moduls
+
+// Verwenden Sie den absoluten Pfad zur 'url.db'-Datei
+const dbFilePath = path.join(__dirname, 'db', 'url.db');
+
+// Check if the 'url.db' file exists in the '/db' folder
+if (!fs.existsSync(dbFilePath)) {
+  // If it doesn't exist, create the 'url.db' file
+  fs.writeFileSync(dbFilePath, '');
+
+  // Initialize SQLite database with tables as defined in 'database.js'
+  const db = new sqlite3.Database(dbFilePath);
+
+  db.serialize(() => {
+    db.run(`
+      CREATE TABLE IF NOT EXISTS url (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        longURL TEXT NOT NULL,
+        shortURL TEXT NOT NULL,
+        passwd TEXT NOT NULL,
+        browser_chrome INTEGER NOT NULL default 0,
+        browser_firefox INTEGER NOT NULL default 0,
+        browser_edge INTEGER NOT NULL default 0,
+        browser_safari INTEGER NOT NULL default 0,
+        browser_opera INTEGER NOT NULL default 0,
+        browser_sonstige INTEGER NOT NULL default 0,
+        os_win INTEGER NOT NULL default 0,
+        os_mac INTEGER NOT NULL default 0,
+        os_linux INTEGER NOT NULL default 0,
+        lastClick INTEGER NOT NULL default 0,
+        clicks INTEGER NOT NULL default 0,
+        timestamp INTEGER
+      )
+    `);
+  });
+
+  db.close();
+}
+
 /**
  *
  * @param {object} ua - Express.UserAgent-Object
@@ -66,8 +105,6 @@ function addStats(ua, stats) {
   writeStats(stats.shortURL, stats);
 }
 
-addStats({isChrome: true, isWindows: true}, {shortURL: 'abcde', clicks: 0, lastClick: 0, timestamp: 0, Browser: {Chrome: 0, Firefox: 0, Edge: 0, Opera: 0, Safari: 0, Sonstige: 0}, OS: {Linux: 0, MacOs: 0, Windows: 0}}
-)
-
+addStats({ isChrome: true, isWindows: true }, { shortURL: 'abcde', clicks: 0, lastClick: 0, timestamp: 0, Browser: { Chrome: 0, Firefox: 0, Edge: 0, Opera: 0, Safari: 0, Sonstige: 0 }, OS: { Linux: 0, MacOs: 0, Windows: 0 } });
 
 module.exports = addStats;
