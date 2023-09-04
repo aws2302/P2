@@ -57,6 +57,11 @@ p {
   min-height: 50vh;
 }
 
+.pie-body-url {
+  display: flex;
+  justify-content: left;
+}
+
 .T-Field {
   display: flex;
   justify-content: center;
@@ -89,7 +94,7 @@ p {
   min-height: 40vh;
 }
 
-Ausgabe Short URL & Password
+/* Ausgabe Short URL & Password */
 .output {
   display: flex;
   flex-direction: column;

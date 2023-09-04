@@ -2,9 +2,9 @@ import "./css/App.css";
 import React from "react";
 import { PieChart, Pie, Cell } from "recharts";
 const data = [
-  { name: "Windows", value: 200 },
-  { name: "MacOS", value: 300 },
-  { name: "Linux", value: 500 },
+  { name: "Windows", value: 10 },
+  { name: "MacOS", value: 15 },
+  { name: "Linux", value: 10 },
 ];
 const COLORS = ["#0467DF", "#DF3B04", "#DF8F04", "#FF8042"];
 const RADIAN = Math.PI / 180;
@@ -16,6 +16,7 @@ const renderCustomizedLabel = ({
   outerRadius,
   percent,
   index,
+  name,
 }) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -42,7 +43,7 @@ export default function Chartpie() {
         data: data,
         cx: 200,
         cy: 200,
-        labelLine: false,
+        labelLine: true,
         label: renderCustomizedLabel,
         outerRadius: 80,
         fill: "#8884d8",
