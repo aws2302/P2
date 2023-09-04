@@ -1,50 +1,67 @@
+import { green } from "@mui/material/colors";
 import "./css/App.css";
 import React from "react";
-import { BarChart, Bar } from "recharts";
+import {
+  Area,
+  AreaChart,
+  Bar,
+  BarChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  Scatter,
+  ScatterChart,
+  LineChart,
+  PieChart,
+  Pie,
+  PolarAngleAxis,
+  Radar,
+  RadarChart,
+  PolarGrid,
+  PolarRadiusAxis,
+} from "recharts";
 
 const data = [
   {
-    name: "Chrome",
-    uv: 4000,
-    pv: 2400,
-    amt: 2400
+    Browser: "Chrome",
+    clicks: 500,
   },
   {
-    name: "Edge",
-    uv: 3000,
-    pv: 1398,
-    amt: 2210
+    Browser: "Edge",
+    clicks: 50,
   },
   {
-    name: "Firefox",
-    uv: 2000,
-    pv: 9800,
-    amt: 2290
+    Browser: "Firefox",
+    clicks: 200,
   },
   {
-    name: "Opera",
-    uv: 2780,
-    pv: 3908,
-    amt: 2000
+    Browser: "Opera",
+    clicks: 150,
   },
   {
-    name: "Safari",
-    uv: 1890,
-    pv: 4800,
-    amt: 2181
+    Browser: "Safari",
+    clicks: 300,
   },
   {
-    name: "Sonstige",
-    uv: 2390,
-    pv: 3800,
-    amt: 2500
+    Browser: "Sonstige",
+    clicks: 400,
   },
 ];
 
 export default function TinyBar() {
   return (
-    <BarChart width={150} height={40} data={data}>
-      <Bar dataKey="uv" fill="#8884d8" />
+    <BarChart 
+    width={500}
+    height={250} 
+    data={data}
+    >
+      <Bar dataKey="clicks" fill="#DF3B04" />
+      <XAxis dataKey={"Browser"} type="category" />
+      <YAxis label={{ value: "clicks", angle: -90, position: "insideLeft" }} />
+      <Tooltip />
     </BarChart>
   );
 }

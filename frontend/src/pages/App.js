@@ -2,8 +2,8 @@ import "../components/css/App.css";
 import * as React from "react";
 import { TextField, Button } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
-import HomeIcon from '@mui/icons-material/Home';
-import BarChartIcon from '@mui/icons-material/BarChart';
+import HomeIcon from "@mui/icons-material/Home";
+import BarChartIcon from "@mui/icons-material/BarChart";
 import { blue } from "@mui/material/colors";
 import BasicModal from "../components/modal";
 import ModeSwitch from "../components/Switch";
@@ -17,11 +17,10 @@ import { useNavigate } from "react-router-dom";
 const primary = blue[700];
 const accent_hover = blue[900];
 
-
 export default function App() {
-  const [url, setUrl] = useState(''); // URL speichern
+  const [url, setUrl] = useState(""); // URL speichern
   const [response, setResponse] = useState(null);
-  const [passwordValue, setPasswordValue] = useState('');
+  const [passwordValue, setPasswordValue] = useState("");
 
   const handleSendClick = async () => {
     try {
@@ -43,18 +42,26 @@ export default function App() {
     <div className="App">
       <header className="App-header">
         <div className="div-HS-Icon">
-          <Button className="HomeIcon" aria-label="HomeIcon">
-            <HomeIcon className="H-Icon" style={{ fontSize: '36px' }} />
+          <Button
+            className="HomeIcon"
+            aria-label="HomeIcon"
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            <HomeIcon className="H-Icon" style={{ fontSize: "36px" }} />
           </Button>
-          <Button className="StatsIcon" aria-label="StatsIcon" onClick={() => {
-          navigate("/stats");
-        }}>
-            <BarChartIcon className="S-Icon" style={{ fontSize: '36px' }} />
+          <Button
+            className="StatsIcon"
+            aria-label="StatsIcon"
+            onClick={() => {
+              navigate("/stats");
+            }}
+          >
+            <BarChartIcon className="S-Icon" style={{ fontSize: "36px" }} />
           </Button>
         </div>
-        <div className="div-MS-Icon">
-          {/* <ModeSwitch /> */}
-        </div>
+        <div className="div-MS-Icon">{/* <ModeSwitch /> */}</div>
         <BasicModal />
       </header>
       {/* Body Section */}
@@ -62,16 +69,17 @@ export default function App() {
         <body className="App-Body">
           <h1>Shorty - URL Shortener</h1>
           <h3>
-            Shorty ist der URL Shortner der Gruppe 3 aus dem Techstarter Kurs AWS 23-02.
+            Shorty ist der URL Shortner der Gruppe 3 aus dem Techstarter Kurs
+            AWS 23-02.
           </h3>
           <div className="T-Field">
             <TextField
               id="outlined-basic"
               label="Enter the link here"
               variant="outlined"
-              sx={{ width: '100%' }}
+              sx={{ width: "100%" }}
               value={url} // Textfeld wird ausgelesen
-              onChange={e => setUrl(e.target.value)}
+              onChange={(e) => setUrl(e.target.value)}
             />
             <Button
               onClick={handleSendClick}
@@ -96,9 +104,7 @@ export default function App() {
           {response && (
             <ShortURL shortenLink={response} /> // Ausgabe Short-URL
           )}
-          {response && passwordValue && (
-            <div style={{ margin: '10px' }}></div> 
-          )}
+          {response && passwordValue && <div style={{ margin: "10px" }}></div>}
           {passwordValue && (
             <Password value={passwordValue} /> // Ausgabe Password
           )}
