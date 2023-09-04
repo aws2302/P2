@@ -12,6 +12,7 @@ import { fetchSomeData } from "../Api";
 import ShortURL from "../components/ShortURL";
 import Password from "../components/Password";
 import { useNavigate } from "react-router-dom";
+import PWDModal from "../components/pwdmodal";
 
 /* Color Presets Button */
 const primary = blue[700];
@@ -70,11 +71,7 @@ export default function App() {
           <Button className="HomeIcon" aria-label="HomeIcon" onClick={handleHomeIconClick}>
             <HomeIcon className="H-Icon" style={{ fontSize: '36px' }} />
           </Button>
-          <Button className="StatsIcon" aria-label="StatsIcon" onClick={() => {
-            navigate("/stats");
-          }}>
-            <BarChartIcon className="S-Icon" style={{ fontSize: '36px' }} />
-          </Button>
+          <PWDModal />
         </div>
         <div className="div-MS-Icon">
           {/* <ModeSwitch /> */}
