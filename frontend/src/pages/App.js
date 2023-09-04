@@ -22,17 +22,6 @@ export default function App() {
   const [response, setResponse] = useState(null);
   const [passwordValue, setPasswordValue] = useState("");
 
-  // const handleSendClick = async () => {
-  //   try {
-  //     // führt den API-Aufruf aus
-  //     const result = await fetchSomeData();
-
-  //     setResponse(result.shortURL);
-  //     setPasswordValue(result.password);
-  //   } catch (error) {
-  //     console.error(error.message);
-  //   }
-  // };
 
   // Post-Anfrage ans Backend
   const handleSendClick = async () => {
@@ -40,7 +29,8 @@ export default function App() {
       const requestData = { longUrl: url };
 
       // POST-Anfrage ans Backend
-      const response = await fetch('localhost:8080/', {
+      console.warn(requestData)
+      const response = await fetch('http://localhost:8080/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -57,8 +47,8 @@ export default function App() {
       const result = await response.json();
 
       // Antwort in die vorgesehenen Ausgabefelder übergeben
-      setResponse(result.shortURL);
-      setPasswordValue(result.password);
+      setResponse(result.shortUrl);
+      setPasswordValue(result.passwd);
     } catch (error) {
       console.error('Fehler:', error);
     }
