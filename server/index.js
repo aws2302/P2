@@ -26,6 +26,7 @@ const api = require('./api/api.js');
 app.use(cors());
 app.use(express.json());
 app.use(ua.express());
+app.disable('x-powered-by');
 
 app.use('/', root);
 app.use('/api', api);
