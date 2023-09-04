@@ -88,35 +88,35 @@ paths:
       parameters:
         - $ref: "#/components/parameters/shortUrl"
       responses:
-        307:
+        "307":
           $ref: "#/components/responses/307"
     delete:
       summary: Gets the long URL for the short one
       parameters:
         - $ref: "#/components/parameters/shortUrl"
       responses:
-        307:
+        "307":
           $ref: "#/components/responses/307"
     put:
       summary: Gets the long URL for the short one
       parameters:
         - $ref: "#/components/parameters/shortUrl"
       responses:
-        307:
+        "307":
           $ref: "#/components/responses/307"
     patch:
       summary: Gets the long URL for the short one
       parameters:
         - $ref: "#/components/parameters/shortUrl"
       responses:
-        307:
+        "307":
           $ref: "#/components/responses/307"
     head:
       summary: Gets the long URL for the short one
       parameters:
         - $ref: "#/components/parameters/shortUrl"
       responses:
-        307:
+        "307":
           $ref: "#/components/responses/307"
 
 

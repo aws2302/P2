@@ -385,7 +385,9 @@ Es bestehen diverse Möglichkeiten, das Projekt weiterzuentwickeln:
     \item Es kann auch dahingehend erweitert werden, dass sich Benutzer registrieren und anmelden können. Dann kann auch für den eingeloggten Nutzer ein Verlauf der generierten Kurz-\ac{URL}s angezeigt werden und die jeweiligen Statistiken mit einem einfachen Button aufrufbar gemacht werden.
     \item Es kann ein DELETE-Endpunkt implementiert werden, damit ein Benutzer seinen generierten Link vorzeitig löschen kann.
     \item Die generierten Links sollten auch nach einer voreingestellten Zeit automatisch gelöscht werden. Diese Zeit kann bis zu einer Obergrenze von Nutzer festgelegt werden. Das Löschen selbst kann beispielsweise durch einen Endpunkt erfolgen, der von außen mitteln {\ttfamily cron} und {\ttfamily curl} angesprochen wird. Das Feld {\ttfamily expireDate} ist schon in jedem Datensatz enthalten und wird standardmäßig auf Erstellungszeit $+$ 30 Tage gesetzt.
-    \item \label{sec:ErweiterungKollision}Es kann (sollte?) eine Sicherheitsabfrage eingebaut werden, die das Erzeugen – und damit das Überschreiben – identischer Kurz-IDs unterbindet
+    \item \label{sec:ErweiterungKollision}Es kann (sollte?) eine Sicherheitsabfrage eingebaut werden, die das Erzeugen – und damit das Überschreiben – identischer Kurz-IDs unterbindet.
+    \item Zum Einsatz »in production« sollten auf jeden Fall noch die Benutzereingaben auf Vollständigkeit und Schadcode überprüft werden.
+    \item Ebenfalls für den produktiven Einsatz können entsprechende Log-Meldungen eingepflegt werden. Hierzu kann auch die Logging-Bibliothek geändert werden, z.\,B. zu »Winston«\footnote{\href{https://github.com/winstonjs/winston}{https://github.com/winstonjs/winston}}.
 \end{itemize}
     
 % ! 5. Retrospektive
