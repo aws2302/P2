@@ -1,12 +1,17 @@
-import "./css/App.css";
-import React from "react";
-import { PieChart, Pie, Cell } from "recharts";
+import './css/App.css';
+import React from 'react';
+import { PieChart, Pie, Cell } from 'recharts';
 const data = [
-  { name: "Windows", value: 10 },
-  { name: "MacOS", value: 15 },
-  { name: "Linux", value: 10 },
+  { os: 'Windows', used: 10 },
+  { os: 'MacOS', used: 15 },
+  { os: 'Linux', used: 10 },
 ];
-const COLORS = ["#0467DF", "#DF3B04", "#DF8F04", "#FF8042"];
+
+let renderLabel = function (entry) {
+  return entry.os;
+};
+
+const COLORS = ['#0467DF', '#DF3B04', '#DF8F04', '#FF8042'];
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({
   cx,
@@ -16,19 +21,19 @@ const renderCustomizedLabel = ({
   outerRadius,
   percent,
   index,
-  name,
+  os
 }) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
   return React.createElement(
-    "text",
+    'text',
     {
       x: x,
       y: y,
-      fill: "white",
-      textAnchor: x > cx ? "start" : "end",
-      dominantBaseline: "central",
+      fill: 'white',
+      textAnchor: x > cx ? 'start' : 'end',
+      dominantBaseline: 'central',
     },
     `${(percent * 100).toFixed(0)}%`
   );
@@ -44,10 +49,10 @@ export default function Chartpie() {
         cx: 200,
         cy: 200,
         labelLine: true,
-        label: renderCustomizedLabel,
+        label: renderLabel,
         outerRadius: 80,
-        fill: "#8884d8",
-        dataKey: "value",
+        fill: '#8884d8',
+        dataKey: 'used',
       },
       data.map((entry, index) =>
         React.createElement(Cell, {
