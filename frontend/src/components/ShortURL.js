@@ -6,7 +6,9 @@ const ShortURL = ({ shortenLink }) => {
     const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
 
     const handleCopyClick = () => {
-        navigator.clipboard.writeText(shortURL);
+        const baseUrl = 'http://localhost:8080'; // Basis-URL zum URL-Shortner
+        const fullURL = `${baseUrl}/${shortURL}`;
+        navigator.clipboard.writeText(fullURL);
         setIsSnackbarOpen(true);
     };
 
@@ -21,12 +23,12 @@ const ShortURL = ({ shortenLink }) => {
         whiteSpace: "nowrap",
         textOverflow: "ellipsis",
         backgroundColor: "#F0F0F0",
-        borderRadius: "5px", 
-        display: "flex", 
+        borderRadius: "5px",
+        display: "flex",
         justifyContent: "center",
-        alignItems: "center", 
+        alignItems: "center",
     };
-    
+
     const shortURLText = {
         margin: 0,
         overflow: "hidden",
