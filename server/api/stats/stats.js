@@ -15,7 +15,7 @@ router.post('/:short', (req, res) => {
   const dbres = getStats(short);
 
   if (passwd !== dbres.Password) {
-    res.status(401).json({error: 'Authorisierung fehlgeschlagen'});
+    res.status(401).json({error: 'Autorisierung fehlgeschlagen'});
   } else {
     // Password muss nicht unnötig über's Netz gesendet werden, der User kennt es bereits
     delete dbres.Password;

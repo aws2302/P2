@@ -1,0 +1,28 @@
+{
+  "name": "testserver",
+  "version": "1.0.0",
+  "description": "Einfacher Server, der nur empfangene Anfragen inkl. http-Methode loggt.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aws2302/P2.git"
+  },
+  "author": "Markus Rennings",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aws2302/P2/issues"
+  },
+  "homepage": "https://github.com/aws2302/P2#readme",
+  "dependencies": {
+    "consola": "^3.2.3",
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

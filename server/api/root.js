@@ -61,13 +61,10 @@ router.post('/', (req, res) => {
  * @returns {json} {shortUrl, longUrl, }
  * @author Markus Rennings <markus@rennings.net>
  */
-router.get('/:id', (req, res) => {
-  const shortUrl = req.params.id;
+router.all('/:short', (req, res) => {
+  const shortUrl = req.params.short;
   const longUrl = getLongUrl(shortUrl, req.useragent);
-  // res.json({
-  //   shortUrl: shortUrl,
-  //   longUrl: longUrl
-  // });
+  // TODO: [PUS-34] Prüfen, ob Daten vorhanden; wenn nicht, Fehlermeldung (404)
   res.redirect(307, longUrl);
 });
 

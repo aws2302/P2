@@ -22,20 +22,55 @@ export default function App() {
   const [response, setResponse] = useState(null);
   const [passwordValue, setPasswordValue] = useState("");
 
+  // const handleSendClick = async () => {
+  //   try {
+  //     // führt den API-Aufruf aus
+  //     const result = await fetchSomeData();
+
+  //     setResponse(result.shortURL);
+  //     setPasswordValue(result.password);
+  //   } catch (error) {
+  //     console.error(error.message);
+  //   }
+  // };
+
+  // Post-Anfrage ans Backend
   const handleSendClick = async () => {
     try {
-      // führt den API-Aufruf aus
-      const result = await fetchSomeData();
+      const requestData = { longUrl: url };
 
+      // POST-Anfrage ans Backend
+      const response = await fetch('localhost:8080/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+      });
+
+      // Überprüfung
+      if (!response.ok) {
+        throw new Error('Fehler bei Anfrage');
+      }
+
+      // Antwort Backend als JSON
+      const result = await response.json();
+
+      // Antwort in die vorgesehenen Ausgabefelder übergeben
       setResponse(result.shortURL);
       setPasswordValue(result.password);
     } catch (error) {
-      console.error(error.message);
+      console.error('Fehler:', error);
     }
   };
 
   /* Page redirect */
   const navigate = useNavigate();
+
+  // Zürück zur Startseite
+  const handleHomeIconClick = () => {
+    window.location.href = '/';
+  };
 
   return (
     /* Head Section */
@@ -59,6 +94,13 @@ export default function App() {
             }}
           >
             <BarChartIcon className="S-Icon" style={{ fontSize: "36px" }} />
+          <Button className="HomeIcon" aria-label="HomeIcon" onClick={handleHomeIconClick}>
+            <HomeIcon className="H-Icon" style={{ fontSize: '36px' }} />
+          </Button>
+          <Button className="StatsIcon" aria-label="StatsIcon" onClick={() => {
+            navigate("/stats");
+          }}>
+            <BarChartIcon className="S-Icon" style={{ fontSize: '36px' }} />
           </Button>
         </div>
         <div className="div-MS-Icon">{/* <ModeSwitch /> */}</div>
@@ -102,11 +144,20 @@ export default function App() {
       <div className="footer-url">
         <footer>
           {response && (
-            <ShortURL shortenLink={response} /> // Ausgabe Short-URL
+            <div>
+              <p style={{ margin: '2px 0', textAlign: 'left' }}>Ihre Short-URL:</p>
+              <ShortURL shortenLink={response} /> {/* Ausgabe Short-URL */}
+            </div>
           )}
           {response && passwordValue && <div style={{ margin: "10px" }}></div>}
           {passwordValue && (
             <Password value={passwordValue} /> // Ausgabe Password
+          {response && passwordValue && (
+            <div>
+              <div style={{ margin: '10px' }}></div>
+              <p style={{ margin: '2px 0', textAlign: 'left' }}>Passwort zur Identifikation:</p>
+              <Password value={passwordValue} /> {/* Ausgabe Password */}
+            </div>
           )}
         </footer>
       </div>
