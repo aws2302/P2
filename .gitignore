@@ -12,5 +12,9 @@
 *.out
 *.toc
 *.lol
+*.fls
+*.fdb_latexmk
+*.xdv
 node_modules/
 .vscode/
+out/
