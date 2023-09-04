@@ -76,6 +76,27 @@ if (!admin.apps.length) {
   });
 }
 
+// Firebase-Datenbankreferenz
+const db = admin.database();
+const longURLRef = db.ref('PFADE_ZUR_LONGURL'); // Ersetze 'PFADE_ZUR_LONGURL' durch den Pfad zu deiner LongURL in der Datenbank
+
+// Funktion zum Abrufen der LongURL
+function getLongURL(shortUrl) {
+  let collection = admin.firestore().collection("URL");
+  collection.where("shortURL", "==", shortUrl);
+  let query = this.getDocumentsInQuery(collection);
+  console.log(query);
+  return stats.longURL;
+}
+
+// Beispiel: Rufe die LongURL ab
+getLongURL("short.li/wiQ1q");
+
+function saveURL(result){
+  let collection = admin.firestore().collection("URL");
+  return collection.add(result)
+};
+
 const schemaURL = new Schema({
   shortURL: {
     type: String,
@@ -147,7 +168,7 @@ const schemaURL = new Schema({
   }
 }, { timestamp: true });
 
-const URL = new Model('Test1', schemaURL);
+const URL = new Model('URL', schemaURL);
 
 const dataSave = async (shortURL, stats) => {
   const longURL = getLongUrl(shortURL);
@@ -191,5 +212,5 @@ function getStats(short) {
   };
 }
 
-module.exports = { getStats, dataSave };
+module.exports = { getStats, dataSave, saveURL };
 

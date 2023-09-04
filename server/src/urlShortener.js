@@ -27,10 +27,13 @@ function getShortUrl() {
  * @returns {string} Long-Url
  */
 function getLongUrl(shortUrl, ua) {
-  let stats = getStats(shortUrl);
-  addStats(ua, stats);
+  let collection = firebase.firestore().collection("URL");
+  collection.where("shortURL", "==", shortUrl);
+  let query = this.getDocumentsInQuery(collection);
+  console.log(query);
   return stats.longURL;
 }
+
 
 /**
  *
