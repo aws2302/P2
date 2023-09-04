@@ -1,0 +1,16 @@
+*.svn
+*~
+*.swp
+*.bak
+*.pem
+*.cred
+.env
+*.aux
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+*.lol
+node_modules/
+.vscode/

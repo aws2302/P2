@@ -1,0 +1,209 @@
+openapi: '3.0.3'
+info:
+  title: Shorty API
+  description: |-
+    Im Rahmen der zweiten Projektphase der DevOps-Weiterbildung 'aws2302' 
+    erstellter URL-Shortening-Service.
+  version: '1.0'
+servers:
+  - url: https://localhost:8080/
+paths:
+  /:
+    post:
+      summary: Shortens an URL
+      requestBody:
+        required: true
+        description: "Zu kürzende URL, inkl. Schema"
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                longUrl:
+                  type: string
+                  example: "http://www.google.de"
+                # user: 
+                #   type: string
+              required:
+              - longUrl
+      responses:
+        '201':
+          description: Short-Url erstellt
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  longUrl: 
+                    type: string
+                  shortUrl:
+                    type: string
+        '400':
+          description: Ungültige Url übergeben
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /{shortUrl}:
+    get:
+      summary: Gets the long URL for the short one
+      parameters:
+        # - name: shortUrl
+        #   in: path
+        #   required: true
+        #   description: the short Url
+        #   schema:
+        #     type: string
+        - $ref: '#/components/parameters/shortUrl'
+      responses:
+        # '200':
+        #   description: Short-Url gefunden, Long-Url wird zurückgegeben
+        #   content:
+        #     application/json:
+        #       schema:
+        #         type: object
+        #         properties:
+        #             longUrl:
+        #               type: string
+        #             shortUrl:
+        #               type: string
+        '307':
+          # description: Short-Url gefunden, Nutzer wird zur Long-Url weitergeleitet
+          # content:
+          #   headers:
+          #     Location:
+          #       schema:
+          #         description: Redirecting to URL
+          #         format: url
+          #         type: string
+          $ref: '#/components/responses/307'
+
+        # TODO: [PUS-35] Fehlermeldung dokumentieren (evtl.)
+    post:
+      summary: Gets the long URL for the short one
+      parameters:
+        - $ref: "#/components/parameters/shortUrl"
+      responses:
+        307:
+          $ref: "#/components/responses/307"
+    delete:
+      summary: Gets the long URL for the short one
+      parameters:
+        - $ref: "#/components/parameters/shortUrl"
+      responses:
+        307:
+          $ref: "#/components/responses/307"
+    put:
+      summary: Gets the long URL for the short one
+      parameters:
+        - $ref: "#/components/parameters/shortUrl"
+      responses:
+        307:
+          $ref: "#/components/responses/307"
+    patch:
+      summary: Gets the long URL for the short one
+      parameters:
+        - $ref: "#/components/parameters/shortUrl"
+      responses:
+        307:
+          $ref: "#/components/responses/307"
+    head:
+      summary: Gets the long URL for the short one
+      parameters:
+        - $ref: "#/components/parameters/shortUrl"
+      responses:
+        307:
+          $ref: "#/components/responses/307"
+
+
+
+  /api/stats/{shortUrl}/:
+    post:
+      summary: Statistik für Kurz-URL abrufen
+      requestBody:
+        required: true
+        description: Passwort für die Kurz-URL
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+      parameters:
+        - name: shortUrl
+          in: path
+          required: true
+          description: Short-Url, für welche die Statistiken abgerufen werden soll
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Statistiken für die Kurz-URL
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  longURL:
+                    type: string
+                  shortURL:
+                    type: string
+                  clicks:
+                    type: number
+                  lastClick:
+                    type: number
+                  createDate:
+                    type: number
+                  expireDate:
+                    type: number
+                  OS:
+                    type: object
+                    properties:
+                      Windows:
+                        type: number
+                      Linux:
+                        type: number
+                      MacOs:
+                        type: number
+                  Browser:
+                    type: object
+                    properties:
+                      Chrome:
+                        type: number
+                      Edge:
+                        type: number
+                      Firefox:
+                        type: number
+                      Opera:
+                        type: number
+                      Safari:
+                        type: number
+                      Sonstige:
+                        type: number
+        '401':
+          description: Anmeldung fehlgeschlagen, Kurz-Link und/oder Passwort stimmen nicht
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+components:
+  parameters:
+    shortUrl:
+      name: shortUrl
+      in: path
+      required: true
+      description: Die abzurufende Short-Url
+      schema:
+        type: string
+  responses:
+    "307":
+      description: Weiterleitung zur Long-Url

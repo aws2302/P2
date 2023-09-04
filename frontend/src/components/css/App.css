@@ -1,0 +1,113 @@
+/* Font */
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Raleway:wght@500&display=swap");
+
+/* Header */
+.App {
+  align-items: center;
+}
+
+.App-header {
+  /* background-color: rgb(143, 78, 17); */
+  min-height: 10vh;
+  display: flex;
+  color: white;
+}
+
+/* Header Icons */
+.Q-Icon,
+.MS-Icon,
+.HP-Icon
+.H-Icon {
+  /* color: rgb(0, 0, 0); */
+}
+
+.div-Q-Icon,
+.div-HS-Icon,
+.div-HP-Icon {
+  display: flex;
+  align-items: center;
+}
+
+.div-MS-Icon {
+  display: flex;
+  margin-left: auto;
+  margin-right: 0;
+  align-items: center;
+}
+
+/* Body */
+h1 {
+  font-family: "Playfair Display", serif;
+  margin-top: 5vh;
+}
+
+h3 {
+  font-family: "Raleway", sans-serif;
+}
+
+p {
+  font-family: "Raleway", sans-serif;
+}
+
+.body-url {
+  /* background-color: rgb(123, 23, 108); */
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  min-height: 50vh;
+}
+
+.T-Field {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin-top: 10vh;
+  padding: 1vh;
+}
+/* .T-Field .MuiTextField-root {
+  margin-right: 10px; 
+} */
+
+/* Send-Button */
+.T-Field .MuiButton-root {
+  margin-left: 10px; 
+}
+.SendButton {
+  /* background-color: rgb(182, 117, 117); */
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  padding: 1vh;
+}
+
+/* Footer */
+.footer-url {
+  /* background-color: rgb(222, 193, 90); */
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  min-height: 40vh;
+}
+
+Ausgabe Short URL & Password
+.output {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 100px; 
+}
+
+/* Copy Button
+.copy-button {
+  background-color: #1976D2;
+  color: white;
+  padding: 6px 16px;
+  border-radius: 4px; 
+}
+
+.copy-button:hover {
+  background-color: #156CB3;
+} */
+
