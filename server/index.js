@@ -16,8 +16,8 @@ if (dotenvResult.error) {
 
 const express = require('express');
 const app = express();
-const hostname = process.env.hostname;
-const port = parseInt(process.env.port);
+const hostname = process.env.HOSTNAME;
+const port = parseInt(process.env.PORT);
 const cors = require('cors');
 const ua = require('express-useragent');
 const root = require('./api/root');

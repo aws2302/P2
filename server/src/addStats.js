@@ -30,33 +30,33 @@ function addStats(ua, stats) {
       case 'isSilk':
       case 'isSilkAccelerated':
       case 'isBot':
-        stats['Browser']['Sonstige']++;
+        stats['browser_sonstige']++;
         break;
       case 'isOpera':
-        stats['Browser']['Opera']++;
+        stats['browser_opera']++;
         break;
       case 'isFirefox':
       case 'isSeaMonkey':
-        stats['Browser']['Firefox']++;
+        stats['browser_firefox']++;
         break;
       case 'isEdge':
       case 'isIECompatibiltyMode':
-        stats['Browser']['Edge']++;
+        stats['browser_edge']++;
         break;
       case 'isSafari':
-        stats['Browser']['Safari']++;
+        stats['browser_safari']++;
         break;
       case 'isChrome':
-        stats['Browser']['Chrome']++;
+        stats['browser_chrome']++;
         break;
       case 'isLinux' || 'isLinux64':
-        stats['OS']['Linux']++;
+        stats['os_linux']++;
         break;
       case 'isMac':
-        stats['OS']['MacOs']++;
+        stats['os_mac']++;
         break;
       case 'isWindows':
-        stats['OS']['Windows']++;
+        stats['os_win']++;
         break;
       // ? Für mögliche Erweiterung der Statistik
       // case 'isMobile':
