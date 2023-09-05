@@ -22,7 +22,8 @@ db.serialize(() => {
       os_linux INTEGER NOT NULL default 0,
       lastClick INTEGER NOT NULL default 0,
       clicks INTEGER NOT NULL default 0,
-      timestamp INTEGER
+      timestamp INTEGER,
+      expireDate INTEGER
     )
   `);
 });
@@ -60,10 +61,13 @@ const writeStats = (shortURL, stats) => {
 
 // URL in Datenbank speichern mit LongURL, ShortURL, Passwort und Zeitstempel
 const saveURL = async (result) => {
+  const currentTime = Date.now();
+  const expireDate = currentTime + 90 * 24 * 60 * 60 * 1000; 
+
   return new Promise((resolve, reject) => {
     db.run(
-      'INSERT INTO url (longURL, shortURL, passwd, timestamp) VALUES (?, ?, ?, ?)',
-      [result.longUrl, result.shortUrl, result.passwd, Date.now()],
+      'INSERT INTO url (longURL, shortURL, passwd, timestamp, expireDate) VALUES (?, ?, ?, ?, ?)',
+      [result.longUrl, result.shortUrl, result.passwd, currentTime, expireDate],
       function (err) {
         if (err) {
           reject(err);
