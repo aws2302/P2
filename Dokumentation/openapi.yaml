@@ -47,6 +47,8 @@ paths:
                 properties:
                   error:
                     type: string
+        "500":
+          $ref: "#/components/responses/500"
 
   /{shortUrl}:
     get:
@@ -81,8 +83,12 @@ paths:
           #         format: url
           #         type: string
           $ref: '#/components/responses/307'
+        '404':
+          $ref: '#/components/responses/404'
+        "500":
+          $ref: "#/components/responses/500"
+          
 
-        # TODO: [PUS-35] Fehlermeldung dokumentieren (evtl.)
     post:
       summary: Gets the long URL for the short one
       parameters:
@@ -90,6 +96,10 @@ paths:
       responses:
         "307":
           $ref: "#/components/responses/307"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
     delete:
       summary: Gets the long URL for the short one
       parameters:
@@ -97,6 +107,10 @@ paths:
       responses:
         "307":
           $ref: "#/components/responses/307"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
     put:
       summary: Gets the long URL for the short one
       parameters:
@@ -104,6 +118,10 @@ paths:
       responses:
         "307":
           $ref: "#/components/responses/307"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
     patch:
       summary: Gets the long URL for the short one
       parameters:
@@ -111,6 +129,10 @@ paths:
       responses:
         "307":
           $ref: "#/components/responses/307"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
     head:
       summary: Gets the long URL for the short one
       parameters:
@@ -118,6 +140,10 @@ paths:
       responses:
         "307":
           $ref: "#/components/responses/307"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
 
 
 
@@ -194,6 +220,10 @@ paths:
                 properties:
                   error:
                     type: string
+        '404':
+          $ref: '#/components/responses/404'
+        "500":
+          $ref: "#/components/responses/500"
 
 components:
   parameters:
@@ -207,3 +237,21 @@ components:
   responses:
     "307":
       description: Weiterleitung zur Long-Url
+    "404":
+      description: Short-Url nicht gefunden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+    "500":
+      description: Server-Fehler
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string

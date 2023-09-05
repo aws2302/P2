@@ -1,6 +1,6 @@
 'use strict';
 const base58 = require('./base58');
-const addStats = require('./maintainStats');
+const addStats = require('./addStats');
 const { getStats } = require('./db/database');
 
 // const log = require('./log');

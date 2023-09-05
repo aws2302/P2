@@ -6,9 +6,10 @@
 
 const router = require('express').Router();
 const httpUrl = require('url-http');
-const { getShortUrl, getLongUrl } = require('./../src/urlShortener.js');
-const { saveURL } = require('../src/db/database');
 const generator = require('generate-password');
+const { getShortUrl } = require('./../src/urlShortener.js');
+const { saveURL, getStats } = require('../src/db/database');
+const addStats = require('../src/addStats');
 const log = require('../src/log');
 
 /**
@@ -39,19 +40,22 @@ router.post('/', (req, res) => {
       length:12,
       numbers: true
     });
-    const result = {
+    const entry = {
       passwd,
       longUrl,
       shortUrl
     };
 
-    const dbresult = saveURL(result);
-    if (dbresult) {
-      res.status(201).json(result);
-    } else {
-      res.status(500).json({'error': 'Datenbankfehler aufgetreten'});
-      log.error('POST / (URL-Generierung): DB-Fehler: ', dbresult);
-    }
+    const dbresult = saveURL(entry);
+    dbresult
+      // eslint-disable-next-line no-unused-vars
+      .then((_) => {
+        res.status(201).json(entry);
+      })
+      .catch((err) => {
+        log.error('POST / (URL-Generierung: DB-Fehler: ', err);
+        res.status(500).json({error: 'Datenbankfehler aufgetreten'});
+      });
   }
 });
 
@@ -63,9 +67,24 @@ router.post('/', (req, res) => {
  */
 router.all('/:short', (req, res) => {
   const shortUrl = req.params.short;
-  const longUrl = getLongUrl(shortUrl, req.useragent);
-  // TODO: [PUS-34] Prüfen, ob Daten vorhanden; wenn nicht, Fehlermeldung (404)
-  res.redirect(307, longUrl);
+  const statsGet = getStats(shortUrl);
+  statsGet
+    .then((result) => {
+      if (result === undefined) {
+        throw new Error('404');
+      }
+      addStats(req.useragent, result);
+      res.redirect(307, result.longURL);
+    })
+    .catch((e) => {
+      if (e == 'Error: 404') {
+        log.error('Falsche Kurz-Url');
+        res.status(404).json({error: 'Falsche Kurz-URL? ', e});
+      } else {
+        log.error('ALL /{shortURL}: Fehler: ', e);
+        res.status(500).json({error: 'Fehler aufgetreten'});
+      }
+    });
 });
 
 module.exports = router;

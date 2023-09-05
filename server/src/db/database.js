@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 
 // Verbindung zur SQLite-Datenbank herstellen
-const db = new sqlite3.Database('../../src/db/url.db');
+const db = new sqlite3.Database('./url.db');
 
 // Tabellenschema erstellen (nur einmal ausführen)
 db.serialize(() => {
@@ -33,15 +33,15 @@ const writeStats = (shortURL, stats) => {
     db.run(
       'UPDATE url SET browser_chrome = ?, browser_firefox = ?, browser_edge = ?, browser_safari = ?, browser_opera = ?, browser_sonstige = ?, os_win = ?, os_mac = ?, os_linux = ?, lastClick = ?, clicks = ? WHERE shortURL = ?',
       [
-        stats.Browser.Chrome,
-        stats.Browser.Firefox,
-        stats.Browser.Edge,
-        stats.Browser.Safari,
-        stats.Browser.Opera,
-        stats.Browser.Sonstige,
-        stats.OS.Windows,
-        stats.OS.MacOs,
-        stats.OS.Linux,
+        stats.browser_chrome,
+        stats.browser_firefox,
+        stats.browser_edge,
+        stats.browser_safari,
+        stats.browser_opera,
+        stats.browser_sonstige,
+        stats.os_win,
+        stats.os_mac,
+        stats.os_linux,
         stats.lastClick,
         stats.clicks,
         shortURL,
@@ -93,16 +93,18 @@ function getURLbyShortURL(shortURL) {
 // Statistiken anhand der ShortURL aus der Datenbank auslesen
 const getStats = async (shortURL) => {
   return new Promise((resolve, reject) => {
-    db.get('SELECT * FROM url WHERE shortURL = ?', [shortURL], (err, row) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(row);
-      }
-    });
+    db.get('SELECT * FROM url WHERE shortURL = ?',
+      [shortURL],
+      (err, row) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(row);
+        }
+      });
   });
 };
 
-
+// console.warn(getStats('6hXAgve'));
 
 module.exports = { saveURL, getStats, writeStats, getURLbyShortURL };
