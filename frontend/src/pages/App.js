@@ -13,6 +13,7 @@ import ShortURL from "../components/ShortURL";
 import Password from "../components/Password";
 import { useNavigate } from "react-router-dom";
 import PWDModal from "../components/pwdmodal";
+import PWModal from "../components/PWModal";
 
 /* Color Presets Button */
 const primary = blue[700];
@@ -114,6 +115,7 @@ export default function App() {
       {/* Bottom Section */}
       <div className="footer-url">
         <footer>
+          <PWModal />
           {response && (
             <div>
               <p style={{ margin: '2px 0', textAlign: 'left' }}>Ihre Short-URL:</p>
@@ -125,6 +127,7 @@ export default function App() {
               <div style={{ margin: '10px' }}></div>
               <p style={{ margin: '2px 0', textAlign: 'left' }}>Passwort zur Identifikation:</p>
               <Password value={passwordValue} /> {/* Ausgabe Password */}
+
             </div>
           )}
         </footer>
