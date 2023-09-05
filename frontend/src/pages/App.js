@@ -1,17 +1,20 @@
-import '../components/css/App.css';
-import * as React from 'react';
-import { TextField, Button } from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
-import HomeIcon from '@mui/icons-material/Home';
-import { blue } from '@mui/material/colors';
-import BasicModal from '../components/modal';
-import ModeSwitch from '../components/Switch';
-import { useState } from 'react';
-import { fetchSomeData } from '../Api';
-import ShortURL from '../components/ShortURL';
-import Password from '../components/Password';
-import { useNavigate } from 'react-router-dom';
-import PWDModal from '../components/pwdmodal';
+import "../components/css/App.css";
+import * as React from "react";
+import { TextField, Button } from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
+import HomeIcon from "@mui/icons-material/Home";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import { blue } from "@mui/material/colors";
+import BasicModal from "../components/modal";
+import ModeSwitch from "../components/Switch";
+import { useState } from "react";
+import { fetchSomeData } from "../Api";
+import ShortURL from "../components/ShortURL";
+import Password from "../components/Password";
+import { useNavigate } from "react-router-dom";
+import PWDModal from "../components/pwdmodal";
+import PWModal from "../components/PWModal";
+
 
 /* Color Presets Button */
 const primary = blue[700];
@@ -22,17 +25,6 @@ export default function App() {
   const [response, setResponse] = useState(null);
   const [passwordValue, setPasswordValue] = useState('');
 
-  // const handleSendClick = async () => {
-  //   try {
-  //     // führt den API-Aufruf aus
-  //     const result = await fetchSomeData();
-
-  //     setResponse(result.shortURL);
-  //     setPasswordValue(result.password);
-  //   } catch (error) {
-  //     console.error(error.message);
-  //   }
-  // };
 
   // Post-Anfrage ans Backend
   const handleSendClick = async () => {
@@ -40,7 +32,8 @@ export default function App() {
       const requestData = { longUrl: url };
 
       // POST-Anfrage ans Backend
-      const response = await fetch('localhost:8080/', {
+      console.warn(requestData)
+      const response = await fetch('http://localhost:8080/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -57,8 +50,8 @@ export default function App() {
       const result = await response.json();
 
       // Antwort in die vorgesehenen Ausgabefelder übergeben
-      setResponse(result.shortURL);
-      setPasswordValue(result.password);
+      setResponse(result.shortUrl);
+      setPasswordValue(result.passwd);
     } catch (error) {
       console.error('Fehler:', error);
     }
@@ -126,6 +119,7 @@ export default function App() {
       {/* Bottom Section */}
       <div className="footer-url">
         <footer>
+          <PWModal />
           {response && (
             <div>
               <p style={{ margin: '2px 0', textAlign: 'left' }}>
@@ -141,6 +135,7 @@ export default function App() {
                 Passwort zur Identifikation:
               </p>
               <Password value={passwordValue} /> {/* Ausgabe Password */}
+
             </div>
           )}
         </footer>
