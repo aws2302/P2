@@ -54,7 +54,7 @@ p {
   display: flex;
   justify-content: center;
   text-align: center;
-  min-height: 50vh;
+  min-height: 10vh;
 }
 
 .pie-body-url {
@@ -66,7 +66,7 @@ p {
   display: flex;
   justify-content: center;
   align-content: center;
-  margin-top: 10vh;
+  margin-top: 5vh;
   padding: 1vh;
 }
 /* .T-Field .MuiTextField-root {
