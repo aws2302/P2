@@ -39,7 +39,7 @@ export default function PWDModal() {
   const handleContinue = () => {
     // Daten mit dem Backend überprüfen
     axios
-      .post('http://localhost:8080/api/stats/1234567', { shortURL, Password }) // Annahme: Der Server hat eine Route "/api/checkPassword" zum Überprüfen der Daten
+      .post('http://localhost:8080/api', { shortURL, Password }) // Annahme: Der Server hat eine Route "/api/checkPassword" zum Überprüfen der Daten
       .then((response) => {
         if (response.data.isValid) {
           // Wenn die Daten korrekt sind, zur Statistikseite weiterleiten
