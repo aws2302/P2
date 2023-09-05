@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 
 // Verbindung zur SQLite-Datenbank herstellen
-const db = new sqlite3.Database('../../src/db/url.db');
+const db = new sqlite3.Database('./url.db');
 
 // Tabellenschema erstellen (nur einmal ausführen)
 db.serialize(() => {
