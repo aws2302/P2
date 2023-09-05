@@ -9,6 +9,8 @@ import { TextField } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import SendIcon from '@mui/icons-material/Send';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import axios from 'axios'
 
 const style = {
   position: 'absolute',
@@ -22,30 +24,35 @@ const style = {
   p: 4,
 };
 
-/* Color Presets Button */
 const primary = blue[700];
 const accent_hover = blue[900];
 
 export default function PWDModal() {
   const [open, setOpen] = React.useState(false);
+  const [shortURL, setShortURL] = useState('');
+  const [Password, setPassword] = useState('');
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  /* Page redirect */
   const navigate = useNavigate();
 
-  /* PWD Check for redirect */
-
-  function pwdCheck(){
-    var TextField=document.getElementById("input-TextField").value;
-   if(TextField==="Test")
-       useNavigate="/site";
-       
-   
-    else{
-        alert("invaild code")
-   }
-}  
+  const handleContinue = () => {
+    // Daten mit dem Backend überprüfen
+    axios
+      .post('http://localhost:8080/api/stats/1234567', { shortURL, Password }) // Annahme: Der Server hat eine Route "/api/checkPassword" zum Überprüfen der Daten
+      .then((response) => {
+        if (response.data.isValid) {
+          // Wenn die Daten korrekt sind, zur Statistikseite weiterleiten
+          navigate('/stats');
+        } else {
+          alert('Falsche shortURL oder Passwort. Bitte versuchen Sie es erneut.');
+        }
+      })
+      .catch((error) => {
+        console.error('Fehler beim Überprüfen der Daten:', error);
+        alert('Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.');
+      });
+  };
 
   return (
     <div className="div-HS-Icon">
@@ -69,23 +76,26 @@ export default function PWDModal() {
             - Kurz-URl Password -
           </Typography>
           <TextField
-            id="outlined-basic"
+            id="outlined-basic-url"
             label="Kurz-URL hier eingeben"
             variant="outlined"
             sx={{
               justifyContent: 'center',
             }}
+            value={shortURL}
+            onChange={(e) => setShortURL(e.target.value)}
           />
           <TextField
-            id="outlined-basic"
+            id="outlined-basic-password"
             label="Passwort hier eingeben"
             variant="outlined"
             sx={{
               justifyContent: 'center',
             }}
+            value={Password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <Button
-            // onClick={}
             className="SendButton"
             variant="contained"
             sx={{
@@ -96,6 +106,7 @@ export default function PWDModal() {
               marginTop: '1vh',
               marginLeft: '10px',
             }}
+            onClick={handleContinue}
           >
             weiter <SendIcon sx={{ marginLeft: '4px' }} />
           </Button>

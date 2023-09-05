@@ -1,27 +1,26 @@
-import "../components/css/App.css";
-import * as React from "react";
-import { TextField, Button } from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
-import HomeIcon from "@mui/icons-material/Home";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import { blue } from "@mui/material/colors";
-import BasicModal from "../components/modal";
-import ModeSwitch from "../components/Switch";
-import { useState } from "react";
-import { fetchSomeData } from "../Api";
-import ShortURL from "../components/ShortURL";
-import Password from "../components/Password";
-import { useNavigate } from "react-router-dom";
-import PWDModal from "../components/pwdmodal";
+import '../components/css/App.css';
+import * as React from 'react';
+import { TextField, Button } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
+import HomeIcon from '@mui/icons-material/Home';
+import { blue } from '@mui/material/colors';
+import BasicModal from '../components/modal';
+import ModeSwitch from '../components/Switch';
+import { useState } from 'react';
+import { fetchSomeData } from '../Api';
+import ShortURL from '../components/ShortURL';
+import Password from '../components/Password';
+import { useNavigate } from 'react-router-dom';
+import PWDModal from '../components/pwdmodal';
 
 /* Color Presets Button */
 const primary = blue[700];
 const accent_hover = blue[900];
 
 export default function App() {
-  const [url, setUrl] = useState(""); // URL speichern
+  const [url, setUrl] = useState(''); // URL speichern
   const [response, setResponse] = useState(null);
-  const [passwordValue, setPasswordValue] = useState("");
+  const [passwordValue, setPasswordValue] = useState('');
 
   // const handleSendClick = async () => {
   //   try {
@@ -78,14 +77,16 @@ export default function App() {
     <div className="App">
       <header className="App-header">
         <div className="div-HS-Icon">
-          <Button className="HomeIcon" aria-label="HomeIcon" onClick={handleHomeIconClick}>
+          <Button
+            className="HomeIcon"
+            aria-label="HomeIcon"
+            onClick={handleHomeIconClick}
+          >
             <HomeIcon className="H-Icon" style={{ fontSize: '36px' }} />
           </Button>
           <PWDModal />
         </div>
-        <div className="div-MS-Icon">
-          {/* <ModeSwitch /> */}
-        </div>
+        <div className="div-MS-Icon">{/* <ModeSwitch /> */}</div>
         <BasicModal />
       </header>
       {/* Body Section */}
@@ -93,7 +94,8 @@ export default function App() {
         <body className="App-Body">
           <h1>Shorty - URL Shortener</h1>
           <h3>
-            Shorty ist der URL Shortner der Gruppe 3 aus dem Techstarter Kurs AWS 23-02.
+            Shorty ist der URL Shortner der Gruppe 3 aus dem Techstarter Kurs
+            AWS 23-02.
           </h3>
           <div className="T-Field">
             <TextField
@@ -102,7 +104,7 @@ export default function App() {
               variant="outlined"
               sx={{ width: '100%' }}
               value={url} // Textfeld wird ausgelesen
-              onChange={e => setUrl(e.target.value)}
+              onChange={(e) => setUrl(e.target.value)}
             />
             <Button
               onClick={handleSendClick}
@@ -110,13 +112,13 @@ export default function App() {
               variant="contained"
               sx={{
                 backgroundColor: primary,
-                "&:hover": { backgroundColor: accent_hover },
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                '&:hover': { backgroundColor: accent_hover },
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
-              Kürzen <SendIcon sx={{ marginLeft: "4px" }} />
+              Kürzen <SendIcon sx={{ marginLeft: '4px' }} />
             </Button>
           </div>
         </body>
@@ -126,14 +128,18 @@ export default function App() {
         <footer>
           {response && (
             <div>
-              <p style={{ margin: '2px 0', textAlign: 'left' }}>Ihre Short-URL:</p>
+              <p style={{ margin: '2px 0', textAlign: 'left' }}>
+                Ihre Short-URL:
+              </p>
               <ShortURL shortenLink={response} /> {/* Ausgabe Short-URL */}
             </div>
           )}
           {response && passwordValue && (
             <div>
               <div style={{ margin: '10px' }}></div>
-              <p style={{ margin: '2px 0', textAlign: 'left' }}>Passwort zur Identifikation:</p>
+              <p style={{ margin: '2px 0', textAlign: 'left' }}>
+                Passwort zur Identifikation:
+              </p>
               <Password value={passwordValue} /> {/* Ausgabe Password */}
             </div>
           )}

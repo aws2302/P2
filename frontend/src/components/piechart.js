@@ -1,10 +1,10 @@
 import './css/App.css';
 import React from 'react';
 import { PieChart, Pie, Cell } from 'recharts';
-const data = [
-  { os: 'Windows', used: 10 },
-  { os: 'MacOS', used: 15 },
-  { os: 'Linux', used: 10 },
+const data = [ // Muss noch bearbeitet werden damit daten von DB kommen 
+  { os: 'Windows', used: 5 },
+  { os: 'MacOS', used: 20 },
+  { os: 'Linux', used: 18 },
 ];
 
 let renderLabel = function (entry) {
