@@ -10,6 +10,7 @@ const generator = require('generate-password');
 const { getShortUrl } = require('./../src/urlShortener.js');
 const { saveURL, getStats } = require('../src/db/database');
 const addStats = require('../src/addStats');
+const { isValidBase58 } = require('../src/base58');
 const log = require('../src/log');
 
 /**
@@ -67,24 +68,28 @@ router.post('/', (req, res) => {
  */
 router.all('/:short', (req, res) => {
   const shortUrl = req.params.short;
-  const statsGet = getStats(shortUrl);
-  statsGet
-    .then((result) => {
-      if (result === undefined) {
-        throw new Error('404');
-      }
-      addStats(req.useragent, result);
-      res.redirect(307, result.longURL);
-    })
-    .catch((e) => {
-      if (e == 'Error: 404') {
-        log.error('Falsche Kurz-Url');
-        res.status(404).json({error: 'Falsche Kurz-URL? ', e});
-      } else {
-        log.error('ALL /{shortURL}: Fehler: ', e);
-        res.status(500).json({error: 'Fehler aufgetreten'});
-      }
-    });
+  if (!isValidBase58(shortUrl)) {
+    res.status(400).json({error: 'Ungültige Kurz-URL übergeben'});
+  } else {
+    const statsGet = getStats(shortUrl);
+    statsGet
+      .then((result) => {
+        if (result === undefined) {
+          throw new Error('404');
+        }
+        addStats(req.useragent, result);
+        res.redirect(307, result.longURL);
+      })
+      .catch((e) => {
+        if (e == 'Error: 404') {
+          log.error('Falsche Kurz-Url');
+          res.status(404).json({error: 'Falsche Kurz-URL? ', e});
+        } else {
+          log.error('ALL /{shortURL}: Fehler: ', e);
+          res.status(500).json({error: 'Fehler aufgetreten'});
+        }
+      });
+  }
 });
 
 module.exports = router;

@@ -32,4 +32,13 @@ function encode(num) {
   }
 }
 
-module.exports =  encode;
+function isValidBase58(short) {
+  for (const c of short) {
+    if (!CHARS58.includes(c)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+module.exports = { base58: encode, isValidBase58 };
