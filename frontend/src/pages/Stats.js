@@ -1,5 +1,5 @@
 import "../components/css/chart.css";
-import React from "react";
+import React, { useEffect, useState } from 'react';
 import { Button } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import { useNavigate } from "react-router-dom";
@@ -8,8 +8,28 @@ import BasicModal from "../components/modal";
 import ModeSwitch from "../components/Switch";
 import TinyBar from "../components/tinybarchart";
 import Chartpie from "../components/piechart";
+import { useLocation } from 'react-router-dom';
 
-export default function Stats() {
+function Stats({route}) {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const jsonFileName = queryParams.get('jsonFile');
+
+  const [jsonData, setJsonData] = useState(null);
+
+  useEffect(() => {
+    if (jsonFileName) {
+      fetch(jsonFileName)
+        .then((response) => response.json())
+        .then((data) => {
+          setJsonData(data);
+        })
+        .catch((error) => {
+          console.error('Fehler beim Laden der JSON-Datei:', error);
+        });
+    }
+  }, [jsonFileName]);
+
   /* Page redirect */
   const navigate = useNavigate();
 
@@ -48,24 +68,25 @@ export default function Stats() {
             AWS 23-02.
           </h3>
           <div className="Tiny-Bar">
-            <TinyBar />
+            <TinyBar data={location.state} />
             <Chartpie />
           </div>
           <div>
           </div>
         </body>
-        </div>
-        <div className="footer-url">
+      </div>
+      <div className="footer-url">
         <footer>
           <ul className="no-bullets">
-          <li>Long URL: xxxx</li>
-          <li>Short URL: xxxx</li>
-          <li>Erstellt am: xx.xx.xxxx</li>
-          <li>Klicks letzten 30 Tage: xxx</li>
-          <li>Klicks insgesamt: xxxx</li>
+            <li>Long URL: {location.state.longURL}</li>
+            <li>Short URL: {location.state.shortURL}</li>
+            <li>Erstellt am: {location.state.createDate}</li>
+            <li>Klicks insgesamt: {location.state.clicks}</li>
           </ul>
         </footer>
-        </div>
       </div>
+    </div>
   );
 }
+
+export default Stats;
