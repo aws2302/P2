@@ -15,6 +15,8 @@
 *.fls
 *.fdb_latexmk
 *.xdv
+*.db
 node_modules/
 .vscode/
 out/
+

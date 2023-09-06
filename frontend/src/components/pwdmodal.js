@@ -10,7 +10,7 @@ import { blue } from '@mui/material/colors';
 import SendIcon from '@mui/icons-material/Send';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import axios from 'axios'
+import axios from 'axios';
 
 
 const style = {
@@ -40,21 +40,13 @@ export default function PWDModal() {
 
   const handleContinue = () => {
     // Daten mit dem Backend überprüfen
-    console.log('shortURL:', shortURL);
-    console.log('Password:', password);
-
-    // const response = dummyDatabase.getStats(shortURL);
-    // console.log('Response from dummyDatabase:', response);
-
-    console.warn({ shortURL, password });
     axios
       .post('http://localhost:8080/api/stats/', { shortURL, password }) // Annahme: Der Server hat eine Route "/api/checkPassword" zum Überprüfen der Daten
       .then((response) => {
-        console.log('Server Response:', response.data);
-        console.log('Server Response:', response.status);
         if (response.status) {
           // Wenn die Daten korrekt sind, zur Statistikseite weiterleiten
-          navigate('/stats');
+          navigate('/stats', { state: response.data });
+
         } else {
           alert('Falsche shortURL oder Passwort. Bitte versuchen Sie es erneut.');
         }
@@ -63,9 +55,7 @@ export default function PWDModal() {
         console.error('Fehler beim Überprüfen der Daten:', error);
         alert('Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.');
       });
-      console.warn({ shortURL, password });
   };
-
 
   return (
     <div className="div-HS-Icon">

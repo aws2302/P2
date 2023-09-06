@@ -23,6 +23,7 @@ import {
   PolarRadiusAxis,
 } from "recharts";
 
+export default function TinyBar(props) {
 const data = [
   {
     Browser: "Chrome",
@@ -30,7 +31,7 @@ const data = [
   },
   {
     Browser: "Edge",
-    clicks: 50,
+    clicks: props.data.Browser.Edge,
   },
   {
     Browser: "Firefox",
@@ -50,7 +51,8 @@ const data = [
   },
 ];
 
-export default function TinyBar() {
+
+  console.log(props)
   return (
     <BarChart 
     width={500}
