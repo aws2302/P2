@@ -147,12 +147,12 @@ paths:
 
 
 
-  /api/stats/{shortUrl}/:
+  /api/stats/:
     post:
       summary: Statistik für Kurz-URL abrufen
       requestBody:
         required: true
-        description: Passwort für die Kurz-URL
+        description: Passwort und Kurz-URL, für welche die Stats abgerufen werden
         content:
           application/json:
             schema:
@@ -160,13 +160,15 @@ paths:
               properties:
                 password:
                   type: string
-      parameters:
-        - name: shortUrl
-          in: path
-          required: true
-          description: Short-Url, für welche die Statistiken abgerufen werden soll
-          schema:
-            type: string
+                shortUrl:
+                  type: string
+      # parameters:
+      #   - name: shortUrl
+      #     in: path
+      #     required: true
+      #     description: Short-Url, für welche die Statistiken abgerufen werden soll
+      #     schema:
+      #       type: string
       responses:
         '200':
           description: Statistiken für die Kurz-URL
