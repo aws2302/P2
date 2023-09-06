@@ -1,16 +1,16 @@
-import "../components/css/chart.css";
+import '../components/css/chart.css';
 import React, { useEffect, useState } from 'react';
-import { Button } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-import { useNavigate } from "react-router-dom";
-import Routing from "../Routing";
-import BasicModal from "../components/modal";
-import ModeSwitch from "../components/Switch";
-import TinyBar from "../components/tinybarchart";
-import Chartpie from "../components/piechart";
+import { Button } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
+import { useNavigate } from 'react-router-dom';
+import Routing from '../Routing';
+import BasicModal from '../components/modal';
+import ModeSwitch from '../components/Switch';
+import TinyBar from '../components/tinybarchart';
+import Chartpie from '../components/piechart';
 import { useLocation } from 'react-router-dom';
 
-function Stats({route}) {
+function Stats({ route }) {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const jsonFileName = queryParams.get('jsonFile');
@@ -41,20 +41,11 @@ function Stats({route}) {
             className="HomeIcon"
             aria-label="HomeIcon"
             onClick={() => {
-              navigate("/");
+              navigate('/');
             }}
           >
-            <HomeIcon className="H-Icon" style={{ fontSize: "36px" }} />
+            <HomeIcon className="H-Icon" style={{ fontSize: '36px' }} />
           </Button>
-          {/* <Button
-            className="StatsIcon"
-            aria-label="StatsIcon"
-            onClick={() => {
-              navigate("/stats");
-            }}
-          >
-            <BarChartIcon className="S-Icon" style={{ fontSize: "36px" }} />
-          </Button> */}
         </div>
         <div className="div-MS-Icon">{/* <ModeSwitch /> */}</div>
         <BasicModal />
@@ -69,10 +60,9 @@ function Stats({route}) {
           </h3>
           <div className="Tiny-Bar">
             <TinyBar data={location.state} />
-            <Chartpie />
+            <Chartpie data={location.state} />
           </div>
-          <div>
-          </div>
+          <div></div>
         </body>
       </div>
       <div className="footer-url">

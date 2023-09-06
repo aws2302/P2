@@ -2,30 +2,29 @@
 import React, { useState } from 'react';
 import { Snackbar, Button } from '@mui/material';
 
-const CustomSnackbar = ({ message, snackbarText }) => { 
-    const [open, setOpen] = useState(false);
+const CustomSnackbar = ({ message, snackbarText }) => {
+  const [open, setOpen] = useState(false);
 
-    const handleClick = () => {
-        navigator.clipboard.writeText(message);
-        setOpen(true);
-    };
+  const handleClick = () => {
+    navigator.clipboard.writeText(message);
+    setOpen(true);
+  };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-    return (
-        <>
-            <Button onClick={handleClick}>Kopieren</Button>
-            <Snackbar
-                open={open}
-                autoHideDuration={2000}
-                onClose={handleClose}
-                message={snackbarText}
-            />
-        </>
-    );
+  return (
+    <>
+      <Button onClick={handleClick}>Kopieren</Button>
+      <Snackbar
+        open={open}
+        autoHideDuration={2000}
+        onClose={handleClose}
+        message={snackbarText}
+      />
+    </>
+  );
 };
 
 export default CustomSnackbar;
-
