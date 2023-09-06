@@ -12,7 +12,6 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 
-
 const style = {
   position: 'absolute',
   top: '50%',
@@ -41,19 +40,22 @@ export default function PWDModal() {
   const handleContinue = () => {
     // Daten mit dem Backend überprüfen
     axios
-      .post('http://localhost:8080/api/stats/', { shortURL, password }) // Annahme: Der Server hat eine Route "/api/checkPassword" zum Überprüfen der Daten
+      .post('http://localhost:8080/api/stats/', { shortURL, password })
       .then((response) => {
         if (response.status) {
           // Wenn die Daten korrekt sind, zur Statistikseite weiterleiten
           navigate('/stats', { state: response.data });
-
         } else {
-          alert('Falsche shortURL oder Passwort. Bitte versuchen Sie es erneut.');
+          alert(
+            'Falsche shortURL oder Passwort. Bitte versuchen Sie es erneut.'
+          );
         }
       })
       .catch((error) => {
         console.error('Fehler beim Überprüfen der Daten:', error);
-        alert('Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.');
+        alert(
+          'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.'
+        );
       });
   };
 

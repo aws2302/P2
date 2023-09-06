@@ -1,67 +1,41 @@
-import "./css/App.css";
-import React from "react";
-import {
-  Area,
-  AreaChart,
-  Bar,
-  BarChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  Scatter,
-  ScatterChart,
-  LineChart,
-  PieChart,
-  Pie,
-  PolarAngleAxis,
-  Radar,
-  RadarChart,
-  PolarGrid,
-  PolarRadiusAxis,
-} from "recharts";
+import './css/App.css';
+import React from 'react';
+import { Bar, BarChart, XAxis, YAxis, Tooltip } from 'recharts';
 
 export default function TinyBar(props) {
-const data = [
-  {
-    Browser: "Chrome",
-    clicks: 500,
-  },
-  {
-    Browser: "Edge",
-    clicks: props.data.Browser.Edge,
-  },
-  {
-    Browser: "Firefox",
-    clicks: 200,
-  },
-  {
-    Browser: "Opera",
-    clicks: 150,
-  },
-  {
-    Browser: "Safari",
-    clicks: 300,
-  },
-  {
-    Browser: "Sonstige",
-    clicks: 400,
-  },
-];
+  const data = [
+    {
+      Browser: 'Chrome',
+      clicks: props.data.Browser.Chrome,
+    },
+    {
+      Browser: 'Edge',
+      clicks: props.data.Browser.Edge,
+    },
+    {
+      Browser: 'Firefox',
+      clicks: props.data.Browser.Firefox,
+    },
+    {
+      Browser: 'Opera',
+      clicks: props.data.Browser.Opera,
+    },
+    {
+      Browser: 'Safari',
+      clicks: props.data.Browser.Safari,
+    },
+    {
+      Browser: 'Sonstige',
+      clicks: props.data.Browser.Sonstige,
+    },
+  ];
 
-
-  console.log(props)
+  console.log(props);
   return (
-    <BarChart 
-    width={500}
-    height={250} 
-    data={data}
-    >
+    <BarChart width={500} height={250} data={data}>
       <Bar dataKey="clicks" fill="#DF3B04" />
-      <XAxis dataKey={"Browser"} type="category" />
-      <YAxis label={{ value: "clicks", angle: -90, position: "insideLeft" }} />
+      <XAxis dataKey={'Browser'} type="category" />
+      <YAxis label={{ value: 'clicks', angle: -90, position: 'insideLeft' }} />
       <Tooltip />
     </BarChart>
   );

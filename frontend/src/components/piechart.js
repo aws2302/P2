@@ -1,11 +1,6 @@
 import './css/App.css';
 import React from 'react';
 import { PieChart, Pie, Cell } from 'recharts';
-const data = [ // Muss noch bearbeitet werden damit daten von DB kommen 
-  { os: 'Windows', used: 5 },
-  { os: 'MacOS', used: 20 },
-  { os: 'Linux', used: 18 },
-];
 
 let renderLabel = function (entry) {
   return entry.os;
@@ -21,7 +16,6 @@ const renderCustomizedLabel = ({
   outerRadius,
   percent,
   index,
-  os
 }) => {
   const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -38,7 +32,13 @@ const renderCustomizedLabel = ({
     `${(percent * 100).toFixed(0)}%`
   );
 };
-export default function Chartpie() {
+export default function Chartpie(props) {
+  const data = [
+    // Muss noch bearbeitet werden damit daten von DB kommen
+    { os: 'Windows', used: props.data.OS.Windows },
+    { os: 'MacOS', used: props.data.OS.MacOs },
+    { os: 'Linux', used: props.data.OS.Linux },
+  ];
   return React.createElement(
     PieChart,
     { width: 400, height: 400 },
