@@ -83,6 +83,8 @@ paths:
           #         format: url
           #         type: string
           $ref: '#/components/responses/307'
+        '400':
+          $ref: '#/components/responses/400'
         '404':
           $ref: '#/components/responses/404'
         "500":
@@ -96,6 +98,8 @@ paths:
       responses:
         "307":
           $ref: "#/components/responses/307"
+        '400':
+          $ref: '#/components/responses/400'
         "404":
           $ref: "#/components/responses/404"
         "500":
@@ -107,6 +111,8 @@ paths:
       responses:
         "307":
           $ref: "#/components/responses/307"
+        '400':
+          $ref: '#/components/responses/400'
         "404":
           $ref: "#/components/responses/404"
         "500":
@@ -118,6 +124,8 @@ paths:
       responses:
         "307":
           $ref: "#/components/responses/307"
+        '400':
+          $ref: '#/components/responses/400'
         "404":
           $ref: "#/components/responses/404"
         "500":
@@ -129,6 +137,8 @@ paths:
       responses:
         "307":
           $ref: "#/components/responses/307"
+        '400':
+          $ref: '#/components/responses/400'
         "404":
           $ref: "#/components/responses/404"
         "500":
@@ -140,6 +150,8 @@ paths:
       responses:
         "307":
           $ref: "#/components/responses/307"
+        '400':
+          $ref: '#/components/responses/400'
         "404":
           $ref: "#/components/responses/404"
         "500":
@@ -239,6 +251,15 @@ components:
   responses:
     "307":
       description: Weiterleitung zur Long-Url
+    "400":
+      description: Fehlerhafte Eingabe
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
     "404":
       description: Short-Url nicht gefunden
       content:
