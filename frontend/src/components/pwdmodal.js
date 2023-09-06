@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios'
 
+
 const style = {
   position: 'absolute',
   top: '50%',
@@ -19,9 +20,10 @@ const style = {
   transform: 'translate(-50%, -50%)',
   width: 400,
   bgcolor: 'background.paper',
-  border: '2px solid #000',
+  border: '2px solid #1976d2',
   boxShadow: 24,
   p: 4,
+  borderRadius: 2,
 };
 
 const primary = blue[700];
@@ -30,7 +32,7 @@ const accent_hover = blue[900];
 export default function PWDModal() {
   const [open, setOpen] = React.useState(false);
   const [shortURL, setShortURL] = useState('');
-  const [Password, setPassword] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -38,10 +40,19 @@ export default function PWDModal() {
 
   const handleContinue = () => {
     // Daten mit dem Backend überprüfen
+    console.log('shortURL:', shortURL);
+    console.log('Password:', password);
+
+    // const response = dummyDatabase.getStats(shortURL);
+    // console.log('Response from dummyDatabase:', response);
+
+    console.warn({ shortURL, password });
     axios
-      .post('http://localhost:8080/api/stats/1234567', { shortURL, Password }) // Annahme: Der Server hat eine Route "/api/checkPassword" zum Überprüfen der Daten
+      .post('http://localhost:8080/api/stats/', { shortURL, password }) // Annahme: Der Server hat eine Route "/api/checkPassword" zum Überprüfen der Daten
       .then((response) => {
-        if (response.data.isValid) {
+        console.log('Server Response:', response.data);
+        console.log('Server Response:', response.status);
+        if (response.status) {
           // Wenn die Daten korrekt sind, zur Statistikseite weiterleiten
           navigate('/stats');
         } else {
@@ -52,7 +63,9 @@ export default function PWDModal() {
         console.error('Fehler beim Überprüfen der Daten:', error);
         alert('Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.');
       });
+      console.warn({ shortURL, password });
   };
+
 
   return (
     <div className="div-HS-Icon">
@@ -73,7 +86,7 @@ export default function PWDModal() {
             textAlign={'center'}
             padding={'10px'}
           >
-            - Kurz-URl Password -
+            - Kurz-URL Password -
           </Typography>
           <TextField
             id="outlined-basic-url"
@@ -81,6 +94,7 @@ export default function PWDModal() {
             variant="outlined"
             sx={{
               justifyContent: 'center',
+              marginBottom: '1rem',
             }}
             value={shortURL}
             onChange={(e) => setShortURL(e.target.value)}
@@ -91,8 +105,9 @@ export default function PWDModal() {
             variant="outlined"
             sx={{
               justifyContent: 'center',
+              marginBottom: '1rem',
             }}
-            value={Password}
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           <Button
@@ -105,6 +120,7 @@ export default function PWDModal() {
               justifyContent: 'center',
               marginTop: '1vh',
               marginLeft: '10px',
+              width: '50%',
             }}
             onClick={handleContinue}
           >

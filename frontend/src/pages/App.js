@@ -119,9 +119,9 @@ export default function App() {
       {/* Bottom Section */}
       <div className="footer-url">
         <footer>
-          <PWModal />
           {response && (
             <div>
+              <PWModal />
               <p style={{ margin: '2px 0', textAlign: 'left' }}>
                 Ihre Short-URL:
               </p>
