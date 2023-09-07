@@ -131,7 +131,7 @@
 \subject{Projekt 2, Gruppe 3}
 \title{Shorty – URL-Shortener}
 \subtitle{}
-\author{Andreas Brühl\thanks{Datenbank} \and Deniz Durmaz\thanks{Design, Frontend, Doku} \and Sebastian Hufeld\thanks{Design, Datenbank} \and Jason Krimmel\thanks{Design, Frontend} \and Markus Rennings\thanks{API-Design, Backend, OpenAPI, Doku, \XeLaTeX}}
+\author{Andreas Brühl\thanks{Datenbank} \and Deniz Durmaz\thanks{Design, Frontend, Dokumentation} \and Sebastian Hufeld\thanks{Design, Datenbank, DB-Dokumentation} \and Jason Krimmel\thanks{Design, Frontend} \and Markus Rennings\thanks{API-Design, Backend, OpenAPI, Dokumentation, \XeLaTeX}}
 \date{23.\,August–5.\,September~2023}
 \publishers{Betreut durch: Martin Dubb, Fabio Keller}
 
@@ -187,7 +187,168 @@ Grundsätzlich sind weitläufige Kenntnisse aus der Webentwicklung erforderlich,
 
 \section{Benutzeroberfläche}
 \section{Datenbank}
+Als Datenbank haben wir uns zum Schluss für eine SQLite3 Datenbank entschieden. Eigentlich war das Projekt mit einer Firebase Datenbank geplant, jedoch gab es bei unserer Implementierung einige Fehler, welche wir leider nicht innerhalb des Projektzeitraums beheben konnten. So haben wir uns schließlich dazu entschlossen, statt einer Online-Datenbank auf eine Offline-Datenbank zu switchen.
+
+Dabei haben wir Firebase nicht gänzlich verworfen und sollte es eine Version 2.0 geben, so ist geplant dort dann auf den Firestore zu wechseln, sodass eine Online-Version der Datenbank zur Verfügung steht.
+
+Die \texttt{url.db} sowie die \texttt{database.js} wurden unter folgendem Pfad gespeichert:
+
+\texttt{server/src/db/url.db}
+
+
+Dies wurde als genereller Speicherort für die Arbeiten der Datenbank ausgewählt.
+
+
+Erklärung der einzelnen Felder, welche beim erstellen der Datenbank erstellt werden:
+
+\begin{description}
+    \item[longURL] hier wird die Ausgangs-URL hinterlegt
+    \item[shortURL] enthält die gekürzte URL
+    \item[browser\_*] Anzahl der Aufrufe über einen bestimmten Browser
+    \item[os\_*] Anzahl der Aufrufe über ein bestimmtes OS
+    \item[lastClick] Zeitpunkt des letzten Aufrufs der shortURL
+    \item[clicks] Anzahl der Clicks der jeweiligen ShortURL
+    \item[timestamp] Zeitpunkt zu dem der Link/Datenbankeintrag erstellt wurde.
+    \item[expireDate] Datum wann der Link erlischt (90 Tage nach Erstellung)
+\end{description}
+
 \subsection{Datenbank-Struktur}
+Die Datenbank ist wie bereits erwähnt eine SQLite3 Datenbank. Das Schema für diese Datenbank haben wir zusammen erarbeitet (siehe Zeile 4 bis 20 in Lst.~\ref{lst:dbCreate}). In unserem Code wird als erstes überprüft, ob die Datenbank bereits existiert. Sollte dies nicht der Fall sein, so wird diese über die dritte Zeile im Code unter Lst.~\ref{lst:dbCreate} erstellt. 
+
+\subsection{Erstellen der Datenbank}
+Als Defaultwert werden für die Browser- und OS-Daten sowie für \texttt{clicks} und \texttt{lastClick} \texttt{0} verwendet. Diese haben wir initial gesetzt, da nach dem Erstellen des Links ja noch keinerlei Informationen vorhanden sind.
+
+\begin{lstlisting}[language=JavaScript,
+    caption={Die Statistiken werden initial auf 0 gesetzt, der Timestamp ist der Datumswert der Erstellung des Eintrags},
+    label={lst:dbCreate},
+    float=h,
+    gobble=4
+]
+    db.serialize(() => {
+        db.run(`
+            CREATE TABLE IF NOT EXISTS url (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                longURL TEXT NOT NULL,
+                shortURL TEXT NOT NULL,
+                passwd TEXT NOT NULL,
+                browser_chrome INTEGER NOT NULL default 0,
+                browser_firefox INTEGER NOT NULL default 0,
+                browser_edge INTEGER NOT NULL default 0,
+                browser_safari INTEGER NOT NULL default 0,
+                browser_opera INTEGER NOT NULL default 0,
+                browser_sonstige INTEGER NOT NULL default 0,
+                os_win INTEGER NOT NULL default 0,
+                os_mac INTEGER NOT NULL default 0,
+                os_linux INTEGER NOT NULL default 0,
+                lastClick INTEGER NOT NULL default 0,
+                clicks INTEGER NOT NULL default 0,
+                timestamp INTEGER,
+                expireDate INTEGER
+            )
+        `);
+    });
+\end{lstlisting}
+
+\subsubsection{Speichern des Links in der Datenbank}
+Nun geht es darum, dass wir den Link auch entsprechend mit allen Informationen in der Datenbank speichern. In Lst.~\ref{lst:dbSave} sieht man dazu die entsprechende Logik. 
+In Zeile 2 und 3 werden die jeweiligen Zeitstempel gesetzt. \texttt{currentTime} setzt dabei den Zeitstempel beim erstellen des Link. Das \texttt{expireDate} haben wir anschließend auf 90 Tage gesetzt. Die Formel »\texttt{currentTime + 90 * 24 * 60 * 60 * 1000}« berechnet dabei genau diesen Zeitraum.
+
+Danach werden in der Zeile 6 des Codes die Daten für \texttt{longURL}, \texttt{shortURL}, \texttt{passwd} und der bereits erwähnte Zeitstempel sowie das Verfallsdatum des Links in die Datenbank geschrieben. Die Daten für \texttt{longURL}, \texttt{shortURL} \& \texttt{passwd} werden uns dabei von der API übermittelt.
+Wie wir in Lst.~\ref{lst:dbCreate} ja schon gesehen haben, werden alle anderen Werte, welche hier nicht aufgezählt sind, mit \texttt{0} gesetzt. 
+
+Sollte es ein Problem beim Speichern der Daten in die Datenbank geben, so wird dieser Fehler in den Zeilen 10 bis 12 ausgegeben. Wenn hingegen kein Fehler auftritt, so wird die zuletzt erstellte ID für den Eintrag zurückgegeben. 
+
+\begin{lstlisting}[language=JavaScript,
+    caption={Speichern der URL in der Datenbank},
+    label={lst:dbSave},
+    float=h,
+    gobble=4
+]
+    const saveURL = async (result) => {
+        const currentTime = Date.now();
+        const expireDate = currentTime + 90 * 24 * 60 * 60 * 1000; 
+        return new Promise((resolve, reject) => {
+            db.run(
+                'INSERT INTO url (longURL, shortURL, passwd, timestamp, expireDate) VALUES (?, ?, ?, ?, ?)',
+                [result.longUrl, result.shortUrl, result.passwd, currentTime, expireDate],
+                function (err) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(this.lastID);
+                    }
+                }
+            );
+        });
+    };
+\end{lstlisting}
+
+\subsubsection{Statistiken auslesen und an die API übergeben}
+Damit die entsprechenden Daten aus der Datenbank über die \texttt{/api/stats}-Route abgerufen werden können, haben wir die Logik in Lst.~\ref{lst:dbAbruf} geschrieben. 
+Diese ruft in Zeile 3 alle Informationen zu einem Kurzlink auf. Mit »\texttt{'SELECT * FROM url WHERE shortURL = ?', [shortURL]}« übergeben wir der Datenbank den entsprechenden Link. Die Datenbank gibt uns anschließend alle Infos zurück, die zu dem gespeicherten Link vorhanden sind. 
+
+Sollte es einen Fehler geben, so wird dieser wieder ausgeworfen. Dies passiert in Zeile 4 \& 5. Sollte es hingegen keinen Fehler geben, greift der \texttt{else} Zweig und gibt uns die entsprechende Spalte der Tabelle aus. 
+
+\begin{lstlisting}[language=JavaScript,
+    caption={Daten werden von der Datenbank anhand des Kurzlinks abgerufen},
+    label={lst:dbAbruf},
+    float=h,
+    gobble=4
+]
+    const getStats = async (shortURL) => {
+        return new Promise((resolve, reject) => {
+            db.get('SELECT * FROM url WHERE shortURL = ?', [shortURL], (err, row) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(row);
+                }
+            });
+        });
+    };
+\end{lstlisting}
+
+\subsubsection{Update der Statistikdaten in der Datenbank mit den Infos von der API}
+Um die Daten entsprechend zu aktualisieren, haben wir die Logik in Lst.~\ref{lst:dbUpdate} geschrieben. Mit dem »\texttt{Update}« Befehl in Zeile 4 aktualisieren wir in unserer Datenbank die Daten, die wir von der API bekommen. Dabei werden die jeweiligen Statistiken für die aufgezählten Browser (Zeilen 8 bis 13), das entsprechende Betriebssystem (Zeilen 14 bis 16) sowie der letzte Klick (Zeile 17) und die generellen Clicks (Zeile 18).
+
+Auch hier haben wir wieder das Fehlerhandling so gebaut, dass er bei Fehler die entsprechende Fehlermeldung auswirft und bei keiner Fehlermeldung die Daten in die Datenbank schreibt (Zeile 21 bis 25).
+
+\begin{lstlisting}[language=JavaScript,
+    caption={Die Daten werden von der API an uns übermittelt und wir speichern die Daten in der Datenbank beim entsprechenden Kurzlink ab},
+    label={lst:dbUpdate},
+    float=h,
+    gobble=4
+]
+    const writeStats = (shortURL, stats) => {
+        return new Promise((resolve, reject) => {
+            db.run(
+                'UPDATE url SET browser_chrome = ?, browser_firefox = ?, browser_edge = ?, browser_safari = ?, browser_opera = ?, browser_sonstige = ?, os_win = ?, os_mac = ?, os_linux = ?, lastClick = ?, clicks = ? WHERE shortURL = ?',
+                [
+                    stats.Browser.Chrome,
+                    stats.Browser.Firefox,
+                    stats.Browser.Edge,
+                    stats.Browser.Safari,
+                    stats.Browser.Opera,
+                    stats.Browser.Sonstige,
+                    stats.OS.Windows,
+                    stats.OS.MacOs,
+                    stats.OS.Linux,
+                    stats.lastClick,
+                    stats.clicks,
+                    shortURL,
+                ],
+                (err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve();
+                    }
+                }
+            );
+        });
+    };
+\end{lstlisting}
+
 \section{Statistik und Analyse}
 Für die Statistik nutzen wir die Express.js-Middleware \texttt{express-useragent}\footnote{\href{https://www.npmjs.com/package/express-useragent}{https://www.npmjs.com/package/express-useragent}}, welches die User-Agent-Kennungen zusammenfasst, so dass man nicht für jede Browser-Version einzeln checken muss. Diese Daten werden in der Datenbank kumuliert und bei Anfrage entsprechend über den \ac{API}-Endpunkt \texttt{/api/stats/\{shortUrl\}} an den Client gesendet. Die Statistiken sind mit einem Passwort geschützt, dass dem Benutzer bei Erstellung der Kurz-URL angezeigt wird.
 
@@ -352,22 +513,22 @@ Da die Dokumentation das komplette Projekt, mit allen (Sub"~)""Komponenten umfas
 \subsection{Struktur}
 Daraus ergibt sich dann folgende Verzeichnisstruktur:
 \begin{verbatim}
-.
-├── Dokumentation
-│   └── img
-├── frontend
-│   ├── public
-│   └── src
-│       ├── components
-│       │   └── css
-│       └── pages
-└── server
-    ├── api
-    │   ├── doc
-    │   ├── stats
-    └── src
-        └── db
-
+    .
+    ├── Dokumentation
+    ├── frontend
+    │   ├── public
+    │   └── src
+    │       ├── components
+    │       │   └── css
+    │       └── pages
+    └── server
+        ├── api
+        │   ├── doc
+        │   ├── stats
+        ├── controller
+        └── src
+            └── db
+    
 \end{verbatim}
 
 \section{Bauen des Gesamtsystems}
