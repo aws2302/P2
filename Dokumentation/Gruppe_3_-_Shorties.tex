@@ -1,4 +1,4 @@
-\documentclass[a4paper,11pt,DIV=12,overfullrule=on]{scrreprt}%
+\documentclass[a4paper,11pt,DIV=12]{scrreprt}%
 \usepackage{unicode-math}%
 \usepackage{polyglossia}%
 \setdefaultlanguage[spelling=new, babelshorthands=true]{german}
@@ -7,17 +7,18 @@
 \setotherlanguage{english}%
 \setmainfont[Mapping=tex-text]{Raleway}%
 
-\setmonofont[Mapping=tex-text, Scale=0.9]{Fira Code Light}%
+\setmonofont[Mapping=tex-text,Scale=0.9]{Fira Code Light}%
+\usepackage{lstfiracode}
 \setmathfont{Asana Math}%
 \newfontface\RalewaySemi{Raleway SemiBold}
 \setkomafont{disposition}{\RalewaySemi}
 \addtokomafont{subject}{\RalewaySemi}
 
-
+\usepackage{fancyvrb}%
 \usepackage{xltxtra}%
 \usepackage{microtype}%
 \usepackage[svgnames, x11names, xetex, rgb, RGB, HTML, hyperref]{xcolor}%
-\definecolor{shortyblue}{HTML}{1976D2}  % FIXME: Echte Farbwerte eintragen
+\definecolor{shortyblue}{HTML}{1976D2}  
 
 \definecolor{background}{HTML}{EEEEEE}
 \definecolor{eclipseStrings}{RGB}{42,0.0,255}
@@ -59,6 +60,7 @@
     showstringspaces=false,
     showtabs=true,
     stringstyle=\color{eclipseKeywords}, % style of strings
+    style=FiraCodeStyle,
     tabsize=4,
     title=\lstname,
     xleftmargin={18pt},
@@ -131,8 +133,8 @@
 \subject{Projekt 2, Gruppe 3}
 \title{Shorty – URL-Shortener}
 \subtitle{}
-\author{Andreas Brühl\thanks{Datenbank} \and Deniz Durmaz\thanks{Design, Frontend, Doku} \and Sebastian Hufeld\thanks{Design, Datenbank} \and Jason Krimmel\thanks{Design, Frontend} \and Markus Rennings\thanks{API-Design, Backend, OpenAPI, Doku, \XeLaTeX}}
-\date{23.\,August–5.\,September~2023}
+\author{Andreas Brühl\thanks{Datenbank} \and Deniz Durmaz\thanks{Design, Frontend, Dokumentation, Korrektorat} \and Sebastian Hufeld\thanks{Design, Datenbank, DB-Dokumentation} \and Jason Krimmel\thanks{Design, Frontend} \and Markus Rennings\thanks{API-Design, Backend, OpenAPI, Dokumentation, \XeLaTeX, Korrektorat}}
+\date{23.\,August–6.\,September~2023}
 \publishers{Betreut durch: Martin Dubb, Fabio Keller}
 
 
@@ -165,7 +167,7 @@ Unsere Lösung wandelt lange \ac{URL} in kurze und eindeutige \ac{URL}s um. Bei 
     \item[Datenbank] Die Anwendung muss die ursprünglichen \ac{URL}s und die zugehörigen Kurzlinks in einer Datenbank speichern und die Verknüpfung zwischen ihnen sicherstellen.
     \item[API] Ein \ac{API} muss entwickelt werden, um die Interaktion zwischen Frontend und Backend zu ermöglichen. Dies ermöglicht das Erstellen und das Abrufen von Kurzlinks. Das gleiche gilt für die dazugehörigen Statistiken.
     \item[Statistik und Analyse] Die Anwendung muss die Daten über die Nutzung der generierten Kurzlinks sammeln und speichern. Einschließlich Anzahl der Klicks, Zeitpunkt der Nutzung und Informationen zu \ac{OS} und Browser der Nutzer, müssen generiert werden.
-    \item[Passwortschutz für Link-Bearbeitung und Statistik] Jeder generierte Kurzlink muss über ein eindeutiges Schlüssel/Passwort verfügen, mit dem Benutzer den Link bearbeiten und die Statistiken einsehen können.
+    \item[Passwortschutz für Statistik] Jeder generierte Kurzlink muss über ein eindeutiges Passwort verfügen, mit dem Benutzer den Link bearbeiten und die Statistiken einsehen können.
     \item[Programmiersprache] Als Programmiersprache wurde \ac{JS} vorgegeben. Es durften Bibliotheken verwendet werden.
 \end{description}
 
@@ -176,7 +178,7 @@ Grundsätzlich sind weitläufige Kenntnisse aus der Webentwicklung erforderlich,
 \begin{description}
     \item[Frontend- und Backend-Technologien] Grundlegende Kenntnisse über die Technologien, die im Frontend und Backend verwendet werden, wie z.\,B. \ac{JS} oder \mbox{react.js}, um die Benutzeroberfläche und die Serverseite zu entwickeln und gestalten.
 
-    \item[Datenbank] Verständnis von Datenbankkonzepten und -operationen, insbesondere der Speicherung und Abfrage von Daten.
+    \item[Datenbanken] Verständnis von Datenbankkonzepten und -operationen, insbesondere der Speicherung und Abfrage von Daten.
 
     \item[API] Schnittstellen-Bildung und Integration zur Sicherstellung einer fehlerfreien Kommunikation zwischen den einzelnen Elementen.
 
@@ -186,8 +188,181 @@ Grundsätzlich sind weitläufige Kenntnisse aus der Webentwicklung erforderlich,
 \end{description}
 
 \section{Benutzeroberfläche}
-\section{Datenbank}
+Die geforderte benutzerfreundliche Web-Oberfläche (siehe Abb.~\ref{fig:Startseite}) zur Eingabe und Generierung von Kurzlinks wurde vorgeplant mit den Design-Tools Balsamiq\footnote{\href{https://balsamiq.cloud/}{https://balsamiq.cloud/}} und Figma\footnote{\href{https://www.figma.com/}{https://www.figma.com/}}. Zur Umsetzung wurde React genutzt, um die Vorteile der modularen Komponenten zu nutzen.
+
+\begin{figure}[h]%
+    \begin{small}%
+        \begin{center}%
+            \includegraphics[width=0.8\textwidth]{Startseite.png}%
+        \end{center}%
+        \caption{Startseite der Anwendung}%
+        \label{fig:Startseite}%
+    \end{small}%
+\end{figure}%
+
+\section{Datenbank} \label{sec:Datenbank}
+Als Datenbank haben wir uns zum Schluss für eine SQLite3 Datenbank entschieden. Eigentlich war das Projekt mit einer Firebase Datenbank geplant, jedoch gab es bei unserer Implementierung einige Fehler, welche wir leider nicht innerhalb des Projektzeitraums beheben konnten. So haben wir uns schließlich dazu entschlossen, statt einer Online"=Datenbank auf eine Offline"=Datenbank zu switchen.
+
+Dabei haben wir Firebase nicht gänzlich verworfen und sollte es eine Version 2.0 geben, so ist geplant dort dann auf den Firestore zu wechseln, sodass eine Online-Version der Datenbank zur Verfügung steht.
+
+Die \texttt{url.db} sowie die \texttt{database.js} wurden unter folgendem Pfad gespeichert:
+
+\texttt{server/src/db/url.db}
+
+
+Dies wurde als genereller Speicherort für die Arbeiten der Datenbank ausgewählt.
+
+
+Erklärung der einzelnen Felder, welche beim erstellen der Datenbank erstellt werden:
+
+\begin{description}
+    \item[longURL] hier wird die Ausgangs-URL hinterlegt
+    \item[shortURL] enthält die gekürzte URL
+    \item[browser\_*] Anzahl der Aufrufe über einen bestimmten Browser
+    \item[os\_*] Anzahl der Aufrufe über ein bestimmtes OS
+    \item[lastClick] Zeitpunkt des letzten Aufrufs der shortURL
+    \item[clicks] Anzahl der Clicks der jeweiligen ShortURL
+    \item[timestamp] Zeitpunkt zu dem der Link/Datenbankeintrag erstellt wurde.
+    \item[expireDate] Datum wann der Link erlischt (90 Tage nach Erstellung)
+\end{description}
+
 \subsection{Datenbank-Struktur}
+Die Datenbank ist wie bereits erwähnt eine SQLite3 Datenbank. Das Schema für diese Datenbank haben wir zusammen erarbeitet (siehe Zeile 4 bis 20 in Lst.~\ref{lst:dbCreate}). In unserem Code wird als erstes überprüft, ob die Datenbank bereits existiert. Sollte dies nicht der Fall sein, so wird diese über die dritte Zeile im Code unter Lst.~\ref{lst:dbCreate} erstellt. 
+
+\subsection{Erstellen der Datenbank}
+Als Defaultwert werden für die Browser- und OS-Daten sowie für \texttt{clicks} und \texttt{lastClick} \texttt{0} verwendet. Diese haben wir initial gesetzt, da nach dem Erstellen des Links ja noch keinerlei Informationen vorhanden sind.
+
+\begin{lstlisting}[language=JavaScript,
+    caption={Die Statistiken werden initial auf 0 gesetzt, der Timestamp ist der Datumswert der Erstellung des Eintrags},
+    label={lst:dbCreate},
+    float=h,
+    gobble=4
+]
+    db.serialize(() => {
+        db.run(`
+            CREATE TABLE IF NOT EXISTS url (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                longURL TEXT NOT NULL,
+                shortURL TEXT NOT NULL,
+                passwd TEXT NOT NULL,
+                browser_chrome INTEGER NOT NULL default 0,
+                browser_firefox INTEGER NOT NULL default 0,
+                browser_edge INTEGER NOT NULL default 0,
+                browser_safari INTEGER NOT NULL default 0,
+                browser_opera INTEGER NOT NULL default 0,
+                browser_sonstige INTEGER NOT NULL default 0,
+                os_win INTEGER NOT NULL default 0,
+                os_mac INTEGER NOT NULL default 0,
+                os_linux INTEGER NOT NULL default 0,
+                lastClick INTEGER NOT NULL default 0,
+                clicks INTEGER NOT NULL default 0,
+                timestamp INTEGER,
+                expireDate INTEGER
+            )
+        `);
+    });
+\end{lstlisting}
+
+\subsubsection{Speichern des Links in der Datenbank}
+Nun geht es darum, dass wir den Link auch entsprechend mit allen Informationen in der Datenbank speichern. In Lst.~\ref{lst:dbSave} sieht man dazu die entsprechende Logik. 
+In Zeile 2 und 3 werden die jeweiligen Zeitstempel gesetzt. \texttt{currentTime} setzt dabei den Zeitstempel beim erstellen des Link. Das \texttt{expireDate} haben wir anschließend auf 90 Tage gesetzt. Die Formel »\texttt{currentTime + 90 * 24 * 60 * 60 * 1000}« berechnet dabei genau diesen Zeitraum.
+
+Danach werden in der Zeile 6 des Codes die Daten für \texttt{longURL}, \texttt{shortURL}, \texttt{passwd} und der bereits erwähnte Zeitstempel sowie das Verfallsdatum des Links in die Datenbank geschrieben. Die Daten für \texttt{longURL}, \texttt{shortURL} \& \texttt{passwd} werden uns dabei von der API übermittelt.
+Wie wir in Lst.~\ref{lst:dbCreate} ja schon gesehen haben, werden alle anderen Werte, welche hier nicht aufgezählt sind, mit \texttt{0} gesetzt. 
+
+Sollte es ein Problem beim Speichern der Daten in die Datenbank geben, so wird dieser Fehler in den Zeilen 10 bis 12 ausgegeben. Wenn hingegen kein Fehler auftritt, so wird die zuletzt erstellte ID für den Eintrag zurückgegeben. 
+
+\begin{lstlisting}[language=JavaScript,
+    caption={Speichern der URL in der Datenbank},
+    label={lst:dbSave},
+    float=h,
+    gobble=4
+]
+    const saveURL = async (result) => {
+        const currentTime = Date.now();
+        const expireDate = currentTime + 90 * 24 * 60 * 60 * 1000; 
+        return new Promise((resolve, reject) => {
+            db.run(
+                'INSERT INTO url (longURL, shortURL, passwd, timestamp, expireDate) VALUES (?, ?, ?, ?, ?)',
+                [result.longUrl, result.shortUrl, result.passwd, currentTime, expireDate],
+                function (err) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(this.lastID);
+                    }
+                }
+            );
+        });
+    };
+\end{lstlisting}
+
+\subsubsection{Statistiken auslesen und an die API übergeben}
+Damit die entsprechenden Daten aus der Datenbank über die \texttt{/api/stats}-Route abgerufen werden können, haben wir die Logik in Lst.~\ref{lst:dbAbruf} geschrieben. 
+Diese ruft in Zeile 3 alle Informationen zu einem Kurzlink auf. Mit »\texttt{'SELECT * FROM url WHERE shortURL = ?', [shortURL]}« übergeben wir der Datenbank den entsprechenden Link. Die Datenbank gibt uns anschließend alle Infos zurück, die zu dem gespeicherten Link vorhanden sind. 
+
+Sollte es einen Fehler geben, so wird dieser wieder ausgeworfen. Dies passiert in Zeile 4 \& 5. Sollte es hingegen keinen Fehler geben, greift der \texttt{else} Zweig und gibt uns die entsprechende Spalte der Tabelle aus. 
+
+\begin{lstlisting}[language=JavaScript,
+    caption={Daten werden von der Datenbank anhand des Kurzlinks abgerufen},
+    label={lst:dbAbruf},
+    float=h,
+    gobble=4
+]
+    const getStats = async (shortURL) => {
+        return new Promise((resolve, reject) => {
+            db.get('SELECT * FROM url WHERE shortURL = ?', [shortURL], (err, row) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(row);
+                }
+            });
+        });
+    };
+\end{lstlisting}
+
+\subsubsection{Update der Statistikdaten in der Datenbank mit den Infos von der API}
+Um die Daten entsprechend zu aktualisieren, haben wir die Logik in Lst.~\ref{lst:dbUpdate} geschrieben. Mit dem »\texttt{Update}« Befehl in Zeile 4 aktualisieren wir in unserer Datenbank die Daten, die wir von der API bekommen. Dabei werden die jeweiligen Statistiken für die aufgezählten Browser (Zeilen 8 bis 13), das entsprechende Betriebssystem (Zeilen 14 bis 16) sowie der letzte Klick (Zeile 17) und die generellen Clicks (Zeile 18).
+
+Auch hier haben wir wieder das Fehlerhandling so gebaut, dass er bei Fehler die entsprechende Fehlermeldung auswirft und bei keiner Fehlermeldung die Daten in die Datenbank schreibt (Zeile 21 bis 25).
+
+\begin{lstlisting}[language=JavaScript,
+    caption={Die Daten werden von der API an uns übermittelt und wir speichern die Daten in der Datenbank beim entsprechenden Kurzlink ab},
+    label={lst:dbUpdate},
+    float=h,
+    gobble=4
+]
+    const writeStats = (shortURL, stats) => {
+        return new Promise((resolve, reject) => {
+            db.run(
+                'UPDATE url SET browser_chrome = ?, browser_firefox = ?, browser_edge = ?, browser_safari = ?, browser_opera = ?, browser_sonstige = ?, os_win = ?, os_mac = ?, os_linux = ?, lastClick = ?, clicks = ? WHERE shortURL = ?',
+                [
+                    stats.Browser.Chrome,
+                    stats.Browser.Firefox,
+                    stats.Browser.Edge,
+                    stats.Browser.Safari,
+                    stats.Browser.Opera,
+                    stats.Browser.Sonstige,
+                    stats.OS.Windows,
+                    stats.OS.MacOs,
+                    stats.OS.Linux,
+                    stats.lastClick,
+                    stats.clicks,
+                    shortURL,
+                ],
+                (err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve();
+                    }
+                }
+            );
+        });
+    };
+\end{lstlisting}
+
 \section{Statistik und Analyse}
 Für die Statistik nutzen wir die Express.js-Middleware \texttt{express-useragent}\footnote{\href{https://www.npmjs.com/package/express-useragent}{https://www.npmjs.com/package/express-useragent}}, welches die User-Agent-Kennungen zusammenfasst, so dass man nicht für jede Browser-Version einzeln checken muss. Diese Daten werden in der Datenbank kumuliert und bei Anfrage entsprechend über den \ac{API}-Endpunkt \texttt{/api/stats/\{shortUrl\}} an den Client gesendet. Die Statistiken sind mit einem Passwort geschützt, dass dem Benutzer bei Erstellung der Kurz-URL angezeigt wird.
 
@@ -251,15 +426,14 @@ Das Passwort für die generierte Kurz-\ac{URL} lassen wir uns als zufällige, zw
 
 % ! 3. Beschreibung der Lösung
 \chapter{Beschreibung der Lösung}
-\section{Software-Architektur der Lösung}
-\section{Übersicht und Zusammenspiel der Komponenten}
-\section{Beschreibung der Komponenten}
-\subsection{Backend}
-Wie bereits in Kapitel \ref{sec:base58} beschrieben, haben wir uns für eine \texttt{base58}-Kodierung der Kurz-\ac{URL}s entschieden. Hierzu wurde das entsprechene Alphabet definiert (siehe Lst.~\ref{lst:base58}, Zeile 1). Nach einem Check, ob es eine Ganzzahl $< 0$ ist (Zeilen 4–8), wird innerhalb der \texttt{while}-Schleife (ab Zeile 11, Lst.~\ref{lst:base58}) dann nach dem Restwertverfahren die Eingabezahl konvertiert.
+Das Backend ist eine RESTful \ac{API}, welche von den Frontend-Komponenten gezielt abgefragt wird.
+
+\section{Backend}
+Wie bereits in Kapitel \ref{sec:base58} beschrieben, haben wir uns für eine \texttt{base58}-Kodierung der Kurz-\ac{URL}s entschieden. Hierzu wurde das entsprechende Alphabet definiert (siehe Lst.~\ref{lst:base58}, Zeile 1). Nach einem Check, ob es eine Ganzzahl $< 0$ ist (Zeilen 4–8), wird innerhalb der \texttt{while}-Schleife (ab Zeile 11, Lst.~\ref{lst:base58}) dann nach dem Restwertverfahren die Eingabezahl konvertiert.
 
 Zwar wäre diese Umrechnung auch wieder umkehrbar (bijektiv), aber da es eine generierte Zahl ist, die keine Verbindung mit der zu kürzenden \ac{URL} hat, verzichten wir darauf und nehmen zur Identifikation die \texttt{base58}-kodierte Zahl als Schlüssel.
 
-Aufgrund der in Lst.~\ref{lst:shorturl} gezeigten Generierung der Ausgangszahl, kann es unter seltenen Umständen dazu kommen, dass bei mehreren gleichzeitigen Zugriffen auch die gleiche Zufallszahl generiert wird. Dazu müsste allerdings in der gleichen Zehntelsekunde auch noch die gleiche Zufallszahl durch \texttt{getRnd()} erzeugt werden. Auch wenn dies nicht komplett ausgeschlossen werden kann, haben wir uns dazu entschieden, dies zu vernachlässigen. Diesen Fall kann man – in einer späteren Erweiterung (siehe auch Kapitel~\ref{sec:ErweiterungKollision}) – auch durch eine Datenbankabfrage und evtl. Neugenerierung der Zufalls-ID umgehen.
+Aufgrund der in Lst.~\ref{lst:shorturl} gezeigten Generierung der Ausgangszahl, kann es unter seltenen Umständen dazu kommen, dass bei mehreren gleichzeitigen Zugriffen auch die gleiche Zufallszahl generiert wird. Dazu müsste allerdings in der gleichen Zehntelsekunde auch noch die gleiche Zufallszahl durch \texttt{getRnd()} erzeugt werden. Auch wenn dies nicht komplett ausgeschlossen werden kann, haben wir uns dazu entschieden, dies zu vernachlässigen. Diesen Fall kann man – in einer späteren Erweiterung (siehe auch Kapitel~\ref{sec:ErweiterungKollision}) – auch durch eine Datenbankabfrage und evtl.\ Neugenerierung der Zufalls-ID umgehen.
 
 \begin{lstlisting}[
     language=JavaScript,
@@ -288,20 +462,20 @@ Aufgrund der in Lst.~\ref{lst:shorturl} gezeigten Generierung der Ausgangszahl, 
 \end{lstlisting}
 
 
-\subsubsection{Schnittstellen der Komponente}
-Es gibt drei Schnittstellen der \ac{API}:
+\subsection{Schnittstellen der Komponente}
+Es gibt drei Schnittstellen-Pfade der \ac{API}:
 \begin{description}
     \item[/] POST-Endpunkt, um eine neue Kurz-\ac{URL} zu generieren
     \item[/\{shortUrl\}] Endpunkt für alle HTTP-Methoden, um eine Kurz-\ac{URL} abzurufen. Der Abrufende wird automatisch, mittels http-Status 307, an die Zieladresse weitergeleitet.
-    \item[/api/stats/\{shortUrl\}] POST-Endpunkt zum Abruf der Statistik zu der angegebenen Kurz-\ac{URL}. Das Passwort muss im Request-Body gesendet werden.
+    \item[/api/stats/] POST-Endpunkt zum Abruf der Statistik zu der angegebenen Kurz-\ac{URL}. Das Passwort und die Kurz-\ac{URL} müssen im Request-Body als \ac{JSON}-Objekt gesendet werden.
 \end{description}
 Für eine genaue (technische) Dokumentation haben wir die \ac{API}-Dokumentation im OpenAPI-Format\footnote{\href{https://swagger.io/specification/}{https://swagger.io/specification/}} erstellt, welche über das Backend\footnote{\href{http://localhost:8080/api/doc/api}{Backend:Port/api/doc/api}} abrufbar ist.
-\subsubsection{Weiterleitung}
-Wir leiten mit dem HTTP-Status-Code »307« weiter, so dass sichergestellt ist, dass der Client seine Anfrage mit der gleichen HTTP-Methode an den Server stellt, auf den die Short-\ac{URL} referenziert.
-\subsubsection{Datenstrukturen}
-Die Daten werden in einer Document-Database (Google Firebase Firestorm\footnote{\href{https://firebase.google.com/}{https://firebase.google.com/}}) gespeichert, und können im \ac{JSON}-Format abgerufen und geschrieben werden.
 
-Wir haben uns für eine recht einfache Struktur entschieden, siehe Lst.~\ref{lst:struktur}.
+\subsection{Weiterleitung}
+Wir leiten mit dem HTTP-Status-Code »307« weiter, so dass sichergestellt ist, dass der Client seine Anfrage mit der gleichen HTTP-Methode an den Server stellt, auf den die Short-\ac{URL} referenziert.
+\subsection{Datenstrukturen}
+Wir haben uns für eine recht einfache Struktur entschieden, siehe Lst.~\ref{lst:struktur}. Ursprünglich geplant war, wie bereits in Kapitel~\ref{sec:Datenbank} geschrieben, die Daten in einer Docu"-ment-Database (Google Firebase Firestorm\footnote{\href{https://firebase.google.com/}{https://firebase.google.com/}}) abzulegen, in der sie hätten im \ac{JSON}-Format geschrieben und gelesen werden können. Allerdings musste das Datenbank-Team – wegen Problemen bei der Umsetzung – am letzten Tag dann doch noch auf SQlite3\footnote{\href{https://www.sqlite.org/index.html}{https://www.sqlite.org/index.html}} wechseln, so dass die untenstehende Struktur (siehe Lst.~\ref{lst:struktur}) nicht mehr eingehalten werden konnte. Damit das Frontend-Team nicht auch noch alles ändern musste, bildet die \ac{API} die neue Struktur auf die alte ab.
+
 \begin{lstlisting}[language=json,
     float=h,
     caption={Aufbau der Datenstruktur für jede Kurz-Url},
@@ -329,79 +503,128 @@ Wir haben uns für eine recht einfache Struktur entschieden, siehe Lst.~\ref{lst
     "Password": "password"
 }
 \end{lstlisting}
-\subsubsection{Funktionsweise}
-\subsection{Frontend}
-\subsubsection{Sub-Komponente 1}
-\paragraph{Aufgabe der Komponente}
-\paragraph{Schnittstellen der Komponente}
-\subsubsection{Sub-Komponente 2}
+
+\section{Frontend}
+
+Unser Frontend, das in React\footnote{\href{https://react.dev/}{https://react.dev/}} entwickelt wurde, besteht aus mehreren Schlüsselkomponenten, die nahtlos miteinander interagieren, um die gewünschten Funktionen unserer Anwendung bereitzustellen.
+
+\subsection{Startseite}
+\begin{description}%FIXME
+    \item[App.js] ist die Hauptkomponente unserer Frontend-Anwendung, sie bildet die Benutzeroberfläche ab. Hier haben Benutzer die Möglichkeit, \ac{URL}s einzugeben, die dann an den Server gesendet werden. Die Antwort des Servers, bestehend aus der gekürzten \ac{URL} und einem Passwort zur Identifikation, wird übersichtlich angezeigt. Darüber hinaus bietet diese Komponente die Möglichkeit, zur Statistikseite zu navigieren.
+
+    \item[BasicModal.js] fungiert als eine Modal-Komponente, die eine Hilfefunktion für unsere Anwendung bereitstellt. Sie wird aktiviert, wenn Benutzer auf das Fragezeichen-Symbol klicken, um zusätzliche Informationen zu erhalten.
+
+    \item[Password.js] ist verantwortlich für die Generierung eines Passwortfelds, das Benutzer in die Zwischenablage kopieren können. Zusätzlich zeigt es eine benutzerfreundliche Snackbar-Nachricht zur Bestätigung des Kopiervorgangs an.
+
+    \item[ShortURL.js] hat die Aufgabe, die gekürzte \ac{URL} anzuzeigen und Benutzern die Möglichkeit zu geben, diese bequem in die Zwischenablage zu kopieren. Dabei nutzt sie das Basis-\ac{URL}-System und Material-UI-Elemente, um die Darstellung und Interaktion benutzerfreundlich zu gestalten (siehe Abb.~\ref{fig:KurzUrl}).
+
+    \item[PWModal.js] ist eine weitere Modal-Komponente, die eine ausführliche Erklärung zur Verwendung des Passworts zur Identifikation bietet. Diese Komponente wird ebenfalls durch Klicken auf das Fragezeichen-Symbol aktiviert.
+\end{description}
+
+\begin{figure}[h]%
+    \begin{small}%
+        \begin{center}%
+            \includegraphics[width=0.8\textwidth]{KurzUrl.png}%
+        \end{center}%
+        \caption{Anzeige der generierten Kurz-Url und des Passworts}%
+        \label{fig:KurzUrl}%
+    \end{small}%
+\end{figure}%
+
+Die drei letzten Komponenten werden erst sichtbar, nachdem eine Kurz-\ac{URL} generiert wurde.
+
+Abschließend ermöglicht \texttt{Snackbar.js} das Anzeigen von Snackbar-Nachrichten zur Bestätigung des erfolgreichen Kopiervorgangs von Text in die Zwischenablage. Dabei kommt das \texttt{navigator.clipboard-API} (\ac{DOM}) in Kombination mit Ma"-terial-UI zum Einsatz.
+
+\begin{description}
+    \item[PWDModal.js] ist eine Modal-Komponente, die Benutzern das Eingeben einer Kurz-URL und eines Passworts ermöglicht. Die eingegebenen Daten werden über eine API-Anfrage überprüft, und bei erfolgreicher Überprüfung wird der Benutzer zur Statistikseite weitergeleitet, um detaillierte Statistiken anzuzeigen.
+\end{description}
+    
+\subsection{Statistikseite}
+
+Auf unserer Statistikseite (siehe Abb.~\ref{fig:Stats}) werden verschiedene Daten visualisiert, darunter kleine Balken- und Kreisdiagramme, um dem Benutzer ein umfassendes Bild der URL-Statistiken zu vermitteln. Hier sind die Schlüsselkomponenten, die zur Umsetzung dieser Funktionen verwendet werden:
+
+\begin{figure}[h]%
+    \begin{small}%
+        \begin{center}%
+            \includegraphics[width=0.8\textwidth]{Stats.png}%
+        \end{center}%
+        \caption{Statistiken zu einer generierten Kurz-Url}%
+        \label{fig:Stats}%
+    \end{small}%
+\end{figure}%
+
+\begin{description}
+    \item[Stats.js] ist die zentrale Seite für die Anzeige von Statistikdaten. Diese Seite empfängt Daten von der Hauptseite und stellt sie visuell ansprechend dar. Benutzer haben auch die Möglichkeit, von hier aus zur Startseite zurückzukehren.
+    
+    \item [Chartpie.js und TinyBar.js] sind die zwei optischen Schlüsselkomponenten der Statistikseite. \texttt{Chartpie.js} erstellt ein Kreisdiagramm, das die Betriebssystemnutzung in Prozenten anzeigt, während \texttt{TinyBar.js} ein kompaktes Balkendiagramm für die Anzahl der Klicks in verschiedenen Browsern darstellt. Beide verwenden die \texttt{Recharts}-Bibliothek für die Diagrammerstellung und spielen eine wichtige Rolle bei der Visualisierung von Statistikdaten.
+\end{description}
+
+Diese Komponenten ermöglichen es dem Benutzer auf der Statistikseite alle Informationen auf einen Blick und leicht verständlich abzulesen.
+
 \section{Übersicht Verzeichnisse und Dateien}
 Auf Top-Level wurde für jede Komponente ein Verzeichnis erstellt. Innerhalb dieser wurde von den jeweiligen Teams eine eigene Struktur etabliert.
 
 \subsection{Backend}
-Im Backend \texttt{/server} wurde für die \ac{API}-Endpunkte das Verzeichnis \texttt{api/} erstellt, welches wiederum die Unterverzeichnisse \texttt{doc/} und \texttt{stats/} enthält, welche die jeweiligen Pfade der Endpunkte abbilden.
+Im Backend-Hauptverzeichnis \texttt{/server} wurde für die \ac{API}-Endpunkte das Verzeichnis \texttt{api/} erstellt, welches wiederum die Unterverzeichnisse \texttt{doc/} und \texttt{stats/} enthält, welche die jeweiligen Pfade der Endpunkte abbilden. Die Controller der Endpunkte befinden sich unter \texttt{/server/controller/}.
 
-Im Verzeichnis \texttt{src/} im \texttt{/server}-Verzeichnis befinden sich \ac{JS}-Dateien, die Funktionen für die Endpunkte bereitstellen, z.\,B. die \texttt{base58()}-Kodierung. Unterhalb des \texttt{src}"=Verzeichnisses liegen die Datenbank-Funktionen in ihrem \texttt{db}-Verzeichnis.
+Im Verzeichnis \texttt{src/} im \texttt{/server}-Verzeichnis befinden sich \ac{JS}-Dateien, die (Hilfs"~)""Funktionen für die Endpunkte bereitstellen, z.\,B. die \texttt{base58()}-Kodierung. Unterhalb des \texttt{src}"=Verzeichnisses liegen die Datenbank-Funktionen in ihrem \texttt{db}-Verzeichnis.
 
-Der Einstiegspunkt für das Backend liegt \texttt{/server/index.js}.
+Der Einstiegspunkt für das Backend ist \texttt{/server/index.js}.
 
-\subsection{Frontend}
+%\subsection{Frontend}
 
 \subsection{Dokumentation}
 Da die Dokumentation das komplette Projekt, mit allen (Sub"~)""Komponenten umfasst, hat diese ihr eigenes (projektbezogenes) Top-Level-Verzeichnis: \texttt{/Dokumentation}. Hier befinden sich sowohl die \texttt{.tex}-Dateien, als auch die \texttt{.yaml}-Datei der OpenAPI-Dokumentation.
 \subsection{Struktur}
 Daraus ergibt sich dann folgende Verzeichnisstruktur:
-\begin{verbatim}
-.
-├── Dokumentation
-│   └── img
-├── frontend
-│   ├── public
-│   └── src
-│       ├── components
-│       │   └── css
-│       └── pages
-└── server
-    ├── api
-    │   ├── doc
-    │   ├── stats
-    └── src
-        └── db
-
-\end{verbatim}
-
-\section{Bauen des Gesamtsystems}
-Ist dies nicht Kapitel 4.1?
+\begin{Verbatim}[samepage=true]
+    .
+    ├── Dokumentation
+    ├── frontend
+    │   ├── public
+    │   └── src
+    │       ├── components
+    │       │   └── css
+    │       └── pages
+    └── server
+        ├── api
+        │   ├── doc
+        │   └── stats
+        ├── controller
+        └── src
+            └── db
+    
+\end{Verbatim}
 
 
 % ! 4. Einrichtung und Betrieb der Software-Lösung
-\chapter{Einrichtung und Betrieb der Software-Lösung}
-\section{Inbetriebnahme der Lösung}
-\section{Möglichkeiten zur späteren Anpassung und Weiterentwicklung}
+\chapter{Möglichkeiten zur späteren Anpassung und Weiterentwicklung}
 Es bestehen diverse Möglichkeiten, das Projekt weiterzuentwickeln:
 \begin{itemize}
-    \item Die Statistiken können erweitert werden, so dass man auch nach mobilen (Smartphone, Tablet) oder stationären (Desktop/Laptop, Smart-TV) auswerten kann.
-    \item Auch können die \ac{API}-Endpunkte erweitert werden, so dass z.\,B. nur Werte zu einer bestimmten Statistik abgerufen werden können.
+    \item Die Statistiken können erweitert werden, sodass man auch nach mobilen (Smartphone, Tablet) oder stationären (Desktop/Laptop, Smart-TV) auswerten kann.
+    \item Auch können die \ac{API}-Endpunkte erweitert werden, um z.\,B. nur Werte zu einer bestimmten Statistik abgerufen werden können.
     \item Es kann auch dahingehend erweitert werden, dass sich Benutzer registrieren und anmelden können. Dann kann auch für den eingeloggten Nutzer ein Verlauf der generierten Kurz-\ac{URL}s angezeigt werden und die jeweiligen Statistiken mit einem einfachen Button aufrufbar gemacht werden.
     \item Es kann ein DELETE-Endpunkt implementiert werden, damit ein Benutzer seinen generierten Link vorzeitig löschen kann.
-    \item Die generierten Links sollten auch nach einer voreingestellten Zeit automatisch gelöscht werden. Diese Zeit kann bis zu einer Obergrenze von Nutzer festgelegt werden. Das Löschen selbst kann beispielsweise durch einen Endpunkt erfolgen, der von außen mitteln {\ttfamily cron} und {\ttfamily curl} angesprochen wird. Das Feld {\ttfamily expireDate} ist schon in jedem Datensatz enthalten und wird standardmäßig auf Erstellungszeit $+$ 30 Tage gesetzt.
+    \item Die generierten Links sollten auch nach einer voreingestellten Zeit automatisch gelöscht werden. Diese Zeit kann bis zu einer Obergrenze von Nutzer festgelegt werden. Das Löschen selbst kann beispielsweise durch einen Endpunkt erfolgen, der von außen mittels {\ttfamily cron} und {\ttfamily curl} angesprochen wird. Das Feld {\ttfamily expireDate} ist schon in jedem Datensatz enthalten und wird standardmäßig auf Erstellungszeit $+$ 90 Tage gesetzt.
     \item \label{sec:ErweiterungKollision}Es kann (sollte?) eine Sicherheitsabfrage eingebaut werden, die das Erzeugen – und damit das Überschreiben – identischer Kurz-IDs unterbindet.
-    \item Zum Einsatz »in production« sollten auf jeden Fall noch die Benutzereingaben auf Vollständigkeit und Schadcode überprüft werden.
+    \item Zum Einsatz »in production« sollten auf jeden Fall noch die Benutzereingaben auf Vollständigkeit und Schadcode überprüft werden. Der Anfang hierzu ist mit der Funktion »\texttt{isValidBase58} bereits gemacht.
     \item Ebenfalls für den produktiven Einsatz können entsprechende Log-Meldungen eingepflegt werden. Hierzu kann auch die Logging-Bibliothek geändert werden, z.\,B. zu »Winston«\footnote{\href{https://github.com/winstonjs/winston}{https://github.com/winstonjs/winston}}.
 \end{itemize}
     
-% ! 5. Retrospektive
-\chapter{Retrospektive}
-\section{Evaluierung der Projektergebnisse}
-\section{Bewertung der eigenen Arbeitsweise und die Zusammenarbeit im Team}
-\section{Gewonnene Erkenntnisse für zukünftige Projekte}
+% % ! 5. Retrospektive
+% \chapter{Retrospektive}
+% \section{Evaluierung der Projektergebnisse}
+% \section{Bewertung der eigenen Arbeitsweise und die Zusammenarbeit im Team}
+\chapter{Gewonnene Erkenntnisse für zukünftige Projekte}
+Wir haben einiges zu Zusammenarbeit im Team und zum Zusammenspiel verschiedener Komponenten gelernt, woraus jeder von uns seine Rückschlüsse für kommende Projekte ziehen wird.
 
-% ! 6. Zusammenfassung und Ausblick
-\chapter{Zusammenfassung und Ausblick}
+ % ! 6. Zusammenfassung und Ausblick
+% \chapter{Zusammenfassung und Ausblick}
 
 \chapter*{Liste der Abkürzungen}
 \begin{acronym}
     \acro{API}{Application Programming Interface (Programmierschnittstelle)}
+    \acro{DOM}{Document Object Model}
     \acro{JS}{Javascript}
     \acro{JSON}{Javascript Object Notation}
     \acro{OS}{Operating System (Betriebssystem)}
@@ -409,6 +632,6 @@ Es bestehen diverse Möglichkeiten, das Projekt weiterzuentwickeln:
 \end{acronym}
 
 %\listoftables
-%\listoffigures
+\listoffigures
 \lstlistoflistings
 \end{document}
