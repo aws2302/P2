@@ -187,7 +187,7 @@ Grundsätzlich sind weitläufige Kenntnisse aus der Webentwicklung erforderlich,
 
 \section{Benutzeroberfläche}
 \section{Datenbank}
-Als Datenbank haben wir uns zum Schluss für eine SQLite3 Datenbank entschieden. Eigentlich war das Projekt mit einer Firebase Datenbank geplant, jedoch gab es bei unserer Implementierung einige Fehler, welche wir leider nicht innerhalb des Projektzeitraums beheben konnten. So haben wir uns schließlich dazu entschlossen, statt einer Online-Datenbank auf eine Offline-Datenbank zu switchen.
+Als Datenbank haben wir uns zum Schluss für eine SQLite3 Datenbank entschieden. Eigentlich war das Projekt mit einer Firebase Datenbank geplant, jedoch gab es bei unserer Implementierung einige Fehler, welche wir leider nicht innerhalb des Projektzeitraums beheben konnten. So haben wir uns schließlich dazu entschlossen, statt einer Online"=Datenbank auf eine Offline"=Datenbank zu switchen.
 
 Dabei haben wir Firebase nicht gänzlich verworfen und sollte es eine Version 2.0 geben, so ist geplant dort dann auf den Firestore zu wechseln, sodass eine Online-Version der Datenbank zur Verfügung steht.
 
@@ -420,7 +420,7 @@ Wie bereits in Kapitel \ref{sec:base58} beschrieben, haben wir uns für eine \te
 
 Zwar wäre diese Umrechnung auch wieder umkehrbar (bijektiv), aber da es eine generierte Zahl ist, die keine Verbindung mit der zu kürzenden \ac{URL} hat, verzichten wir darauf und nehmen zur Identifikation die \texttt{base58}-kodierte Zahl als Schlüssel.
 
-Aufgrund der in Lst.~\ref{lst:shorturl} gezeigten Generierung der Ausgangszahl, kann es unter seltenen Umständen dazu kommen, dass bei mehreren gleichzeitigen Zugriffen auch die gleiche Zufallszahl generiert wird. Dazu müsste allerdings in der gleichen Zehntelsekunde auch noch die gleiche Zufallszahl durch \texttt{getRnd()} erzeugt werden. Auch wenn dies nicht komplett ausgeschlossen werden kann, haben wir uns dazu entschieden, dies zu vernachlässigen. Diesen Fall kann man – in einer späteren Erweiterung (siehe auch Kapitel~\ref{sec:ErweiterungKollision}) – auch durch eine Datenbankabfrage und evtl. Neugenerierung der Zufalls-ID umgehen.
+Aufgrund der in Lst.~\ref{lst:shorturl} gezeigten Generierung der Ausgangszahl, kann es unter seltenen Umständen dazu kommen, dass bei mehreren gleichzeitigen Zugriffen auch die gleiche Zufallszahl generiert wird. Dazu müsste allerdings in der gleichen Zehntelsekunde auch noch die gleiche Zufallszahl durch \texttt{getRnd()} erzeugt werden. Auch wenn dies nicht komplett ausgeschlossen werden kann, haben wir uns dazu entschieden, dies zu vernachlässigen. Diesen Fall kann man – in einer späteren Erweiterung (siehe auch Kapitel~\ref{sec:ErweiterungKollision}) – auch durch eine Datenbankabfrage und evtl.\ Neugenerierung der Zufalls-ID umgehen.
 
 \begin{lstlisting}[
     language=JavaScript,
@@ -450,17 +450,17 @@ Aufgrund der in Lst.~\ref{lst:shorturl} gezeigten Generierung der Ausgangszahl, 
 
 
 \subsubsection{Schnittstellen der Komponente}
-Es gibt drei Schnittstellen der \ac{API}:
+Es gibt drei Schnittstellen-Pfade der \ac{API}:
 \begin{description}
     \item[/] POST-Endpunkt, um eine neue Kurz-\ac{URL} zu generieren
     \item[/\{shortUrl\}] Endpunkt für alle HTTP-Methoden, um eine Kurz-\ac{URL} abzurufen. Der Abrufende wird automatisch, mittels http-Status 307, an die Zieladresse weitergeleitet.
-    \item[/api/stats/\{shortUrl\}] POST-Endpunkt zum Abruf der Statistik zu der angegebenen Kurz-\ac{URL}. Das Passwort muss im Request-Body gesendet werden.
+    \item[/api/stats/] POST-Endpunkt zum Abruf der Statistik zu der angegebenen Kurz-\ac{URL}. Das Passwort und die Kurz-\ac{URL} müssen im Request-Body als \ac{JSON}-Objekt gesendet werden.
 \end{description}
 Für eine genaue (technische) Dokumentation haben wir die \ac{API}-Dokumentation im OpenAPI-Format\footnote{\href{https://swagger.io/specification/}{https://swagger.io/specification/}} erstellt, welche über das Backend\footnote{\href{http://localhost:8080/api/doc/api}{Backend:Port/api/doc/api}} abrufbar ist.
 \subsubsection{Weiterleitung}
 Wir leiten mit dem HTTP-Status-Code »307« weiter, so dass sichergestellt ist, dass der Client seine Anfrage mit der gleichen HTTP-Methode an den Server stellt, auf den die Short-\ac{URL} referenziert.
 \subsubsection{Datenstrukturen}
-Die Daten werden in einer Document-Database (Google Firebase Firestorm\footnote{\href{https://firebase.google.com/}{https://firebase.google.com/}}) gespeichert, und können im \ac{JSON}-Format abgerufen und geschrieben werden.
+Wie bereits geschrieben, war ursprünglich geplant, die Daten in einer Document-Database (Google Firebase Firestorm\footnote{\href{https://firebase.google.com/}{https://firebase.google.com/}}) abzulegen, in der sie hätten im \ac{JSON}-Format geschrieben und gelesen werden können. Allerdings musste das Datenbank-Team – wegen Problemen bei der Umsetzung – am letzten Tag dann doch noch auf SQliste3\footnote{\href{https://www.sqlite.org/index.html}{https://www.sqlite.org/index.html}} wechseln, so dass die untenstehende Struktur (siehe Lst.~\ref{lst:struktur}) nicht mehr eingehalten werden konnte. Damit das Frontend-Team nicht auch alles ändern musste, bildet die \ac{API} die neue Struktur auf die alte ab.
 
 Wir haben uns für eine recht einfache Struktur entschieden, siehe Lst.~\ref{lst:struktur}.
 \begin{lstlisting}[language=json,
@@ -500,11 +500,11 @@ Wir haben uns für eine recht einfache Struktur entschieden, siehe Lst.~\ref{lst
 Auf Top-Level wurde für jede Komponente ein Verzeichnis erstellt. Innerhalb dieser wurde von den jeweiligen Teams eine eigene Struktur etabliert.
 
 \subsection{Backend}
-Im Backend \texttt{/server} wurde für die \ac{API}-Endpunkte das Verzeichnis \texttt{api/} erstellt, welches wiederum die Unterverzeichnisse \texttt{doc/} und \texttt{stats/} enthält, welche die jeweiligen Pfade der Endpunkte abbilden.
+Im Backend-Hauptverzeichnis \texttt{/server} wurde für die \ac{API}-Endpunkte das Verzeichnis \texttt{api/} erstellt, welches wiederum die Unterverzeichnisse \texttt{doc/} und \texttt{stats/} enthält, welche die jeweiligen Pfade der Endpunkte abbilden. Die Controller der Endpunkte befinden sich unter \texttt{/server/controller/}.
 
-Im Verzeichnis \texttt{src/} im \texttt{/server}-Verzeichnis befinden sich \ac{JS}-Dateien, die Funktionen für die Endpunkte bereitstellen, z.\,B. die \texttt{base58()}-Kodierung. Unterhalb des \texttt{src}"=Verzeichnisses liegen die Datenbank-Funktionen in ihrem \texttt{db}-Verzeichnis.
+Im Verzeichnis \texttt{src/} im \texttt{/server}-Verzeichnis befinden sich \ac{JS}-Dateien, die (Hilfs"~)""Funktionen für die Endpunkte bereitstellen, z.\,B. die \texttt{base58()}-Kodierung. Unterhalb des \texttt{src}"=Verzeichnisses liegen die Datenbank-Funktionen in ihrem \texttt{db}-Verzeichnis.
 
-Der Einstiegspunkt für das Backend liegt \texttt{/server/index.js}.
+Der Einstiegspunkt für das Backend ist \texttt{/server/index.js}.
 
 \subsection{Frontend}
 
